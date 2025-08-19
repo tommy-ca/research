@@ -1,156 +1,45 @@
 {
   "project": {
     "name": "Research Knowledge Base",
-    "description": "Comprehensive research repository with multi-agent research system",
-    "version": "1.0.0"
+    "description": "Ultra-simplified research system with intelligent agents",
+    "version": "2.0.0"
   },
   "agents": {
     "enabled": true,
     "directory": ".claude/agents",
-    "auto_load": true,
-    "research_agents": {
-      "deep_research": {
-        "enabled": true,
-        "version": "2.0.0",
-        "description": "Advanced multi-stage research orchestration with sophisticated workflow management",
-        "tools": ["WebSearch", "WebFetch", "Read", "Write", "Edit", "Glob", "Grep", "Task", "TodoWrite"],
-        "capabilities": [
-          "systematic_literature_review",
-          "multi_stage_data_collection", 
-          "adaptive_research_strategy",
-          "cross_reference_validation",
-          "longitudinal_analysis",
-          "comparative_research",
-          "source_credibility_scoring",
-          "bias_detection_mitigation",
-          "research_workflow_orchestration",
-          "progressive_quality_refinement"
-        ],
-        "enhanced_quality_standards": {
-          "evidence_level": "academic_plus",
-          "source_diversity": "minimum_5_independent_with_geographical_diversity",
-          "fact_checking": "multi_source_required",
-          "bias_assessment": "mandatory_multi_dimensional",
-          "peer_review": "required_for_substantial_research",
-          "reproducibility": "full_audit_trail_required",
-          "credibility_scoring": "weighted_source_assessment"
-        },
-        "performance_targets": {
-          "accuracy_rate": 0.97,
-          "source_diversity_score": 0.90,
-          "credibility_weighted_score": 0.92,
-          "bias_mitigation_effectiveness": 0.88,
-          "completion_timeliness": 0.92,
-          "stakeholder_satisfaction": 4.7,
-          "reproducibility_score": 0.95,
-          "workflow_efficiency": 0.89
-        },
-        "command_support": [
-          "/research-deep",
-          "/research-plan", 
-          "/research-execute",
-          "/research-validate",
-          "/research-gap",
-          "/research-refine",
-          "/research-status"
-        ]
-      },
-      "peer_review": {
-        "enabled": true,
-        "version": "2.0.0",
-        "description": "Systematic peer review and quality validation with multi-dimensional assessment",
-        "tools": ["Read", "Write", "Edit", "Grep", "Task", "TodoWrite"],
-        "enhanced_review_standards": {
-          "methodology_weight": 0.30,
-          "source_quality_weight": 0.25,
-          "logic_consistency_weight": 0.25,
-          "completeness_weight": 0.20,
-          "approval_threshold": 0.85,
-          "bias_assessment_required": true,
-          "reproducibility_validation": true,
-          "multi_reviewer_consensus": true
-        },
-        "review_capabilities": [
-          "systematic_quality_review",
-          "methodology_review",
-          "source_validation", 
-          "bias_detection",
-          "reproducibility_assessment",
-          "stakeholder_alignment_check"
-        ]
-      },
-      "synthesis": {
-        "enabled": true,
-        "version": "2.0.0", 
-        "description": "Cross-domain research synthesis and integration with advanced pattern recognition",
-        "tools": ["Read", "Write", "Edit", "Task", "TodoWrite"],
-        "synthesis_methods": [
-          "systematic",
-          "thematic", 
-          "chronological",
-          "causal",
-          "comparative",
-          "meta_analytical"
-        ],
-        "integration_capabilities": [
-          "cross_domain_synthesis",
-          "framework_development",
-          "pattern_analysis", 
-          "conflict_resolution",
-          "multi_source_integration",
-          "theoretical_framework_creation"
-        ]
-      }
+    "research": {
+      "enabled": true,
+      "description": "Intelligent research with built-in quality validation",
+      "tools": ["WebSearch", "WebFetch", "Read", "Write", "Grep"]
+    },
+    "synthesis": {
+      "enabled": true,
+      "description": "Information synthesis with automatic insight extraction",
+      "tools": ["Read", "Write", "Edit"]
     }
   },
   "hooks": {
-    "enhanced_research_commands": {
+    "router": {
       "UserPromptSubmit": {
-        "match": "/research-*|/peer-review|/framework-*|/pattern-*|/conflict-*",
-        "script": ".claude/hooks/research_command_handler.sh",
-        "description": "Enhanced command routing with parameter validation and help system"
-      }
-    },
-    "advanced_quality_gates": {
-      "PostToolUse": {
-        "match": "Write|Edit|MultiEdit",
-        "script": ".claude/hooks/quality_check.sh",
-        "description": "Advanced quality validation with content analysis and bias detection"
-      }
-    },
-    "research_monitoring": {
-      "PreToolUse": {
-        "match": "WebSearch|WebFetch",
-        "script": ".claude/hooks/research_monitoring.sh",
-        "description": "Monitor research activity and resource usage",
-        "optional": true
+        "match": "/research|/synthesize",
+        "script": ".claude/hooks/router.sh",
+        "description": "Simple command routing"
       }
     }
   },
   "permissions": {
     "tools": {
       "WebSearch": "allow",
-      "WebFetch": "allow", 
+      "WebFetch": "allow",
       "Read": "allow",
       "Write": "allow",
       "Edit": "allow",
-      "Bash": "allow",
-      "Task": "allow"
+      "Grep": "allow"
     },
     "file_access": {
       "read": ["**/*"],
-      "write": ["docs/**/*", "experiments/**/*", "knowledge-base/**/*", "resources/**/*"],
+      "write": ["docs/**/*", "tests/**/*", ".claude/**/*"],
       "exclude": [".git/**/*", "node_modules/**/*"]
     }
-  },
-  "environment": {
-    "RESEARCH_PROJECT_PATH": "/home/tommyk/projects/research",
-    "RESEARCH_QUALITY_THRESHOLD": "0.8",
-    "RESEARCH_EVIDENCE_STANDARD": "academic"
-  },
-  "model": {
-    "default": "claude-3-5-sonnet-20241022",
-    "research_tasks": "claude-3-opus-20240229",
-    "peer_review": "claude-3-5-sonnet-20241022"
   }
 }
