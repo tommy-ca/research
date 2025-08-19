@@ -1,0 +1,404 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "id": "https://research.claude-code.org/schemas/agent-interface-specification/2.0.0",
+  "title": "Agent Interface Specification",
+  "description": "Formal interface specification for Claude Code research agents",
+  "version": "2.0.0",
+  "type": "object",
+  
+  "metadata": {
+    "specification_type": "agent_interface_specification",
+    "version": "2.0.0",
+    "release_date": "2024-08-19",
+    "status": "stable",
+    "maintainer": "Research Team",
+    "compatibility": ["agent-behavior-spec>=2.0.0"],
+    "description": "Enhanced interface specification with multi-stage workflow support"
+  },
+
+  "definitions": {
+    "agent_metadata": {
+      "type": "object",
+      "properties": {
+        "agent_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*[a-z0-9]$",
+          "minLength": 3,
+          "maxLength": 50,
+          "description": "Unique agent identifier"
+        },
+        "agent_type": {
+          "type": "string",
+          "enum": ["research-specialist", "quality-assurance", "synthesis-specialist"],
+          "description": "Agent type classification"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Agent implementation version"
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "systematic_literature_review",
+              "multi_stage_data_collection",
+              "adaptive_research_strategy",
+              "cross_reference_validation",
+              "longitudinal_analysis",
+              "comparative_research",
+              "source_credibility_scoring",
+              "bias_detection_mitigation",
+              "research_workflow_orchestration",
+              "progressive_quality_refinement",
+              "systematic_quality_review",
+              "methodology_review",
+              "source_validation",
+              "reproducibility_assessment",
+              "cross_domain_synthesis",
+              "framework_development",
+              "pattern_analysis",
+              "conflict_resolution"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true,
+          "description": "Agent capability declarations"
+        },
+        "supported_commands": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^/[a-z][a-z0-9-]*$"
+          },
+          "minItems": 1,
+          "uniqueItems": true,
+          "description": "Commands supported by the agent"
+        }
+      },
+      "required": ["agent_id", "agent_type", "version", "capabilities", "supported_commands"]
+    },
+
+    "command_interface": {
+      "type": "object",
+      "properties": {
+        "command_name": {
+          "type": "string",
+          "pattern": "^/[a-z][a-z0-9-]*$",
+          "description": "Command identifier"
+        },
+        "command_type": {
+          "type": "string",
+          "enum": [
+            "multi_stage_research",
+            "research_planning", 
+            "research_execution",
+            "advanced_validation",
+            "systematic_gap_analysis",
+            "iterative_refinement",
+            "progress_monitoring",
+            "systematic_quality_review",
+            "cross_domain_synthesis"
+          ],
+          "description": "Command type classification"
+        },
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "required_parameters": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/parameter_definition"
+              },
+              "description": "Required command parameters"
+            },
+            "optional_parameters": {
+              "type": "array", 
+              "items": {
+                "$ref": "#/definitions/parameter_definition"
+              },
+              "description": "Optional command parameters"
+            }
+          },
+          "required": ["required_parameters", "optional_parameters"]
+        },
+        "response_format": {
+          "$ref": "#/definitions/response_format",
+          "description": "Expected response format specification"
+        }
+      },
+      "required": ["command_name", "command_type", "parameters", "response_format"]
+    },
+
+    "parameter_definition": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "description": "Parameter name"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["string", "integer", "number", "boolean", "array", "enum"],
+          "description": "Parameter data type"
+        },
+        "format": {
+          "type": "string",
+          "description": "Format specification for the parameter"
+        },
+        "constraints": {
+          "type": "object",
+          "properties": {
+            "min_value": {"type": "number"},
+            "max_value": {"type": "number"},
+            "min_length": {"type": "integer"},
+            "max_length": {"type": "integer"},
+            "pattern": {"type": "string"},
+            "enum_values": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          },
+          "description": "Parameter value constraints"
+        },
+        "default_value": {
+          "description": "Default parameter value"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 10,
+          "description": "Parameter description and usage"
+        },
+        "examples": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Example parameter values"
+        }
+      },
+      "required": ["name", "type", "description"]
+    },
+
+    "response_format": {
+      "type": "object",
+      "properties": {
+        "response_type": {
+          "type": "string",
+          "enum": ["success", "error", "progress", "partial"],
+          "description": "Response type indicator"
+        },
+        "data_schema": {
+          "type": "object",
+          "description": "JSON schema for response data"
+        },
+        "metadata_schema": {
+          "type": "object",
+          "description": "JSON schema for response metadata"
+        },
+        "error_schema": {
+          "type": "object",
+          "description": "JSON schema for error responses"
+        }
+      },
+      "required": ["response_type", "data_schema", "metadata_schema", "error_schema"]
+    },
+
+    "message_format": {
+      "type": "object",
+      "properties": {
+        "message_type": {
+          "type": "string",
+          "enum": [
+            "command_request",
+            "command_response", 
+            "progress_update",
+            "quality_report",
+            "collaboration_request",
+            "error_notification"
+          ],
+          "description": "Message type classification"
+        },
+        "message_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique message identifier"
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Correlation identifier for request-response pairs"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Message timestamp in ISO 8601 format"
+        },
+        "sender_agent": {
+          "$ref": "#/definitions/agent_metadata",
+          "description": "Sending agent information"
+        },
+        "recipient_agent": {
+          "type": "string",
+          "description": "Recipient agent identifier or 'broadcast'"
+        },
+        "payload": {
+          "type": "object",
+          "description": "Message payload content"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "priority": {
+              "type": "string",
+              "enum": ["low", "normal", "high", "critical"],
+              "default": "normal"
+            },
+            "expiry": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Message expiry time"
+            },
+            "retry_policy": {
+              "type": "object",
+              "properties": {
+                "max_retries": {"type": "integer", "minimum": 0, "maximum": 10},
+                "retry_delay": {"type": "integer", "minimum": 1000, "maximum": 300000}
+              }
+            }
+          },
+          "description": "Message metadata"
+        }
+      },
+      "required": ["message_type", "message_id", "timestamp", "sender_agent", "payload"]
+    },
+
+    "quality_metrics": {
+      "type": "object",
+      "properties": {
+        "performance_metrics": {
+          "type": "object",
+          "properties": {
+            "accuracy_rate": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0,
+              "description": "Factual accuracy rate"
+            },
+            "source_diversity_score": {
+              "type": "number", 
+              "minimum": 0.0,
+              "maximum": 1.0,
+              "description": "Source diversity assessment"
+            },
+            "bias_mitigation_effectiveness": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0,
+              "description": "Bias detection and mitigation effectiveness"
+            },
+            "reproducibility_score": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0,
+              "description": "Research reproducibility assessment"
+            }
+          },
+          "required": ["accuracy_rate", "source_diversity_score", "bias_mitigation_effectiveness", "reproducibility_score"]
+        },
+        "quality_targets": {
+          "type": "object",
+          "properties": {
+            "target_accuracy": {"type": "number", "minimum": 0.85, "maximum": 1.0},
+            "target_diversity": {"type": "number", "minimum": 0.80, "maximum": 1.0},
+            "target_bias_mitigation": {"type": "number", "minimum": 0.75, "maximum": 1.0},
+            "target_reproducibility": {"type": "number", "minimum": 0.90, "maximum": 1.0}
+          },
+          "required": ["target_accuracy", "target_diversity", "target_bias_mitigation", "target_reproducibility"]
+        }
+      },
+      "required": ["performance_metrics", "quality_targets"]
+    }
+  },
+
+  "properties": {
+    "agent_specification": {
+      "$ref": "#/definitions/agent_metadata",
+      "description": "Agent metadata and capabilities"
+    },
+    "command_interfaces": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/command_interface"
+      },
+      "minItems": 1,
+      "description": "Supported command interfaces"
+    },
+    "message_protocols": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/message_format"
+      },
+      "minItems": 1,
+      "description": "Supported message protocols"
+    },
+    "quality_requirements": {
+      "$ref": "#/definitions/quality_metrics",
+      "description": "Quality metrics and targets"
+    },
+    "compliance_rules": {
+      "type": "object",
+      "properties": {
+        "interface_validation": {
+          "type": "boolean",
+          "default": true,
+          "description": "Require interface validation"
+        },
+        "message_validation": {
+          "type": "boolean", 
+          "default": true,
+          "description": "Require message format validation"
+        },
+        "quality_validation": {
+          "type": "boolean",
+          "default": true,
+          "description": "Require quality metrics validation"
+        },
+        "error_handling": {
+          "type": "boolean",
+          "default": true,
+          "description": "Require standardized error handling"
+        }
+      },
+      "description": "Compliance requirements"
+    }
+  },
+
+  "required": [
+    "agent_specification",
+    "command_interfaces", 
+    "message_protocols",
+    "quality_requirements",
+    "compliance_rules"
+  ],
+
+  "examples": [
+    {
+      "agent_specification": {
+        "agent_id": "deep-research", 
+        "agent_type": "research-specialist",
+        "version": "2.0.0",
+        "capabilities": [
+          "systematic_literature_review",
+          "multi_stage_data_collection",
+          "adaptive_research_strategy"
+        ],
+        "supported_commands": [
+          "/research-deep",
+          "/research-plan",
+          "/research-execute"
+        ]
+      }
+    }
+  ]
+}
