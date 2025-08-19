@@ -2,16 +2,20 @@
 
 ## Overview
 
-This directory contains the Claude Code specific configuration and implementation files for the multi-agent research system. Files in this directory are directly used by Claude Code and follow official Claude Code patterns and specifications.
+This directory contains the Claude Code specific configuration and implementation files for the multi-agent research system. Files in this directory are directly used by Claude Code and follow official Claude Code patterns.
 
 ## Directory Structure
 
 ```
 .claude/
 ├── README.md                     # This file - Claude Code specific documentation
-├── agents/                       # Agent definitions (Claude Code format)
-│   ├── deep-research.md         # Legacy research agent
-│   └── deep-research-v2.md      # Specification-compliant research agent
+├── agents/                       # Agent definitions (Simple & Clean)
+│   ├── research.md              # Research agent (75 lines)
+│   ├── review.md                # Review agent (74 lines)
+│   ├── synthesis.md             # Synthesis agent (73 lines)
+│   ├── README.md                # Agent overview
+│   ├── MIGRATION.md             # Migration guide from old agents
+│   └── archive/                 # Old bloated agents (archived)
 ├── hooks/                        # Claude Code hooks for automation
 │   ├── research_command_handler.sh        # Research command processing
 │   ├── quality_check.sh                   # Quality validation automation
