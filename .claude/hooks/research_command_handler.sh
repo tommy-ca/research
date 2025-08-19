@@ -30,7 +30,7 @@ validate_research_parameters() {
     if ! echo "$command" | grep -q '"[^"]*"'; then
         log_message "ERROR" "Missing required topic parameter in quotes"
         echo "Error: Research topic must be provided in quotes"
-        echo "Usage: /research-deep \"your research topic\" [options]"
+        echo "Usage: /research \"your research topic\" [options]"
         return 1
     fi
     
@@ -142,7 +142,7 @@ validate_file_parameter() {
     if ! echo "$command" | grep -q '"[^"]*"'; then
         log_message "ERROR" "Missing required file parameter in quotes"
         echo "Error: File path must be provided in quotes"
-        echo "Usage: /peer-review \"path/to/file.md\" [options]"
+        echo "Usage: /review \"path/to/file.md\" [options]"
         return 1
     fi
     
@@ -191,7 +191,7 @@ VALIDATION COMMANDS:
       --output=FORMAT                    summary,detailed,recommendations,research-proposals
 
 QUALITY ASSURANCE COMMANDS:
-  /peer-review "<file>" [options]       - Comprehensive systematic review
+  /review "<file>" [options]            - Comprehensive systematic review
   /review-methodology "<file>" [options] - Methodology validation
   /validate-sources "<file>" [options]  - Source quality assessment
   /detect-bias "<file>" [options]       - Multi-dimensional bias detection
@@ -209,9 +209,9 @@ HELP AND STATUS:
 EXAMPLES:
   /research-deep "cryptocurrency regulation impact" --depth=comprehensive --timeline=14
   /research-validate "blockchain reduces transaction costs by 30%" --sources=5 --confidence=0.85
-  /peer-review "research-output.md" --criteria=all --standard=academic
+  /review "research-output.md" --criteria=all --standard=academic
 
-For detailed parameter descriptions and usage examples, see: .claude/agents/deep-research.md
+For detailed parameter descriptions and usage examples, see: .claude/agents/research.md
 EOF
 }
 
@@ -222,48 +222,48 @@ log_message "INFO" "Processing command: $USER_COMMAND"
 # Enhanced command routing logic with parameter validation
 case "$USER_COMMAND" in
     "/research-deep"*)
-        log_message "INFO" "Routing to deep-research agent for comprehensive research"
-        AGENT="deep-research"
+        log_message "INFO" "Routing to research agent for comprehensive research"
+        AGENT="research"
         COMMAND_TYPE="multi_stage_research"
         validate_research_parameters "$USER_COMMAND"
         ;;
     
     "/research-plan"*)
-        log_message "INFO" "Routing to deep-research agent for research planning"
-        AGENT="deep-research"
+        log_message "INFO" "Routing to research agent for research planning"
+        AGENT="research"
         COMMAND_TYPE="research_planning"
         ;;
     
     "/research-execute"*)
-        log_message "INFO" "Routing to deep-research agent for research execution"
-        AGENT="deep-research"
+        log_message "INFO" "Routing to research agent for research execution"
+        AGENT="research"
         COMMAND_TYPE="research_execution"
         validate_plan_id "$USER_COMMAND"
         ;;
     
     "/research-validate"*)
-        log_message "INFO" "Routing to deep-research agent for validation"
-        AGENT="deep-research"
+        log_message "INFO" "Routing to research agent for validation"
+        AGENT="research"
         COMMAND_TYPE="advanced_validation"
         validate_validation_parameters "$USER_COMMAND"
         ;;
     
     "/research-gap"*)
-        log_message "INFO" "Routing to deep-research agent for gap analysis"
-        AGENT="deep-research"
+        log_message "INFO" "Routing to research agent for gap analysis"
+        AGENT="research"
         COMMAND_TYPE="systematic_gap_analysis"
         ;;
     
     "/research-refine"*)
-        log_message "INFO" "Routing to deep-research agent for research refinement"
-        AGENT="deep-research"
+        log_message "INFO" "Routing to research agent for research refinement"
+        AGENT="research"
         COMMAND_TYPE="iterative_refinement"
         validate_research_id "$USER_COMMAND"
         ;;
     
     "/research-status"*)
-        log_message "INFO" "Routing to deep-research agent for status monitoring"
-        AGENT="deep-research"
+        log_message "INFO" "Routing to research agent for status monitoring"
+        AGENT="research"
         COMMAND_TYPE="progress_monitoring"
         ;;
     
@@ -285,28 +285,28 @@ case "$USER_COMMAND" in
         COMMAND_TYPE="pattern_analysis"
         ;;
     
-    "/peer-review"*)
-        log_message "INFO" "Routing to peer-review agent"
-        AGENT="peer-review"
+    "/review"*)
+        log_message "INFO" "Routing to review agent"
+        AGENT="review"
         COMMAND_TYPE="systematic_quality_review"
         validate_file_parameter "$USER_COMMAND"
         ;;
     
     "/review-methodology"*)
-        log_message "INFO" "Routing to peer-review agent for methodology review"
-        AGENT="peer-review"
+        log_message "INFO" "Routing to review agent for methodology review"
+        AGENT="review"
         COMMAND_TYPE="methodology_review"
         ;;
     
     "/validate-sources"*)
-        log_message "INFO" "Routing to peer-review agent for source validation"
-        AGENT="peer-review"
+        log_message "INFO" "Routing to review agent for source validation"
+        AGENT="review"
         COMMAND_TYPE="source_validation"
         ;;
     
     "/detect-bias"*)
-        log_message "INFO" "Routing to peer-review agent for bias detection"
-        AGENT="peer-review"
+        log_message "INFO" "Routing to review agent for bias detection"
+        AGENT="review"
         COMMAND_TYPE="bias_detection"
         ;;
     

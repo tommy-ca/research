@@ -6,7 +6,7 @@ We've simplified the Claude Code agents to follow best practices - clean, concis
 
 ## What Changed
 
-### Before (Bloated)
+### Before (Bloated - Now Removed)
 - `deep-research.md` - 607 lines
 - `deep-research-v2.md` - 693 lines  
 - `peer-review.md` - 308 lines
@@ -101,9 +101,9 @@ Technical specifications have been properly organized:
 4. **Reliable**: Same quality, less complexity
 5. **Maintainable**: Easier to update and extend
 
-## Archived Files
+## Legacy Files Removed
 
-Previous agent files are archived in `.claude/agents/archive/` for reference.
+Previous bloated agent files have been removed. The simplified agents now provide the same functionality with better performance.
 
 ## Questions?
 

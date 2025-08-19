@@ -14,8 +14,7 @@ This directory contains the Claude Code specific configuration and implementatio
 │   ├── review.md                # Review agent (74 lines)
 │   ├── synthesis.md             # Synthesis agent (73 lines)
 │   ├── README.md                # Agent overview
-│   ├── MIGRATION.md             # Migration guide from old agents
-│   └── archive/                 # Old bloated agents (archived)
+│   └── MIGRATION.md             # Migration guide from old agents
 ├── hooks/                        # Claude Code hooks for automation
 │   ├── research_command_handler.sh        # Research command processing
 │   ├── quality_check.sh                   # Quality validation automation

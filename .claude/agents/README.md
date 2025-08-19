@@ -44,11 +44,8 @@ Agents are designed to work independently or together:
 
 For detailed technical specifications and implementation details, see:
 - `docs/research/agent-systems/specifications/`
-- `.claude/specifications/`
+- `docs/research/agent-systems/technical/`
 
-## Legacy Agents
+## Migration from Legacy Agents
 
-Previous verbose agent definitions have been archived:
-- `deep-research.md` → Use `research.md` instead
-- `deep-research-v2.md` → Use `research.md` instead
-- `peer-review.md` → Use `review.md` instead
+See `MIGRATION.md` for guidance on transitioning from the old verbose agents to the new simplified versions.
