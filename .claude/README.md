@@ -20,25 +20,15 @@ This directory contains the Claude Code specific configuration and implementatio
 │   ├── research_command_handler.sh        # Research command processing
 │   ├── quality_check.sh                   # Quality validation automation
 │   └── specification_compliance_hook.sh   # Compliance validation
-├── specifications/               # Formal system specifications
-│   ├── README.md                # Specification framework overview
-│   ├── version-control/         # Version management
-│   ├── interfaces/              # Interface specifications (JSON Schema)
-│   ├── behaviors/               # Behavior specifications (YAML)
-│   ├── quality/                 # Quality specifications (YAML)
-│   ├── integration/             # Integration specifications (YAML)
-│   └── workflows/               # Workflow specifications (YAML)
-├── steering/                     # Implementation guidance documents
-│   ├── README.md                # Steering framework overview
-│   ├── implementation/          # Implementation guides
-│   ├── guidelines/              # Best practices and guidelines
-│   ├── standards/               # Coding and quality standards
-│   └── compliance/              # Compliance validation framework
 └── logs/                        # System logs (created automatically)
     ├── compliance_validation.log
     ├── quality_check.log
     └── research_commands.log
 ```
+
+**Note**: Specifications and steering documents have been moved to:
+- `docs/research/agent-systems/specifications/` - Formal system specifications
+- `docs/research/agent-systems/steering/` - Implementation guidance
 
 ## Quick Start
 
@@ -54,7 +44,7 @@ This directory contains the Claude Code specific configuration and implementatio
    - Integrated with Claude Code workflow
    - Real-time compliance monitoring
 
-3. **Specifications**: `.claude/specifications/`
+3. **Specifications**: `docs/research/agent-systems/specifications/`
    - Formal system specifications
    - Interface, behavior, quality, and workflow definitions
    - Version-controlled specification framework

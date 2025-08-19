@@ -8,9 +8,9 @@ set -euo pipefail
 
 # Configuration
 LOG_FILE=".claude/logs/compliance_validation.log"
-COMPLIANCE_CONFIG=".claude/specifications/version-control/specification-versions.yaml"
+COMPLIANCE_CONFIG="docs/research/agent-systems/specifications/version-control/specification-versions.yaml"
 VALIDATION_THRESHOLD=0.90
-SPECS_PATH=".claude/specifications"
+SPECS_PATH="docs/research/agent-systems/specifications"
 
 # Logging function
 log_message() {

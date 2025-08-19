@@ -70,7 +70,7 @@ We've simplified the Claude Code agents to follow best practices - clean, concis
 Technical specifications have been properly organized:
 
 - **Implementation Details**: `docs/research/agent-systems/technical/agent-implementation-details.md`
-- **Specifications**: `.claude/specifications/`
+- **Specifications**: `docs/research/agent-systems/specifications/`
 - **Quality Framework**: `docs/research/agent-systems/quality-assurance/`
 - **Architecture**: `docs/research/agent-systems/architecture/`
 

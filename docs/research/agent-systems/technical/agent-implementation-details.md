@@ -194,16 +194,16 @@ class ErrorRecovery:
 
 The simplified agents integrate with the formal specification framework:
 
-1. **Interface Specifications**: Located in `.claude/specifications/interfaces/`
-2. **Behavior Specifications**: Located in `.claude/specifications/behaviors/`
-3. **Quality Specifications**: Located in `.claude/specifications/quality/`
-4. **Workflow Specifications**: Located in `.claude/specifications/workflows/`
+1. **Interface Specifications**: Located in `docs/research/agent-systems/specifications/interfaces/`
+2. **Behavior Specifications**: Located in `docs/research/agent-systems/specifications/behaviors/`
+3. **Quality Specifications**: Located in `docs/research/agent-systems/specifications/quality/`
+4. **Workflow Specifications**: Located in `docs/research/agent-systems/specifications/workflows/`
 
 ## Compliance Validation
 
 Agents are validated against specifications using:
 - `.claude/hooks/specification_compliance_hook.sh`
-- `.claude/steering/compliance/specification-validation-framework.md`
+- `docs/research/agent-systems/steering/compliance/specification-validation-framework.md`
 
 ## Performance Optimization
 
