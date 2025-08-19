@@ -1,372 +1,162 @@
-# Claude Code Research Agent Integration
+# Claude Code Agent System Configuration
 
 ## Overview
 
-This directory contains the official Claude Code agent integration for the Research Knowledge Base project. The implementation follows Claude Code's official patterns and standards as documented in the [official documentation](https://docs.anthropic.com/en/docs/claude-code).
+This directory contains the Claude Code specific configuration and implementation files for the multi-agent research system. Files in this directory are directly used by Claude Code and follow official Claude Code patterns and specifications.
 
-## Official Claude Code Structure
+## Directory Structure
 
-### Configuration Files
-
-#### `.claude/settings.json`
-Project-level configuration following [Claude Code Settings](https://docs.anthropic.com/en/docs/claude-code/settings) specification:
-
-```json
-{
-  "project": { /* Project metadata */ },
-  "agents": { /* Agent configurations */ },
-  "hooks": { /* Command routing and automation */ },
-  "permissions": { /* Tool and file access controls */ },
-  "environment": { /* Environment variables */ },
-  "model": { /* Model selection for different tasks */ }
-}
+```
+.claude/
+├── README.md                     # This file - Claude Code specific documentation
+├── agents/                       # Agent definitions (Claude Code format)
+│   ├── deep-research.md         # Legacy research agent
+│   └── deep-research-v2.md      # Specification-compliant research agent
+├── hooks/                        # Claude Code hooks for automation
+│   ├── research_command_handler.sh        # Research command processing
+│   ├── quality_check.sh                   # Quality validation automation
+│   └── specification_compliance_hook.sh   # Compliance validation
+├── specifications/               # Formal system specifications
+│   ├── README.md                # Specification framework overview
+│   ├── version-control/         # Version management
+│   ├── interfaces/              # Interface specifications (JSON Schema)
+│   ├── behaviors/               # Behavior specifications (YAML)
+│   ├── quality/                 # Quality specifications (YAML)
+│   ├── integration/             # Integration specifications (YAML)
+│   └── workflows/               # Workflow specifications (YAML)
+├── steering/                     # Implementation guidance documents
+│   ├── README.md                # Steering framework overview
+│   ├── implementation/          # Implementation guides
+│   ├── guidelines/              # Best practices and guidelines
+│   ├── standards/               # Coding and quality standards
+│   └── compliance/              # Compliance validation framework
+└── logs/                        # System logs (created automatically)
+    ├── compliance_validation.log
+    ├── quality_check.log
+    └── research_commands.log
 ```
 
-#### Agent Definitions (`.claude/agents/*.md`)
-Subagents defined in Markdown with YAML frontmatter as per [MCP Integration](https://docs.anthropic.com/en/docs/claude-code/mcp) guidelines:
+## Quick Start
 
-- `deep-research.md` - Comprehensive research capabilities
-- `peer-review.md` - Quality assurance and validation  
-- `synthesis.md` - Cross-domain integration and framework development
+### Essential Files for Claude Code
 
-#### Hook Scripts (`.claude/hooks/*.sh`)
-Automation scripts following [Claude Code Hooks](https://docs.anthropic.com/en/docs/claude-code/hooks) patterns:
+1. **Agent Definition**: `.claude/agents/deep-research-v2.md`
+   - Primary research agent following Claude Code patterns
+   - YAML frontmatter with agent configuration
+   - Specification-compliant implementation
 
-- `research_command_handler.sh` - Routes research commands to appropriate agents
-- `quality_check.sh` - Automatic quality validation triggers
+2. **Hooks**: `.claude/hooks/*.sh`
+   - Automated validation and quality checking
+   - Integrated with Claude Code workflow
+   - Real-time compliance monitoring
 
-## Research Commands
+3. **Specifications**: `.claude/specifications/`
+   - Formal system specifications
+   - Interface, behavior, quality, and workflow definitions
+   - Version-controlled specification framework
 
-### Deep Research Commands
+## Agent Usage
 
-#### `/research-deep`
-Comprehensive research on specified topics with multi-source validation.
+### Deep Research Agent v2.0
 
-**Official Pattern**: Follows [CLI Reference](https://docs.anthropic.com/en/docs/claude-code/cli-reference) command structure.
+The primary research agent is configured for Claude Code and ready to use:
 
-**Syntax**:
 ```bash
-/research-deep "topic" [--depth=comprehensive] [--sources=academic,industry] [--timeline=14]
+# Basic usage (conceptual - actual usage depends on Claude Code integration)
+/research-deep "your research topic"
+
+# Advanced usage with quality controls
+/research-deep "AI impact on healthcare" --quality=academic --sources=academic,government
+
+# Status monitoring
+/research-status --format=dashboard
 ```
 
-**Implementation**: Routes to `deep-research` agent via hook system.
+### Agent Features
 
-#### `/research-validate`
-Multi-source validation of research findings with confidence scoring.
+- **Specification-Driven**: Follows formal specifications for consistency
+- **Quality Assurance**: Built-in quality validation and monitoring
+- **Multi-Stage Workflow**: Systematic research process with quality gates
+- **Compliance Validation**: Automatic specification compliance checking
+- **Error Recovery**: Comprehensive error handling and recovery mechanisms
 
-**Syntax**:
-```bash
-/research-validate "finding" [--sources=5] [--confidence=academic]
-```
+## Hook Integration
 
-#### `/research-gap`
-Systematic identification of research gaps and opportunities.
+### Automatic Validation
 
-**Syntax**:
-```bash
-/research-gap "domain" [--period=5] [--type=empirical]
-```
+The system includes Claude Code hooks that automatically:
 
-### Quality Assurance Commands
+1. **Validate Compliance**: Check specification adherence on file changes
+2. **Monitor Quality**: Assess research quality and provide feedback
+3. **Handle Commands**: Process research commands with validation
 
-#### `/peer-review`
-Comprehensive systematic review of research outputs.
+### Hook Configuration
 
-**Official Integration**: Uses [Claude Code Hooks](https://docs.anthropic.com/en/docs/claude-code/hooks) for automated quality gates.
+Hooks are configured to integrate with Claude Code's workflow:
 
-**Syntax**:
-```bash
-/peer-review "research.md" [--criteria=all] [--standard=academic]
-```
-
-#### `/review-methodology`
-Focused validation of research methodology and approach.
-
-**Syntax**:
-```bash
-/review-methodology "study.md" [--depth=comprehensive]
-```
-
-#### `/validate-sources`
-Source quality and reliability assessment.
-
-**Syntax**:
-```bash
-/validate-sources "paper.md" [--threshold=0.85] [--diversity=all]
-```
-
-#### `/detect-bias`
-Multi-dimensional bias detection and mitigation assessment.
-
-**Syntax**:
-```bash
-/detect-bias "analysis.md" [--types=all] [--sensitivity=maximum]
-```
-
-### Synthesis Commands
-
-#### `/research-synthesize`
-Cross-domain research integration and framework development.
-
-**Syntax**:
-```bash
-/research-synthesize [--inputs="file1,file2"] [--framework=systematic]
-```
-
-#### `/framework-develop`
-Development of theoretical or practical frameworks.
-
-**Syntax**:
-```bash
-/framework-develop "domain" [--approach=multi-method] [--validation=empirical]
-```
-
-#### `/pattern-analyze`
-Cross-research pattern identification and analysis.
-
-**Syntax**:
-```bash
-/pattern-analyze "collection/" [--dimensions=temporal,methodological]
-```
-
-## Agent Architecture
-
-### Hierarchical Agent System
-
-Following Claude Code's official agent patterns:
-
-```
-Master Orchestrator (Claude Code Core)
-├── Deep Research Agent
-│   ├── Literature Review
-│   ├── Data Collection
-│   ├── Multi-source Validation
-│   └── Gap Analysis
-├── Peer Review Agent
-│   ├── Methodology Validation
-│   ├── Source Assessment
-│   ├── Bias Detection
-│   └── Quality Scoring
-└── Synthesis Agent
-    ├── Cross-domain Integration
-    ├── Framework Development
-    ├── Pattern Recognition
-    └── Conflict Resolution
-```
-
-### Official Integration Points
-
-#### 1. Settings Configuration
-```json
-{
-  "agents": {
-    "research_agents": {
-      "deep_research": {
-        "enabled": true,
-        "quality_standards": { /* Official quality requirements */ }
-      }
-    }
-  }
-}
-```
-
-#### 2. Hook Integration
 ```json
 {
   "hooks": {
-    "research_commands": {
-      "UserPromptSubmit": {
-        "match": "/research-*",
-        "script": ".claude/hooks/research_command_handler.sh"
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/specification_compliance_hook.sh"
+          }
+        ]
       }
+    ]
+  }
+}
+```
+
+## Configuration
+
+### Claude Code Settings
+
+The system works with standard Claude Code configuration in `.claude/settings.json`:
+
+```json
+{
+  "agents": {
+    "deep-research": {
+      "enabled": true,
+      "quality_checks": true,
+      "compliance_validation": true
     }
+  },
+  "hooks": {
+    "compliance_validation": true,
+    "quality_monitoring": true
   }
 }
 ```
 
-#### 3. Permission Management
-```json
-{
-  "permissions": {
-    "tools": { /* Granular tool access control */ },
-    "file_access": { /* File system permissions */ }
-  }
-}
-```
+## Quality Standards
 
-## Quality Assurance Framework
+Built-in quality standards ensure enterprise-grade output:
 
-### Automated Quality Gates
+- **Accuracy Rate**: Target 97%, Minimum 90%
+- **Source Diversity**: Target 90%, Minimum 70%
+- **Bias Mitigation**: Target 88%, Minimum 80%
+- **Reproducibility**: Target 95%, Minimum 90%
 
-Following [Claude Code Hooks](https://docs.anthropic.com/en/docs/claude-code/hooks) patterns:
+## Documentation
 
-#### Post-Tool-Use Validation
-Automatic quality checks triggered after content creation:
+For comprehensive system documentation, see:
 
-```bash
-# .claude/hooks/quality_check.sh
-# Triggers for Write/Edit operations on substantial content
-```
+- **System Documentation**: `docs/research/agent-systems/`
+- **Getting Started**: `docs/research/agent-systems/implementation/getting-started.md`
+- **Architecture Guide**: `docs/research/agent-systems/architecture/system-architecture.md`
 
-#### Research Command Routing
-Intelligent routing of research commands to appropriate specialized agents:
+## Official References
 
-```bash
-# .claude/hooks/research_command_handler.sh  
-# Routes /research-* commands to correct agents
-```
-
-### Multi-Layer Quality Control
-
-1. **Automated Validation**: Real-time fact checking, source validation
-2. **Agent Review**: Systematic peer review with weighted scoring
-3. **Human Expert Validation**: Expert panels for critical decisions
-
-### Performance Standards
-
-Based on Claude Code's quality frameworks:
-
-- **Research Quality**: 95%+ fact accuracy, 85%+ peer review consensus
-- **System Performance**: <5min task handoffs, >95% coordination success
-- **Documentation**: Complete audit trails following official standards
-
-## Official Documentation References
-
-This implementation strictly follows Claude Code's official documentation:
-
-### Core Documentation
-- **[Claude Code Overview](https://docs.anthropic.com/en/docs/claude-code)**: Main documentation hub
-- **[Settings Management](https://docs.anthropic.com/en/docs/claude-code/settings)**: Configuration patterns
-- **[CLI Reference](https://docs.anthropic.com/en/docs/claude-code/cli-reference)**: Command structure
-- **[Hooks System](https://docs.anthropic.com/en/docs/claude-code/hooks)**: Automation framework
-
-### Integration Guides  
-- **[MCP Integration](https://docs.anthropic.com/en/docs/claude-code/mcp)**: Model Context Protocol
-- **[Enterprise Deployment](https://docs.anthropic.com/en/docs/claude-code)**: Security and compliance
-- **[Troubleshooting](https://docs.anthropic.com/en/docs/claude-code/troubleshooting)**: Common issues
-
-### Best Practices
-- **[Security Guidelines](https://docs.anthropic.com/en/docs/claude-code/security)**: Secure implementation
-- **[Performance Optimization](https://docs.anthropic.com/en/docs/claude-code)**: Efficiency patterns
-
-## Usage Examples
-
-### Academic Research Workflow
-```bash
-# 1. Deep research with comprehensive analysis
-/research-deep "impact of central bank digital currencies" --depth=comprehensive --sources=academic,government
-
-# 2. Validate key findings
-/research-validate "CBDCs reduce commercial bank profits by 15-25%" --sources=5 --confidence=academic
-
-# 3. Peer review the research
-/peer-review "cbdc-research.md" --criteria=all --standard=academic
-
-# 4. Synthesize with related research
-/research-synthesize --inputs="cbdc-research.md,banking-study.md" --framework=systematic
-```
-
-### Industry Analysis Workflow
-```bash
-# 1. Market research
-/research-deep "fintech disruption in traditional banking" --depth=deep --sources=industry,academic
-
-# 2. Gap analysis
-/research-gap "fintech regulation" --period=3 --type=practical
-
-# 3. Framework development
-/framework-develop "fintech risk assessment" --approach=multi-stakeholder --validation=empirical
-```
-
-## Configuration Management
-
-### Environment Setup
-```bash
-# Initialize Claude Code configuration
-claude config set research.quality_threshold 0.8
-claude config set research.evidence_standard academic
-claude config add research.agents.deep_research.enabled true
-```
-
-### Agent Management
-```bash
-# List available agents
-claude config list agents
-
-# Enable/disable specific agents
-claude config set agents.research_agents.peer_review.enabled true
-
-# Update agent configurations
-claude config set agents.research_agents.deep_research.quality_standards.evidence_level academic
-```
-
-## Troubleshooting
-
-### Common Issues
-
-#### Command Not Recognized
-```bash
-# Verify hook configuration
-cat .claude/settings.json | jq '.hooks'
-
-# Check hook script permissions
-ls -la .claude/hooks/
-
-# Test hook execution
-.claude/hooks/research_command_handler.sh "/research-deep test"
-```
-
-#### Agent Not Available
-```bash
-# Verify agent files exist
-ls -la .claude/agents/
-
-# Check agent configuration
-cat .claude/settings.json | jq '.agents.research_agents'
-
-# Validate agent syntax
-head -20 .claude/agents/deep-research.md
-```
-
-#### Quality Check Not Triggering
-```bash
-# Check quality hook configuration
-cat .claude/settings.json | jq '.hooks.quality_gates'
-
-# Verify file permissions
-ls -la .claude/hooks/quality_check.sh
-
-# Test quality check manually
-TOOL_NAME="Write" TOOL_OUTPUT="test.md" .claude/hooks/quality_check.sh
-```
-
-### Support Resources
-
-- **[Official Troubleshooting Guide](https://docs.anthropic.com/en/docs/claude-code/troubleshooting)**
-- **[Community Support](https://docs.anthropic.com/en/docs/claude-code)**
-- **[Enterprise Support](https://docs.anthropic.com/en/docs/claude-code)**
-
-## Compliance and Security
-
-This implementation follows Claude Code's official security guidelines:
-
-- **Data Protection**: GDPR/HIPAA compliance built-in
-- **Access Control**: Role-based permissions with least privilege
-- **Audit Logging**: Comprehensive activity tracking
-- **Encryption**: TLS 1.3+ for all communications
-
-### Security Configuration
-```json
-{
-  "security": {
-    "audit_logging": true,
-    "access_control": "role_based",
-    "encryption": "tls_1_3_minimum",
-    "data_retention": "policy_based"
-  }
-}
-```
+- [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code)
+- [Claude Code Agents](https://docs.anthropic.com/en/docs/claude-code/settings)
+- [Claude Code Hooks](https://docs.anthropic.com/en/docs/claude-code/hooks)
 
 ---
 
-**Note**: This implementation is designed to work seamlessly with Claude Code's official architecture while providing advanced research capabilities. All patterns follow official documentation and best practices.
+This Claude Code configuration provides enterprise-grade multi-agent research capabilities with built-in quality assurance and compliance validation.
