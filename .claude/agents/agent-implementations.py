@@ -44,13 +44,282 @@ class ClaudeCodeConfig:
 
 class OfficialClaudeCodeAgent:
     """
-    Base class for Claude Code agents following official patterns
+    Enhanced base class for Claude Code agents following official patterns
     Reference: https://docs.anthropic.com/en/docs/claude-code/settings
+    
+    Supports advanced multi-stage workflows, sophisticated parameter handling,
+    and comprehensive quality assurance protocols.
     """
     
     def __init__(self, agent_name: str, config: ClaudeCodeConfig):
         self.agent_name = agent_name
         self.config = config
+        self.session_id = self._generate_session_id()
+        self.performance_tracker = PerformanceTracker()
+        self.quality_assessor = QualityAssessmentEngine()
+        
+    def _generate_session_id(self) -> str:
+        """Generate unique session identifier for tracking"""
+        return f"{self.agent_name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+
+@dataclass
+class ResearchParameters:
+    """Enhanced parameter class for research commands"""
+    topic: str
+    depth: str = "comprehensive"
+    sources: List[str] = field(default_factory=lambda: ["mixed"])
+    geography: str = "international"
+    timeline: int = 14
+    quality: str = "academic"
+    strategy: str = "systematic"
+    collaboration: str = "peer-review"
+    output_format: str = "structured-report"
+    progress_reporting: str = "milestone"
+    bias_sensitivity: str = "high"
+    reproducibility: str = "full"
+    
+    def validate(self) -> bool:
+        """Validate parameter values against allowed options"""
+        validations = {
+            'depth': ['shallow', 'moderate', 'comprehensive', 'exhaustive'],
+            'geography': ['local', 'national', 'international', 'global'],
+            'quality': ['draft', 'standard', 'academic', 'publication'],
+            'strategy': ['systematic', 'exploratory', 'targeted', 'comparative'],
+            'collaboration': ['solo', 'peer-review', 'multi-agent', 'expert-panel'],
+            'output_format': ['markdown', 'json', 'structured-report', 'presentation'],
+            'progress_reporting': ['none', 'milestone', 'daily', 'real-time'],
+            'bias_sensitivity': ['low', 'moderate', 'high', 'maximum'],
+            'reproducibility': ['basic', 'standard', 'full', 'academic']
+        }
+        
+        for param, valid_values in validations.items():
+            if getattr(self, param) not in valid_values:
+                logger.error(f"Invalid {param}: {getattr(self, param)}. Must be one of {valid_values}")
+                return False
+        
+        if not (1 <= self.timeline <= 90):
+            logger.error(f"Invalid timeline: {self.timeline}. Must be between 1 and 90 days")
+            return False
+            
+        return True
+
+@dataclass 
+class SourceCredibilityScore:
+    """Multi-dimensional source credibility assessment"""
+    authority_score: float
+    recency_score: float  
+    relevance_score: float
+    overall_score: float
+    source_type: str
+    publication_date: Optional[datetime] = None
+    
+    @classmethod
+    def calculate(cls, source_url: str, content: str, topic: str) -> 'SourceCredibilityScore':
+        """Calculate comprehensive credibility score for a source"""
+        # Authority scoring based on domain and source type
+        authority_scores = {
+            'peer_reviewed_journal': 1.0,
+            'government_agency': 0.95,
+            'academic_institution': 0.90,
+            'think_tank': 0.75,
+            'industry_report': 0.70,
+            'quality_journalism': 0.65,
+            'verified_expert_blog': 0.60
+        }
+        
+        # Simplified authority assessment (in production would use more sophisticated analysis)
+        source_type = cls._classify_source_type(source_url)
+        authority_score = authority_scores.get(source_type, 0.50)
+        
+        # Recency scoring (placeholder - would extract actual publication date)
+        recency_score = 0.9  # Default to recent
+        
+        # Relevance scoring (placeholder - would use NLP for topic relevance)
+        relevance_score = 0.8  # Default to highly relevant
+        
+        # Overall weighted score
+        overall_score = (authority_score * 0.4 + recency_score * 0.3 + relevance_score * 0.3)
+        
+        return cls(
+            authority_score=authority_score,
+            recency_score=recency_score,
+            relevance_score=relevance_score,
+            overall_score=overall_score,
+            source_type=source_type
+        )
+    
+    @staticmethod
+    def _classify_source_type(url: str) -> str:
+        """Classify source type based on URL patterns"""
+        if any(domain in url for domain in ['.gov', '.edu', 'imf.org', 'worldbank.org']):
+            return 'government_agency'
+        elif any(domain in url for domain in ['scholar.google', 'jstor', 'pubmed']):
+            return 'peer_reviewed_journal'
+        elif any(domain in url for domain in ['.ac.uk', '.edu']):
+            return 'academic_institution'
+        else:
+            return 'quality_journalism'
+
+class QualityAssessmentEngine:
+    """Advanced quality assessment and validation engine"""
+    
+    def __init__(self):
+        self.bias_detector = BiasDetectionEngine()
+        self.fact_checker = FactCheckingEngine()
+        
+    async def assess_research_quality(self, research_content: str, sources: List[str]) -> Dict[str, float]:
+        """Comprehensive quality assessment of research content"""
+        scores = {}
+        
+        # Source credibility assessment
+        source_scores = []
+        for source in sources:
+            # In production, would fetch and analyze each source
+            score = SourceCredibilityScore.calculate(source, "", "")
+            source_scores.append(score.overall_score)
+        
+        scores['source_credibility'] = sum(source_scores) / len(source_scores) if source_scores else 0.0
+        
+        # Bias assessment
+        scores['bias_mitigation'] = await self.bias_detector.assess_bias(research_content)
+        
+        # Fact-checking score
+        scores['factual_accuracy'] = await self.fact_checker.validate_claims(research_content)
+        
+        # Reproducibility assessment (based on methodology documentation)
+        scores['reproducibility'] = self._assess_reproducibility(research_content)
+        
+        # Overall quality score (weighted average)
+        weights = {'source_credibility': 0.3, 'bias_mitigation': 0.25, 'factual_accuracy': 0.3, 'reproducibility': 0.15}
+        scores['overall_quality'] = sum(score * weights[metric] for metric, score in scores.items())
+        
+        return scores
+    
+    def _assess_reproducibility(self, content: str) -> float:
+        """Assess reproducibility based on methodology documentation"""
+        # Simplified reproducibility assessment
+        # In production, would analyze methodology section completeness
+        reproduction_indicators = [
+            'methodology', 'data sources', 'analysis steps', 
+            'assumptions', 'limitations', 'references'
+        ]
+        
+        present_indicators = sum(1 for indicator in reproduction_indicators if indicator.lower() in content.lower())
+        return present_indicators / len(reproduction_indicators)
+
+class BiasDetectionEngine:
+    """Multi-dimensional bias detection and mitigation"""
+    
+    async def assess_bias(self, content: str) -> float:
+        """Assess bias across multiple dimensions"""
+        bias_scores = {}
+        
+        # Selection bias assessment
+        bias_scores['selection'] = self._assess_selection_bias(content)
+        
+        # Confirmation bias assessment  
+        bias_scores['confirmation'] = self._assess_confirmation_bias(content)
+        
+        # Cultural bias assessment
+        bias_scores['cultural'] = self._assess_cultural_bias(content)
+        
+        # Temporal bias assessment
+        bias_scores['temporal'] = self._assess_temporal_bias(content)
+        
+        # Overall bias mitigation score (higher is better - less bias)
+        overall_score = sum(bias_scores.values()) / len(bias_scores)
+        return overall_score
+    
+    def _assess_selection_bias(self, content: str) -> float:
+        """Assess selection bias indicators"""
+        # Simplified assessment - check for diversity indicators
+        diversity_indicators = ['multiple sources', 'different perspectives', 'various viewpoints']
+        present = sum(1 for indicator in diversity_indicators if indicator in content.lower())
+        return min(present / len(diversity_indicators), 1.0)
+    
+    def _assess_confirmation_bias(self, content: str) -> float:
+        """Assess confirmation bias indicators"""
+        # Check for contrary evidence discussion
+        contrary_indicators = ['however', 'contrasting', 'alternative view', 'contradicts']
+        present = sum(1 for indicator in contrary_indicators if indicator in content.lower())
+        return min(present / 2, 1.0)  # Normalize to 1.0
+    
+    def _assess_cultural_bias(self, content: str) -> float:
+        """Assess cultural bias indicators"""
+        # Check for cultural diversity in perspectives
+        cultural_indicators = ['cross-cultural', 'international', 'global perspective']
+        present = sum(1 for indicator in cultural_indicators if indicator in content.lower())
+        return min(present / len(cultural_indicators), 1.0)
+    
+    def _assess_temporal_bias(self, content: str) -> float:
+        """Assess temporal bias indicators"""
+        # Check for historical context and contemporary relevance
+        temporal_indicators = ['historical', 'contemporary', 'current', 'recent']
+        present = sum(1 for indicator in temporal_indicators if indicator in content.lower())
+        return min(present / len(temporal_indicators), 1.0)
+
+class FactCheckingEngine:
+    """Automated fact-checking and validation engine"""
+    
+    async def validate_claims(self, content: str) -> float:
+        """Validate factual claims in research content"""
+        # Simplified fact-checking (in production would use external APIs)
+        # Extract claims and cross-reference with trusted sources
+        
+        # For now, return a score based on reference density
+        reference_count = content.count('[') + content.count('(')  # Simple reference counting
+        content_length = len(content.split())
+        
+        if content_length == 0:
+            return 0.0
+            
+        reference_density = min(reference_count / (content_length / 100), 1.0)  # References per 100 words
+        return reference_density
+
+class PerformanceTracker:
+    """Track and monitor agent performance metrics"""
+    
+    def __init__(self):
+        self.metrics = {}
+        self.start_times = {}
+    
+    def start_task(self, task_id: str):
+        """Start tracking a research task"""
+        self.start_times[task_id] = datetime.now()
+        logger.info(f"Started tracking task: {task_id}")
+    
+    def end_task(self, task_id: str, success: bool = True):
+        """End tracking and record performance"""
+        if task_id not in self.start_times:
+            logger.warning(f"Task {task_id} not found in tracking")
+            return
+            
+        duration = (datetime.now() - self.start_times[task_id]).total_seconds()
+        
+        if task_id not in self.metrics:
+            self.metrics[task_id] = []
+            
+        self.metrics[task_id].append({
+            'duration': duration,
+            'success': success,
+            'timestamp': datetime.now().isoformat()
+        })
+        
+        logger.info(f"Task {task_id} completed in {duration:.2f} seconds, success: {success}")
+    
+    def get_average_performance(self, task_type: str) -> Dict[str, float]:
+        """Get average performance metrics for a task type"""
+        if task_type not in self.metrics:
+            return {}
+            
+        tasks = self.metrics[task_type]
+        successful_tasks = [t for t in tasks if t['success']]
+        
+        return {
+            'average_duration': sum(t['duration'] for t in tasks) / len(tasks),
+            'success_rate': len(successful_tasks) / len(tasks),
+            'total_tasks': len(tasks)
+        }
         self.agent_file = config.agents_dir / f"{agent_name}.md"
         self.logger = logging.getLogger(f"claude.agent.{agent_name}")
         

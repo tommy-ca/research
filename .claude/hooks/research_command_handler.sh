@@ -21,34 +21,256 @@ log_message() {
 # Create log directory if it doesn't exist
 mkdir -p "$(dirname "$LOG_FILE")"
 
+# Enhanced parameter validation functions
+validate_research_parameters() {
+    local command="$1"
+    log_message "INFO" "Validating research parameters for: $command"
+    
+    # Extract topic (required parameter)
+    if ! echo "$command" | grep -q '"[^"]*"'; then
+        log_message "ERROR" "Missing required topic parameter in quotes"
+        echo "Error: Research topic must be provided in quotes"
+        echo "Usage: /research-deep \"your research topic\" [options]"
+        return 1
+    fi
+    
+    # Validate depth parameter if present
+    if echo "$command" | grep -q -- "--depth="; then
+        local depth=$(echo "$command" | sed -n 's/.*--depth=\([^ ]*\).*/\1/p')
+        case "$depth" in
+            shallow|moderate|comprehensive|exhaustive) ;;
+            *) 
+                log_message "ERROR" "Invalid depth parameter: $depth"
+                echo "Error: --depth must be one of: shallow, moderate, comprehensive, exhaustive"
+                return 1
+                ;;
+        esac
+    fi
+    
+    # Validate timeline parameter if present
+    if echo "$command" | grep -q -- "--timeline="; then
+        local timeline=$(echo "$command" | sed -n 's/.*--timeline=\([0-9]*\).*/\1/p')
+        if [[ ! "$timeline" =~ ^[0-9]+$ ]] || [[ "$timeline" -lt 1 ]] || [[ "$timeline" -gt 90 ]]; then
+            log_message "ERROR" "Invalid timeline parameter: $timeline"
+            echo "Error: --timeline must be a number between 1 and 90 days"
+            return 1
+        fi
+    fi
+    
+    return 0
+}
+
+validate_validation_parameters() {
+    local command="$1"
+    log_message "INFO" "Validating validation parameters for: $command"
+    
+    # Extract claim/finding (required parameter)
+    if ! echo "$command" | grep -q '"[^"]*"'; then
+        log_message "ERROR" "Missing required claim/finding parameter in quotes"
+        echo "Error: Claim or finding to validate must be provided in quotes"
+        echo "Usage: /research-validate \"claim to validate\" [options]"
+        return 1
+    fi
+    
+    # Validate sources parameter if present
+    if echo "$command" | grep -q -- "--sources="; then
+        local sources=$(echo "$command" | sed -n 's/.*--sources=\([0-9]*\).*/\1/p')
+        if [[ ! "$sources" =~ ^[0-9]+$ ]] || [[ "$sources" -lt 3 ]] || [[ "$sources" -gt 20 ]]; then
+            log_message "ERROR" "Invalid sources parameter: $sources"
+            echo "Error: --sources must be a number between 3 and 20"
+            return 1
+        fi
+    fi
+    
+    # Validate confidence parameter if present
+    if echo "$command" | grep -q -- "--confidence="; then
+        local confidence=$(echo "$command" | sed -n 's/.*--confidence=\([0-9.]*\).*/\1/p')
+        if ! awk "BEGIN {exit !($confidence >= 0.5 && $confidence <= 1.0)}"; then
+            log_message "ERROR" "Invalid confidence parameter: $confidence"
+            echo "Error: --confidence must be a decimal between 0.5 and 1.0"
+            return 1
+        fi
+    fi
+    
+    return 0
+}
+
+validate_plan_id() {
+    local command="$1"
+    log_message "INFO" "Validating plan ID for: $command"
+    
+    # Extract plan ID (required parameter)
+    local plan_id=$(echo "$command" | sed -n 's|/research-execute \([^ ]*\).*|\1|p')
+    if [[ -z "$plan_id" ]]; then
+        log_message "ERROR" "Missing required plan ID parameter"
+        echo "Error: Plan ID is required for research execution"
+        echo "Usage: /research-execute <plan-id> [options]"
+        return 1
+    fi
+    
+    # Validate plan ID format (should be alphanumeric with hyphens)
+    if [[ ! "$plan_id" =~ ^[a-zA-Z0-9-]+$ ]]; then
+        log_message "ERROR" "Invalid plan ID format: $plan_id"
+        echo "Error: Plan ID must contain only letters, numbers, and hyphens"
+        return 1
+    fi
+    
+    return 0
+}
+
+validate_research_id() {
+    local command="$1"
+    log_message "INFO" "Validating research ID for: $command"
+    
+    # Extract research ID (required parameter)
+    local research_id=$(echo "$command" | sed -n 's|/research-refine \([^ ]*\).*|\1|p')
+    if [[ -z "$research_id" ]]; then
+        log_message "ERROR" "Missing required research ID parameter"
+        echo "Error: Research ID is required for refinement"
+        echo "Usage: /research-refine <research-id> [options]"
+        return 1
+    fi
+    
+    return 0
+}
+
+validate_file_parameter() {
+    local command="$1"
+    log_message "INFO" "Validating file parameter for: $command"
+    
+    # Extract file path (required parameter)
+    if ! echo "$command" | grep -q '"[^"]*"'; then
+        log_message "ERROR" "Missing required file parameter in quotes"
+        echo "Error: File path must be provided in quotes"
+        echo "Usage: /peer-review \"path/to/file.md\" [options]"
+        return 1
+    fi
+    
+    return 0
+}
+
+display_enhanced_help() {
+    cat << 'EOF'
+Enhanced Research Commands - Claude Code Integration
+
+DEEP RESEARCH COMMANDS:
+  /research-deep "<topic>" [options]     - Multi-stage comprehensive research
+    Options:
+      --depth=LEVEL                      shallow|moderate|comprehensive|exhaustive
+      --sources=TYPES                    academic,industry,government,journalistic,mixed
+      --geography=SCOPE                  local,national,international,global
+      --timeline=DAYS                    Research deadline (1-90 days)
+      --quality=STANDARD                 draft,standard,academic,publication
+      --strategy=APPROACH                systematic,exploratory,targeted,comparative
+      --collaboration=MODE               solo,peer-review,multi-agent,expert-panel
+      --output-format=FORMAT             markdown,json,structured-report,presentation
+      --progress-reporting=FREQ          none,milestone,daily,real-time
+      --bias-sensitivity=LEVEL           low,moderate,high,maximum
+      --reproducibility=LEVEL            basic,standard,full,academic
+
+  /research-plan "<topic>" [options]     - Create detailed research plan
+  /research-execute <plan-id> [options]  - Execute planned research
+  /research-refine <research-id> [options] - Iterative research improvement
+  /research-status [research-id] [options] - Progress monitoring
+
+VALIDATION COMMANDS:
+  /research-validate "<claim>" [options] - Multi-source validation
+    Options:
+      --sources=COUNT                    Minimum independent sources (3-20)
+      --confidence=THRESHOLD             Required confidence level (0.5-1.0)
+      --diversity=REQUIREMENTS           geographical,temporal,methodological,institutional
+      --verification=METHOD              triangulation,expert-consensus,meta-analysis
+      --bias-check=SCOPE                selection,confirmation,cultural,temporal
+
+  /research-gap "<domain>" [options]     - Systematic gap analysis
+    Options:
+      --period=YEARS                     Analysis timeframe
+      --gap-types=LIST                   empirical,theoretical,methodological,practical
+      --priority=CRITERIA                impact,feasibility,novelty,urgency
+      --scope=LEVEL                      narrow,broad,comprehensive
+      --output=FORMAT                    summary,detailed,recommendations,research-proposals
+
+QUALITY ASSURANCE COMMANDS:
+  /peer-review "<file>" [options]       - Comprehensive systematic review
+  /review-methodology "<file>" [options] - Methodology validation
+  /validate-sources "<file>" [options]  - Source quality assessment
+  /detect-bias "<file>" [options]       - Multi-dimensional bias detection
+
+SYNTHESIS COMMANDS:
+  /research-synthesize [options]        - Cross-domain research integration
+  /framework-develop "<domain>" [options] - Framework development
+  /pattern-analyze "<collection>" [options] - Pattern identification
+  /conflict-resolve "<sources>" [options] - Evidence-based conflict resolution
+
+HELP AND STATUS:
+  /research-help                        - Display this help
+  /research-status [research-id]        - Show research progress
+
+EXAMPLES:
+  /research-deep "cryptocurrency regulation impact" --depth=comprehensive --timeline=14
+  /research-validate "blockchain reduces transaction costs by 30%" --sources=5 --confidence=0.85
+  /peer-review "research-output.md" --criteria=all --standard=academic
+
+For detailed parameter descriptions and usage examples, see: .claude/agents/deep-research.md
+EOF
+}
+
 # Parse the user prompt to extract command and parameters
 USER_COMMAND="$1"
 log_message "INFO" "Processing command: $USER_COMMAND"
 
-# Command routing logic
+# Enhanced command routing logic with parameter validation
 case "$USER_COMMAND" in
     "/research-deep"*)
-        log_message "INFO" "Routing to deep-research agent"
+        log_message "INFO" "Routing to deep-research agent for comprehensive research"
         AGENT="deep-research"
-        COMMAND_TYPE="comprehensive_research"
+        COMMAND_TYPE="multi_stage_research"
+        validate_research_parameters "$USER_COMMAND"
+        ;;
+    
+    "/research-plan"*)
+        log_message "INFO" "Routing to deep-research agent for research planning"
+        AGENT="deep-research"
+        COMMAND_TYPE="research_planning"
+        ;;
+    
+    "/research-execute"*)
+        log_message "INFO" "Routing to deep-research agent for research execution"
+        AGENT="deep-research"
+        COMMAND_TYPE="research_execution"
+        validate_plan_id "$USER_COMMAND"
         ;;
     
     "/research-validate"*)
         log_message "INFO" "Routing to deep-research agent for validation"
         AGENT="deep-research"
-        COMMAND_TYPE="validation"
+        COMMAND_TYPE="advanced_validation"
+        validate_validation_parameters "$USER_COMMAND"
         ;;
     
     "/research-gap"*)
         log_message "INFO" "Routing to deep-research agent for gap analysis"
         AGENT="deep-research"
-        COMMAND_TYPE="gap_analysis"
+        COMMAND_TYPE="systematic_gap_analysis"
+        ;;
+    
+    "/research-refine"*)
+        log_message "INFO" "Routing to deep-research agent for research refinement"
+        AGENT="deep-research"
+        COMMAND_TYPE="iterative_refinement"
+        validate_research_id "$USER_COMMAND"
+        ;;
+    
+    "/research-status"*)
+        log_message "INFO" "Routing to deep-research agent for status monitoring"
+        AGENT="deep-research"
+        COMMAND_TYPE="progress_monitoring"
         ;;
     
     "/research-synthesize"*)
         log_message "INFO" "Routing to synthesis agent"
         AGENT="synthesis"
-        COMMAND_TYPE="synthesis"
+        COMMAND_TYPE="cross_domain_synthesis"
         ;;
     
     "/framework-develop"*)
@@ -66,7 +288,8 @@ case "$USER_COMMAND" in
     "/peer-review"*)
         log_message "INFO" "Routing to peer-review agent"
         AGENT="peer-review"
-        COMMAND_TYPE="quality_review"
+        COMMAND_TYPE="systematic_quality_review"
+        validate_file_parameter "$USER_COMMAND"
         ;;
     
     "/review-methodology"*)
@@ -93,20 +316,15 @@ case "$USER_COMMAND" in
         COMMAND_TYPE="conflict_resolution"
         ;;
     
+    "/research-help"*)
+        log_message "INFO" "Displaying research command help"
+        display_enhanced_help
+        exit 0
+        ;;
+    
     *)
         log_message "WARN" "Unrecognized research command: $USER_COMMAND"
-        echo "Unrecognized research command. Available commands:"
-        echo "  /research-deep - Comprehensive research"
-        echo "  /research-validate - Validate findings"
-        echo "  /research-gap - Gap analysis"
-        echo "  /research-synthesize - Synthesis research"
-        echo "  /framework-develop - Develop frameworks"
-        echo "  /pattern-analyze - Analyze patterns"
-        echo "  /peer-review - Peer review"
-        echo "  /review-methodology - Review methodology"
-        echo "  /validate-sources - Validate sources"
-        echo "  /detect-bias - Detect bias"
-        echo "  /conflict-resolve - Resolve conflicts"
+        display_enhanced_help
         exit 1
         ;;
 esac
