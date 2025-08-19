@@ -1,8 +1,28 @@
-# Claude Code Research Workflows
+# Official Claude Code Research Workflows
 
 ## Overview
 
-This document defines comprehensive research workflows integrated with Claude Code's subagent system and custom commands. The workflows leverage specialized research agents to provide systematic, high-quality research outputs with built-in collaboration and quality assurance.
+This document defines comprehensive research workflows integrated with Claude Code's official agent framework following [Claude Code documentation](https://docs.anthropic.com/en/docs/claude-code). The workflows leverage the `.claude/` folder structure with specialized research agents to provide systematic, high-quality research outputs with built-in quality assurance.
+
+## Official Claude Code Integration
+
+### Agent Framework Structure
+Based on [Claude Code Settings](https://docs.anthropic.com/en/docs/claude-code/settings) and [MCP Integration](https://docs.anthropic.com/en/docs/claude-code/mcp):
+
+```
+.claude/
+├── settings.json          # Project configuration
+├── agents/                # Agent definitions (Markdown + YAML)
+│   ├── deep-research.md   # Comprehensive research agent
+│   ├── peer-review.md     # Quality assurance agent
+│   └── synthesis.md       # Integration and framework agent
+└── hooks/                 # Automation scripts
+    ├── research_command_handler.sh
+    └── quality_check.sh
+```
+
+### Command Routing System
+Following [Claude Code Hooks](https://docs.anthropic.com/en/docs/claude-code/hooks) patterns:
 
 ## Workflow Architecture
 

@@ -1,0 +1,85 @@
+{
+  "project": {
+    "name": "Research Knowledge Base",
+    "description": "Comprehensive research repository with multi-agent research system",
+    "version": "1.0.0"
+  },
+  "agents": {
+    "enabled": true,
+    "directory": ".claude/agents",
+    "auto_load": true,
+    "research_agents": {
+      "deep_research": {
+        "enabled": true,
+        "description": "Comprehensive deep research capabilities",
+        "tools": ["WebSearch", "WebFetch", "Read", "Write", "Edit", "Glob", "Grep", "Task"],
+        "quality_standards": {
+          "evidence_level": "academic",
+          "source_diversity": "minimum_3_independent",
+          "fact_checking": "required",
+          "bias_assessment": "mandatory"
+        }
+      },
+      "peer_review": {
+        "enabled": true,
+        "description": "Systematic peer review and quality validation",
+        "tools": ["Read", "Write", "Edit", "Grep", "Task"],
+        "review_standards": {
+          "methodology_weight": 0.30,
+          "source_quality_weight": 0.25,
+          "logic_consistency_weight": 0.25,
+          "completeness_weight": 0.20,
+          "approval_threshold": 0.8
+        }
+      },
+      "synthesis": {
+        "enabled": true,
+        "description": "Cross-domain research synthesis and integration",
+        "tools": ["Read", "Write", "Edit", "Task"],
+        "synthesis_methods": ["systematic", "thematic", "chronological", "causal"]
+      }
+    }
+  },
+  "hooks": {
+    "research_commands": {
+      "UserPromptSubmit": {
+        "match": "/research-*",
+        "script": ".claude/hooks/research_command_handler.sh",
+        "description": "Route research commands to appropriate agents"
+      }
+    },
+    "quality_gates": {
+      "PostToolUse": {
+        "match": "Write|Edit",
+        "script": ".claude/hooks/quality_check.sh",
+        "description": "Automatic quality validation after content creation"
+      }
+    }
+  },
+  "permissions": {
+    "tools": {
+      "WebSearch": "allow",
+      "WebFetch": "allow", 
+      "Read": "allow",
+      "Write": "allow",
+      "Edit": "allow",
+      "Bash": "allow",
+      "Task": "allow"
+    },
+    "file_access": {
+      "read": ["**/*"],
+      "write": ["docs/**/*", "experiments/**/*", "knowledge-base/**/*", "resources/**/*"],
+      "exclude": [".git/**/*", "node_modules/**/*"]
+    }
+  },
+  "environment": {
+    "RESEARCH_PROJECT_PATH": "/home/tommyk/projects/research",
+    "RESEARCH_QUALITY_THRESHOLD": "0.8",
+    "RESEARCH_EVIDENCE_STANDARD": "academic"
+  },
+  "model": {
+    "default": "claude-3-5-sonnet-20241022",
+    "research_tasks": "claude-3-opus-20240229",
+    "peer_review": "claude-3-5-sonnet-20241022"
+  }
+}
