@@ -14,7 +14,7 @@ Simple, powerful research capabilities in 121 lines of code.
 
 That's it. No configuration needed.
 
-## Commands
+## Built-in Commands
 
 ### `/research [topic]`
 
@@ -63,6 +63,20 @@ Combines multiple information sources into unified insights.
 - Key patterns identified
 - Conceptual framework
 - Actionable recommendations
+
+## Custom Commands
+
+You can create custom commands that route to the intelligent agents:
+
+### Available Custom Commands
+- `/analyze` - Focused analysis on specific aspects
+- `/compare` - Compare multiple items systematically
+- `/validate` - Validate claims with evidence
+
+### Creating Your Own
+See `.claude/commands/GUIDE.md` for creating custom commands in 2 minutes.
+
+Custom commands are just routing rules - the intelligent agents handle all complexity.
 
 ## Architecture
 

@@ -4,9 +4,17 @@ Ultra-simple research agents: 121 lines of code, infinite intelligence.
 
 ## Commands
 
+### Built-in Commands
 ```bash
 /research "any topic"        # Research with automatic quality validation
 /synthesize file1 file2 ...  # Synthesize multiple sources into insights
+```
+
+### Custom Commands
+```bash
+/analyze "topic" "focus"     # Focused analysis (custom)
+/compare "item1" "item2"     # Comparison (custom)
+/validate "claim"            # Fact validation (custom)
 ```
 
 ## Architecture
@@ -16,8 +24,14 @@ Ultra-simple research agents: 121 lines of code, infinite intelligence.
 ├── agents/
 │   ├── research.md    # 32 lines - Intelligent research agent
 │   └── synthesis.md   # 32 lines - Intelligent synthesis agent
+├── commands/          # Custom commands (extensible)
+│   ├── analyze.md     # 20 lines - Analysis command
+│   ├── compare.md     # 20 lines - Comparison command
+│   ├── validate.md    # 20 lines - Validation command
+│   ├── SPECIFICATION.md  # Command spec (60 lines)
+│   └── GUIDE.md       # Creation guide (140 lines)
 ├── hooks/
-│   └── router.sh      # 57 lines - Simple command routing
+│   └── router.sh      # 85 lines - Router with custom command support
 └── settings.json      # 44 lines - Minimal configuration
 ```
 
@@ -81,13 +95,30 @@ See `docs/RESEARCH_AGENTS.md` for detailed usage (207 lines).
 - ✅ Multi-source verification
 - ✅ Confidence scoring
 
+## Custom Commands
+
+Create your own commands in 2 minutes:
+
+1. Create file: `.claude/commands/mycommand.md`
+2. Add frontmatter:
+   ```yaml
+   ---
+   name: mycommand
+   pattern: /mycommand
+   agent: research  # or synthesis
+   ---
+   ```
+3. Use it: `/mycommand "input"`
+
+See `.claude/commands/GUIDE.md` for details.
+
 ## Performance
 
-- **Code**: 121 lines (was 1,323)
+- **Core**: 121 lines (was 1,323)
+- **With Extensions**: 381 lines (still 71% smaller than v1)
 - **Speed**: 95% faster routing
-- **Memory**: 91% less to load
-- **Complexity**: Minimal
-- **Functionality**: Complete
+- **Memory**: Minimal footprint
+- **Extensibility**: Unlimited
 
 ---
 
