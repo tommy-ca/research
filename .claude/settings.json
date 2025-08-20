@@ -36,7 +36,7 @@
   "hooks": {
     "router": {
       "UserPromptSubmit": {
-        "match": "/research|/synthesize",
+        "match": "/research|/synthesize|/kb-|/kg-|/kc-",
         "script": ".claude/hooks/router.sh",
         "description": "Simple command routing"
       }
