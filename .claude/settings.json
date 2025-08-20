@@ -16,6 +16,21 @@
       "enabled": true,
       "description": "Information synthesis with automatic insight extraction",
       "tools": ["Read", "Write", "Edit"]
+    },
+    "knowledge-base": {
+      "enabled": true,
+      "description": "Intelligent knowledge base management and organization",
+      "tools": ["Read", "Write", "Edit", "Grep", "LS", "TodoWrite"]
+    },
+    "knowledge-graph": {
+      "enabled": true,
+      "description": "Knowledge graph construction and traversal with relationship mining",
+      "tools": ["Read", "Write", "Edit", "Grep", "WebSearch", "WebFetch"]
+    },
+    "knowledge-curator": {
+      "enabled": true,
+      "description": "Knowledge quality assurance, enrichment, and maintenance",
+      "tools": ["Read", "Write", "Edit", "WebSearch", "WebFetch", "TodoWrite"]
     }
   },
   "hooks": {
