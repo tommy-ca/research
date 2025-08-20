@@ -17,26 +17,16 @@
       "description": "Information synthesis with automatic insight extraction",
       "tools": ["Read", "Write", "Edit"]
     },
-    "knowledge-base": {
+    "knowledge": {
       "enabled": true,
-      "description": "Intelligent knowledge base management and organization",
-      "tools": ["Read", "Write", "Edit", "Grep", "LS", "TodoWrite"]
-    },
-    "knowledge-graph": {
-      "enabled": true,
-      "description": "Knowledge graph construction and traversal with relationship mining",
+      "description": "Intelligent knowledge management with automatic everything",
       "tools": ["Read", "Write", "Edit", "Grep", "WebSearch", "WebFetch"]
-    },
-    "knowledge-curator": {
-      "enabled": true,
-      "description": "Knowledge quality assurance, enrichment, and maintenance",
-      "tools": ["Read", "Write", "Edit", "WebSearch", "WebFetch", "TodoWrite"]
     }
   },
   "hooks": {
     "router": {
       "UserPromptSubmit": {
-        "match": "/research|/synthesize|/kb-|/kg-|/kc-",
+        "match": "/research|/synthesize|/know|/explore",
         "script": ".claude/hooks/router.sh",
         "description": "Simple command routing"
       }

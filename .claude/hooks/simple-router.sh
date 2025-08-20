@@ -1,5 +1,5 @@
 #!/bin/bash
-# Ultra-Simple Router - Intelligence over complexity
+# Ultra-Simple Knowledge Router - 2 commands, infinite possibilities
 
 COMMAND="$1"
 
@@ -29,7 +29,7 @@ case "$COMMAND" in
         ;;
         
     *)
-        echo "Available commands:"
+        echo "Command not recognized. Try:"
         echo "  /know [topic] [content] - Manage knowledge"
         echo "  /explore [topic] [target] - Explore connections"
         echo "  /research [topic] - Research anything"
