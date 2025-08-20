@@ -1,0 +1,67 @@
+---
+id: kb_2024_001
+topic: "Quantum Computing Fundamentals"
+categories:
+  - "Computer Science"
+  - "Physics"  
+  - "Emerging Technology"
+tags:
+  - "quantum"
+  - "qubits"
+  - "superposition"
+  - "entanglement"
+  - "quantum_algorithms"
+metadata:
+  created: "2024-01-20"
+  modified: "2024-01-20"
+  version: 1.0
+  confidence: 0.92
+  quality_score: 0.88
+  
+content: |
+  Quantum computing represents a paradigm shift in computational capability by leveraging quantum mechanical phenomena. Unlike classical bits that exist in binary states (0 or 1), quantum bits (qubits) can exist in superposition, representing both states simultaneously until measured.
+  
+  Key principles:
+  - **Superposition**: Qubits exist in multiple states simultaneously
+  - **Entanglement**: Quantum states of multiple qubits become correlated
+  - **Quantum Interference**: Amplifies correct answers, cancels incorrect ones
+  
+  Applications include cryptography, drug discovery, optimization problems, and machine learning acceleration.
+
+relationships:
+  strong:
+    - "quantum_algorithms"
+    - "cryptography"
+    - "quantum_supremacy"
+  moderate:
+    - "machine_learning"
+    - "optimization"
+    - "physics_simulation"
+  weak:
+    - "classical_computing"
+    - "semiconductor_technology"
+
+sources:
+  - title: "Quantum Computing: An Applied Approach"
+    authors: ["Hidary, J.D."]
+    year: 2021
+    type: "book"
+    credibility: 0.95
+    
+  - title: "Quantum supremacy using a programmable superconducting processor"
+    authors: ["Arute, F.", "et al."]
+    year: 2019
+    journal: "Nature"
+    credibility: 0.98
+    
+  - title: "Quantum Computing Progress and Prospects"
+    organization: "National Academies of Sciences"
+    year: 2019
+    type: "report"
+    credibility: 0.96
+
+validation:
+  last_checked: "2024-01-20"
+  fact_verification: "complete"
+  cross_references: 5
+  peer_review: "pending"
