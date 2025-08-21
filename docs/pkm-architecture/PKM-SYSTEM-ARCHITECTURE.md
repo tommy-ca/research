@@ -1,8 +1,8 @@
-# Markdown-Based Personal Knowledge Management System Architecture
+# Claude-Orchestrated Personal Knowledge Management System Architecture
 
 ## Executive Summary
 
-A comprehensive, first-principles-based Personal Knowledge Management (PKM) system built on markdown, Git, and agentic tools. This architecture combines proven PKM methodologies with Feynman learning techniques and cognitive science principles to create a powerful, extensible knowledge ecosystem.
+A comprehensive, first-principles-based Personal Knowledge Management (PKM) system orchestrated by Claude Code as the primary intelligence interface. This architecture maintains PKM principles at the business layer (markdown + Git) while leveraging a modern diskless lakehouse for storage and Claude Code agents for all intelligence operations. Claude Code serves as the bridge between human-friendly markdown and powerful data processing capabilities.
 
 ## Core Philosophy
 
@@ -19,59 +19,276 @@ A comprehensive, first-principles-based Personal Knowledge Management (PKM) syst
 - Progressive complexity layers from simple to advanced understanding
 - Teaching-oriented documentation as primary knowledge format
 
-## System Architecture
+## Three-Layer System Architecture
 
-### Layer 1: Storage Foundation (Git + Markdown)
+### Overview: Claude Code as Central Orchestrator
+
+```mermaid
+graph TB
+    subgraph "User Experience Layer"
+        A[Markdown Files] --> B[Git Repository]
+        C[PKM Principles] --> B
+        D[Human-Readable Notes] --> B
+    end
+    
+    subgraph "Intelligence Layer (Claude Code)"
+        E[Claude Primary Agent] --> F[Subagents]
+        E --> G[Commands & Hooks]
+        E --> H[Processing Engine]
+        F --> I[Ingestion Agent]
+        F --> J[Processor Agent]
+        F --> K[Synthesizer Agent]
+        F --> L[Feynman Agent]
+    end
+    
+    subgraph "Storage Layer (Lakehouse)"
+        M[Apache Iceberg] --> N[Bronze Layer]
+        M --> O[Silver Layer]
+        M --> P[Gold Layer]
+        Q[SlateDB Metadata] --> M
+        R[Lance Vectors] --> M
+        S[S3 Storage] --> M
+    end
+    
+    B <--> E
+    E <--> M
+```
+
+### Layer 1: User Experience (Business Domain)
+
+**Purpose**: Maintain familiar PKM workflows with markdown and Git
 
 ```
-pkm-system/
-├── .pkm/                      # PKM configuration and metadata
+vault/                         # What users see and interact with
+├── .claude/                   # Claude Code configuration
+│   ├── agents/               # Agent specifications
+│   ├── hooks/                # Automation hooks
+│   └── settings.json         # Claude settings
+├── .pkm/                      # PKM configuration
 │   ├── config.yaml           # System configuration
 │   ├── schemas/              # Knowledge schemas
 │   └── templates/            # Note templates
-├── vault/                     # Primary knowledge vault
-│   ├── 00-inbox/            # Capture zone (unsorted)
-│   ├── 01-daily/            # Daily notes and logs
-│   ├── 02-projects/         # Active project knowledge
-│   ├── 03-areas/            # Life areas (ongoing)
-│   ├── 04-resources/        # Reference materials
-│   ├── 05-archives/         # Inactive knowledge
-│   └── 06-meta/             # System documentation
-├── synthesis/                 # Generated insights
-│   ├── maps/                # Knowledge maps
-│   ├── summaries/           # Progressive summaries
-│   └── insights/            # Extracted patterns
-├── feynman/                  # Simplified explanations
-│   ├── eli5/                # Basic explanations
-│   ├── analogies/           # Concept analogies
-│   └── visuals/             # Diagrams and sketches
-└── agents/                   # Agent configurations
-    ├── ingestion/           # Data ingestion agents
-    ├── processing/          # Knowledge processing
-    ├── extraction/          # Pattern extraction
-    └── generation/          # Content generation
+├── 00-inbox/                  # Capture zone (unsorted)
+├── 01-daily/                  # Daily notes and logs
+├── 02-projects/               # Active project knowledge
+├── 03-areas/                  # Life areas (ongoing)
+├── 04-resources/              # Reference materials
+├── 05-archives/               # Inactive knowledge
+└── 06-synthesis/              # Generated insights
 ```
 
-### Layer 2: Knowledge Processing Pipeline
+**Key Principles**:
+- Users work with familiar markdown files
+- Git provides version control and history
+- PKM methodologies (Zettelkasten, PARA, etc.) remain unchanged
+- All complexity hidden behind Claude Code interface
 
-#### 2.1 Data Ingestion
+### Layer 2: Intelligence (Claude Code Orchestration)
+
+**Purpose**: Claude Code acts as the brain, doing all heavy lifting
+
+```yaml
+claude_orchestration:
+  primary_agent:
+    role: "Master Orchestrator"
+    responsibilities:
+      - User interaction interface
+      - Task delegation to subagents
+      - Workflow coordination
+      - Quality assurance
+  
+  subagents:
+    pkm-ingestion:
+      triggers: ["/ingest", "new files", "web clips"]
+      actions:
+        - Parse any format
+        - Extract content
+        - Create atomic notes
+        - Store in lakehouse Bronze layer
+    
+    pkm-processor:
+      triggers: ["/process", "note updates", "scheduled"]
+      actions:
+        - NLP analysis
+        - Concept extraction
+        - Link generation
+        - Update Silver layer
+    
+    pkm-synthesizer:
+      triggers: ["/synthesize", "pattern detection"]
+      actions:
+        - Cross-reference notes
+        - Generate insights
+        - Create summaries
+        - Populate Gold layer
+    
+    pkm-feynman:
+      triggers: ["/simplify", "complexity threshold"]
+      actions:
+        - Create ELI5 versions
+        - Identify knowledge gaps
+        - Generate analogies
+  
+  commands:
+    user_commands:
+      - "/pkm-capture": Ingest new content
+      - "/pkm-process": Process inbox items
+      - "/pkm-search": Semantic search
+      - "/pkm-synthesize": Generate insights
+      - "/pkm-teach": Create teaching materials
+    
+  hooks:
+    automation:
+      - on_file_create: Auto-process new notes
+      - on_commit: Update lakehouse
+      - on_schedule: Daily synthesis
+      - on_pattern: Trigger insights
+```
+
+### Layer 3: Storage (Diskless Lakehouse)
+
+**Purpose**: Powerful backend storage invisible to users
+
+```yaml
+lakehouse_storage:
+  implementation: "Completely Diskless"
+  user_visibility: "Hidden - Claude Code handles all interactions"
+  
+  data_flow:
+    bronze_layer:
+      source: "Raw markdown from Git"
+      format: "Iceberg tables on S3"
+      processing: "Claude ingestion agent"
+      retention: "90 days"
+    
+    silver_layer:
+      source: "Processed Bronze data"
+      format: "Iceberg + SlateDB metadata"
+      processing: "Claude processor agent"
+      features:
+        - Extracted concepts
+        - Generated embeddings
+        - Validated links
+    
+    gold_layer:
+      source: "Refined Silver data"
+      format: "Iceberg + Lance vectors"
+      processing: "Claude synthesizer agent"
+      features:
+        - Knowledge graph
+        - Semantic search index
+        - Generated insights
+```
+
+## Claude Code Orchestration Patterns
+
+### Primary Interface Pattern
+
 ```mermaid
 graph LR
-    A[Raw Input] --> B[Format Detection]
-    B --> C[Parser Selection]
-    C --> D[Content Extraction]
-    D --> E[Metadata Generation]
-    E --> F[Atomic Note Creation]
-    F --> G[Inbox Placement]
+    subgraph "User Interaction"
+        A[User] --> B[Claude Code]
+    end
+    
+    subgraph "Claude Processing"
+        B --> C{Task Router}
+        C --> D[Subagent Selection]
+        D --> E[Task Execution]
+        E --> F[Quality Check]
+        F --> G[Response]
+    end
+    
+    subgraph "Backend Operations"
+        E --> H[Markdown Operations]
+        E --> I[Lakehouse Operations]
+        E --> J[Git Operations]
+    end
+    
+    G --> A
 ```
 
-**Supported Input Formats:**
-- Plain text, Markdown, HTML
-- PDFs, EPUBs, DOCs
-- Web pages (via web clipper)
-- API responses (JSON/XML)
-- Audio/Video transcripts
-- Images (with OCR)
+### Intelligence Implementation
+
+```yaml
+claude_intelligence_layer:
+  primary_capabilities:
+    natural_language_interface:
+      - Understands context and intent
+      - Translates requests to operations
+      - Provides conversational feedback
+      - Handles ambiguity gracefully
+    
+    orchestration_engine:
+      - Routes tasks to appropriate subagents
+      - Manages parallel processing
+      - Coordinates multi-step workflows
+      - Ensures consistency across layers
+    
+    quality_assurance:
+      - Validates all operations
+      - Ensures PKM principles adherence
+      - Maintains data integrity
+      - Provides error recovery
+  
+  subagent_specializations:
+    ingestion:
+      capability: "Universal format processing"
+      implementation:
+        - Claude reads any format
+        - Extracts semantic content
+        - Creates atomic notes
+        - Maintains source attribution
+    
+    processing:
+      capability: "Deep content analysis"
+      implementation:
+        - NLP via Claude's language model
+        - Concept extraction without external tools
+        - Relationship inference
+        - Quality scoring
+    
+    synthesis:
+      capability: "Cross-domain integration"
+      implementation:
+        - Pattern recognition across notes
+        - Insight generation
+        - Summary creation at multiple levels
+        - Teaching material generation
+    
+    feynman:
+      capability: "Simplification and validation"
+      implementation:
+        - Complexity assessment
+        - Progressive simplification
+        - Gap identification
+        - Analogy generation
+```
+
+### User Workflow Examples
+
+#### Example 1: Knowledge Capture
+```mermaid
+sequenceDiagram
+    User->>Claude: /pkm-capture "https://article.url"
+    Claude->>Ingestion Agent: Process URL
+    Ingestion Agent->>Web: Fetch content
+    Ingestion Agent->>Lakehouse: Store in Bronze layer
+    Ingestion Agent->>Git: Create markdown note
+    Ingestion Agent->>Claude: Processing complete
+    Claude->>User: Created note: vault/00-inbox/article-title.md
+```
+
+#### Example 2: Knowledge Synthesis
+```mermaid
+sequenceDiagram
+    User->>Claude: /pkm-synthesize "machine learning"
+    Claude->>Synthesizer: Analyze topic
+    Synthesizer->>Lakehouse: Query Gold layer
+    Synthesizer->>Git: Scan related notes
+    Synthesizer->>Claude: Generate insights
+    Claude->>Git: Create synthesis document
+    Claude->>User: Generated: vault/06-synthesis/ml-insights.md
+```
 
 #### 2.2 Processing Pipeline
 ```yaml
@@ -417,36 +634,83 @@ security:
     locations: ["local", "cloud", "offline"]
 ```
 
-## Future Enhancements
+## Key Benefits of Claude-Orchestrated Architecture
 
-### Phase 1: Foundation (Current)
-- Basic ingestion and processing
-- Manual organization with agent assistance
-- Simple synthesis and summarization
+### For Users
+1. **Simplicity**: Work with familiar markdown files, no new tools to learn
+2. **Intelligence**: Claude handles all complex operations transparently
+3. **Flexibility**: Natural language commands for any operation
+4. **Reliability**: Claude ensures data integrity and recovery
 
-### Phase 2: Intelligence
-- ML-powered concept extraction
-- Automated knowledge graph generation
-- Predictive linking suggestions
-- Anomaly detection in thinking patterns
+### For System
+1. **Scalability**: Lakehouse backend handles unlimited data
+2. **Performance**: Distributed processing via Claude subagents
+3. **Maintainability**: Clear separation of concerns
+4. **Extensibility**: Easy to add new Claude capabilities
 
-### Phase 3: Augmentation
-- AR/VR knowledge visualization
-- Voice-driven knowledge capture
-- Real-time collaboration features
-- Cross-vault knowledge federation
+### Architecture Advantages
 
-### Phase 4: Autonomy
-- Self-organizing knowledge structures
-- Autonomous insight generation
-- Predictive knowledge needs
-- Personalized learning paths
+```yaml
+separation_of_concerns:
+  user_layer:
+    focus: "PKM principles and markdown"
+    complexity: "Hidden"
+    learning_curve: "Minimal"
+  
+  intelligence_layer:
+    focus: "Claude does the heavy lifting"
+    complexity: "Managed by Claude"
+    capabilities: "Unlimited via LLM"
+  
+  storage_layer:
+    focus: "Enterprise-grade data platform"
+    complexity: "Invisible to users"
+    scalability: "Infinite with S3"
+
+unified_interface:
+  single_point_of_interaction: "Claude Code"
+  natural_language: "No complex commands"
+  context_aware: "Claude understands intent"
+  error_handling: "Claude provides guidance"
+```
+
+## Implementation Strategy
+
+### Phase 1: Claude Interface Setup (Weeks 1-4) ✅
+- Configure Claude as primary agent
+- Define subagent specifications
+- Implement basic commands
+- Set up automation hooks
+
+### Phase 2: Intelligence Layer (Weeks 5-12) 🔄
+- Deploy Claude orchestration patterns
+- Implement subagent workflows
+- Create command handlers
+- Enable hook automation
+
+### Phase 3: Storage Integration (Weeks 13-20)
+- Connect Claude to lakehouse
+- Implement data flow pipelines
+- Enable transparent operations
+- Hide complexity from users
+
+### Phase 4: Advanced Features (Weeks 21-28)
+- Enhanced Claude capabilities
+- Multi-agent collaboration
+- Advanced synthesis patterns
+- Predictive operations
 
 ## Conclusion
 
-This PKM architecture provides a robust, scalable foundation for personal knowledge management that combines the best of established methodologies with cutting-edge automation. By building on markdown and Git, we ensure longevity and portability while enabling powerful processing through agentic tools.
+This Claude-orchestrated PKM architecture represents a paradigm shift in knowledge management. By positioning Claude Code as the central intelligence layer, we achieve:
 
-The system grows with the user, starting simple but enabling sophisticated knowledge operations as expertise develops. The Feynman-first approach ensures deep understanding while the first-principles architecture guarantees flexibility and adaptability to changing needs.
+1. **User-Friendly Interface**: Natural language interaction with complex systems
+2. **Powerful Backend**: Enterprise-grade lakehouse invisible to users
+3. **PKM Principles**: Maintained at the business layer with markdown and Git
+4. **Unlimited Intelligence**: Claude's capabilities grow with each update
+5. **Future-Proof Design**: Clean separation allows independent evolution of each layer
+
+The system provides the simplicity of working with text files while delivering the power of modern data platforms, all orchestrated seamlessly by Claude Code.
 
 ---
 

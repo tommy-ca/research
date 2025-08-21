@@ -108,6 +108,103 @@ reference_implementations:
     - Self-service analytics patterns
 ```
 
+## 1.5 Claude Code Interface Architecture
+
+### Claude as Primary Orchestrator
+```yaml
+interface_architecture:
+  principle: "Claude Code as the Universal Interface"
+  user_interaction: "Natural language only"
+  complexity_handling: "All managed by Claude"
+  
+  layers:
+    user_facing:
+      what_users_see: "Markdown files in Git"
+      what_users_do: "Write notes, ask Claude"
+      complexity: "Zero - just text files"
+    
+    intelligence:
+      what_claude_does: "Everything else"
+      capabilities:
+        - Format conversion
+        - Content analysis
+        - Pattern recognition
+        - Insight generation
+        - Quality assurance
+      implementation: "Claude's native LLM capabilities"
+    
+    storage:
+      what_lakehouse_does: "Store and query at scale"
+      visibility: "Hidden from users"
+      access: "Only through Claude"
+```
+
+### Claude Command Interface
+```yaml
+command_specification:
+  format: "Natural language or slash commands"
+  
+  core_commands:
+    /pkm-capture:
+      description: "Ingest any content"
+      examples:
+        - '/pkm-capture "https://article.com"'
+        - '/pkm-capture "meeting notes from today"'
+        - "Claude, capture this PDF into my PKM"
+    
+    /pkm-process:
+      description: "Process inbox items"
+      examples:
+        - "/pkm-process inbox"
+        - "Process all my unprocessed notes"
+        - "Claude, organize my inbox"
+    
+    /pkm-search:
+      description: "Semantic search across knowledge"
+      examples:
+        - '/pkm-search "quantum computing applications"'
+        - "Find all notes about machine learning"
+        - "What do I know about Python?"
+    
+    /pkm-synthesize:
+      description: "Generate insights and connections"
+      examples:
+        - '/pkm-synthesize "AI ethics"'
+        - "Create a summary of my project notes"
+        - "What patterns exist in my research?"
+    
+    /pkm-teach:
+      description: "Create teaching materials"
+      examples:
+        - '/pkm-teach "database concepts"'
+        - "Explain this topic simply"
+        - "Create a lesson plan for React"
+```
+
+### Hook Automation
+```yaml
+automation_hooks:
+  on_file_create:
+    trigger: "New markdown file detected"
+    action: "Claude automatically processes and enriches"
+    user_visibility: "Transparent - happens in background"
+  
+  on_commit:
+    trigger: "Git commit detected"
+    action: "Claude updates lakehouse layers"
+    user_visibility: "None - completely hidden"
+  
+  daily_synthesis:
+    trigger: "Scheduled daily at user preference"
+    action: "Claude generates daily insights"
+    user_visibility: "New synthesis file appears"
+  
+  pattern_detection:
+    trigger: "Claude detects significant pattern"
+    action: "Creates insight note"
+    user_visibility: "Notification with new insight"
+```
+
 ## 2. Functional Requirements
 
 ### 2.1 Knowledge Capture
@@ -510,37 +607,68 @@ enum EventType {
 }
 ```
 
-## 5. Agent Specifications
+## 5. Claude Agent Specifications
 
-### 5.1 Agent Interfaces
+### 5.1 Claude as Master Orchestrator
 
 ```yaml
-agents:
-  pkm_ingestion_agent:
-    interface:
-      input:
-        - source_url: string
-        - source_file: path
-        - format: string
-      output:
-        - notes: array[Note]
-        - metadata: object
-      capabilities:
-        - format_detection
-        - content_extraction
-        - chunking
-        - metadata_generation
+claude_primary_agent:
+  role: "Universal Interface and Orchestrator"
+  responsibilities:
+    user_interface:
+      - Natural language understanding
+      - Intent recognition
+      - Context maintenance
+      - Conversational responses
     
-  pkm_processing_agent:
-    interface:
-      input:
-        - note: Note
-        - vault_context: VaultContext
-      output:
-        - enhanced_note: Note
-        - suggested_links: array[Link]
-        - tags: array[string]
-      capabilities:
+    orchestration:
+      - Task decomposition
+      - Subagent delegation
+      - Workflow coordination
+      - Result aggregation
+    
+    quality_control:
+      - Input validation
+      - Output verification
+      - Error handling
+      - User guidance
+  
+  capabilities:
+    built_in:
+      - Language understanding (no NLP tools needed)
+      - Content generation (no templates needed)
+      - Pattern recognition (no ML models needed)
+      - Knowledge synthesis (native capability)
+
+### 5.2 Subagent Specifications
+
+```yaml
+subagents:
+  pkm_ingestion:
+    orchestrated_by: "Claude Primary Agent"
+    purpose: "Universal content ingestion"
+    triggers:
+      - User command: "/pkm-capture"
+      - Hook: "on_file_create"
+      - Schedule: "periodic import"
+    capabilities:
+      - Read any format (via Claude's multimodal abilities)
+      - Extract semantic content
+      - Create atomic notes
+      - Maintain provenance
+    backend_operations:
+      - Store raw in Bronze layer
+      - Create markdown in Git
+      - Update SlateDB metadata
+    
+  pkm_processor:
+    orchestrated_by: "Claude Primary Agent"
+    purpose: "Deep content analysis"
+    triggers:
+      - User command: "/pkm-process"
+      - Hook: "on_note_update"
+      - Pipeline: "after ingestion"
+    capabilities:
         - concept_extraction
         - entity_recognition
         - link_suggestion

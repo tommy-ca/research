@@ -2,10 +2,11 @@
 
 ## Executive Summary
 
-This steering document provides strategic guidance for implementing the Markdown-Based Personal Knowledge Management (PKM) System with a modern diskless lakehouse architecture. It defines principles, priorities, decision frameworks, and governance structures based on industry best practices from Databricks, Netflix, Uber, and other leading data platforms.
+This steering document provides strategic guidance for implementing the Claude-Orchestrated Personal Knowledge Management (PKM) System. Claude Code serves as the primary intelligence interface between users working with familiar markdown files and a powerful diskless lakehouse backend. This architecture maintains PKM principles at the business layer while leveraging enterprise-grade data processing capabilities, all seamlessly orchestrated by Claude Code.
 
 **Last Updated**: 2024-01-21
-**Architecture Version**: 2.0 (Diskless Lakehouse)
+**Architecture Version**: 3.0 (Claude-Orchestrated Lakehouse)
+**Interface**: Claude Code as Universal Orchestrator
 **Status**: Active Implementation
 
 ## Vision and Mission
@@ -25,33 +26,72 @@ Build a comprehensive PKM system that:
 
 ### Core Principles
 
-1. **User-Centric Design**
-   - Minimize cognitive load
-   - Maximize knowledge value
-   - Adapt to individual workflows
-   - Provide immediate value
+1. **Claude as Universal Interface**
+   - Single point of interaction for all operations
+   - Natural language understanding eliminates learning curve
+   - Claude handles all complexity transparently
+   - Users focus on knowledge, not tools
 
-2. **Technical Excellence**
-   - Build on proven technologies (Markdown, Git)
-   - Ensure data portability and longevity
-   - Maintain high performance standards
-   - Enable extensibility and customization
+2. **User-Centric Simplicity**
+   - Work with familiar markdown files
+   - No new tools or interfaces to learn
+   - Git for version control remains unchanged
+   - PKM principles preserved at business layer
 
-3. **Knowledge-First Architecture**
-   - Atomic note principles
-   - Bidirectional linking
-   - Progressive summarization
-   - Feynman simplification
+3. **Intelligent Orchestration**
+   - Claude delegates to specialized subagents
+   - Automatic workflow coordination
+   - Proactive pattern detection and insights
+   - Continuous quality assurance
 
-4. **Continuous Evolution**
-   - Learn from user behavior
-   - Incorporate new research
-   - Adapt to emerging technologies
-   - Maintain backwards compatibility
+4. **Invisible Complexity**
+   - Lakehouse backend hidden from users
+   - Enterprise-grade processing transparent
+   - Automatic data flow management
+   - Seamless integration across layers
+
+5. **Knowledge-First Operations**
+   - Atomic note principles maintained
+   - Bidirectional linking automated
+   - Progressive summarization by Claude
+   - Feynman simplification built-in
 
 ## Architectural Decisions
 
-### Decision 1: Diskless Lakehouse Architecture
+### Decision 1: Claude Code as Primary Interface
+**Date**: 2024-01-21
+**Status**: APPROVED
+**Rationale**: Leverage Claude's native language understanding to eliminate user complexity
+
+#### Key Benefits
+- **Zero Learning Curve**: Natural language interaction
+- **Unlimited Capabilities**: Claude's abilities grow with updates
+- **Unified Interface**: Single point of interaction for all operations
+- **Intelligent Automation**: Proactive assistance and insights
+
+#### Implementation
+- Claude Primary Agent orchestrates all operations
+- Subagents handle specialized tasks
+- Commands and hooks provide automation
+- All complexity hidden behind conversational interface
+
+### Decision 2: Three-Layer Architecture
+**Date**: 2024-01-21
+**Status**: APPROVED
+**Rationale**: Clear separation of concerns for maintainability and evolution
+
+#### Layer Design
+- **User Layer**: Markdown files in Git (familiar PKM experience)
+- **Intelligence Layer**: Claude Code orchestration (all processing)
+- **Storage Layer**: Diskless lakehouse (invisible to users)
+
+#### Benefits
+- Users work with simple text files
+- Claude handles all complexity
+- Backend can evolve independently
+- Clean interfaces between layers
+
+### Decision 3: Diskless Lakehouse Backend
 **Date**: 2024-01-21
 **Status**: APPROVED
 **Rationale**: Based on research of Netflix's Iceberg implementation, Uber's data platform, and Databricks Delta Lake
