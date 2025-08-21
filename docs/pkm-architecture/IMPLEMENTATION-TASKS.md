@@ -143,7 +143,51 @@ This document provides a comprehensive breakdown of implementation tasks for the
   - `backlink_updater.py`
   - `link_validator.py`
 
-### 1.3 Storage Infrastructure
+### 1.3 Lakehouse Infrastructure
+
+#### TASK-007A: Iceberg Catalog Setup
+- **Priority**: 🔴 Critical
+- **Effort**: L
+- **Dependencies**: AWS Account
+- **Acceptance Criteria**:
+  - [ ] Deploy Glue catalog for Iceberg
+  - [ ] Create Bronze, Silver, Gold databases
+  - [ ] Define table schemas
+  - [ ] Configure partitioning strategies
+- **Components**:
+  - `iceberg_catalog.py`
+  - `table_schemas.yaml`
+  - `glue_setup.tf`
+
+#### TASK-007B: SlateDB Metadata Layer
+- **Priority**: 🔴 Critical
+- **Effort**: M
+- **Dependencies**: TASK-007A
+- **Acceptance Criteria**:
+  - [ ] Deploy SlateDB on S3
+  - [ ] Configure diskless operation
+  - [ ] Implement metadata APIs
+  - [ ] Set up compaction policies
+- **Components**:
+  - `slatedb_manager.py`
+  - `metadata_store.py`
+  - `compaction_config.yaml`
+
+#### TASK-007C: Streaming Infrastructure
+- **Priority**: 🔴 Critical
+- **Effort**: L
+- **Dependencies**: None
+- **Acceptance Criteria**:
+  - [ ] Create Kinesis Data Streams
+  - [ ] Deploy Lambda processors
+  - [ ] Configure DLQ and error handling
+  - [ ] Set up monitoring
+- **Components**:
+  - `kinesis_setup.tf`
+  - `lambda_processors.py`
+  - `stream_config.yaml`
+
+### 1.4 Storage Infrastructure
 
 #### TASK-008A: S3 Storage Setup
 - **Priority**: 🔴 Critical
@@ -201,7 +245,51 @@ This document provides a comprehensive breakdown of implementation tasks for the
   - `storage_router.py`
   - `cache_manager.py`
 
-### 1.4 Initial Agent Setup
+### 1.5 Diskless Processing Setup
+
+#### TASK-009A: Lambda Processing Functions
+- **Priority**: 🔴 Critical
+- **Effort**: L
+- **Dependencies**: TASK-007C
+- **Acceptance Criteria**:
+  - [ ] Deploy ingestion Lambda
+  - [ ] Deploy processing Lambda
+  - [ ] Deploy aggregation Lambda
+  - [ ] Configure Lambda layers
+- **Components**:
+  - `lambda_ingestion.py`
+  - `lambda_processing.py`
+  - `lambda_aggregation.py`
+
+#### TASK-009B: Container-Based Processing
+- **Priority**: 🟠 High
+- **Effort**: L
+- **Dependencies**: TASK-007A
+- **Acceptance Criteria**:
+  - [ ] Create ECS/Fargate cluster
+  - [ ] Deploy Ray cluster
+  - [ ] Configure auto-scaling
+  - [ ] Set up job scheduling
+- **Components**:
+  - `ecs_tasks.tf`
+  - `ray_cluster.yaml`
+  - `batch_processor.py`
+
+#### TASK-009C: Spark Streaming Setup
+- **Priority**: 🟠 High
+- **Effort**: XL
+- **Dependencies**: TASK-007A, TASK-007C
+- **Acceptance Criteria**:
+  - [ ] Deploy EMR cluster
+  - [ ] Configure Iceberg integration
+  - [ ] Set up streaming jobs
+  - [ ] Implement checkpointing
+- **Components**:
+  - `emr_cluster.tf`
+  - `spark_streaming.py`
+  - `checkpoint_manager.py`
+
+### 1.6 Initial Agent Setup
 
 #### TASK-008: Agent Framework Foundation
 - **Priority**: 🔴 Critical
@@ -860,6 +948,32 @@ graph TD
 ---
 
 *This implementation task list will be updated weekly based on progress and discoveries. All tasks should be tracked in the project management system with appropriate labels and assignments.*
+
+## Lakehouse Implementation Milestones
+
+### Lakehouse Phase 1: Foundation
+- [ ] Iceberg catalog deployed
+- [ ] SlateDB operational
+- [ ] Kinesis streams active
+- [ ] Lambda processors running
+
+### Lakehouse Phase 2: Processing
+- [ ] Spark streaming operational
+- [ ] Ray cluster deployed
+- [ ] NLP pipeline integrated
+- [ ] Vector processing with Lance
+
+### Lakehouse Phase 3: Analytics
+- [ ] Unified query layer
+- [ ] Time travel queries
+- [ ] Materialized views
+- [ ] Dashboard integration
+
+### Lakehouse Phase 4: Optimization
+- [ ] Auto-scaling configured
+- [ ] Cost optimization rules
+- [ ] Performance tuning complete
+- [ ] Monitoring dashboards live
 
 ## Storage Implementation Milestones
 

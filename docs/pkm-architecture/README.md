@@ -20,11 +20,30 @@ A comprehensive, markdown-based Personal Knowledge Management system that transf
 - **Feynman Technique**: Learn by teaching and simplification
 - **First Principles**: Break down to fundamentals and rebuild understanding
 
+## 🏗️ Modern Lakehouse Architecture
+
+The PKM system now features a cutting-edge **diskless lakehouse architecture** combining:
+- **Apache Iceberg**: ACID transactions, time travel, schema evolution
+- **SlateDB**: Diskless metadata store over S3
+- **Lance**: High-performance vector storage
+- **Unified Query Layer**: SQL analytics across all data
+
+### Key Lakehouse Benefits
+- ✅ **Completely Diskless**: All processing in memory or S3
+- ✅ **ACID Guarantees**: Consistent data with Iceberg
+- ✅ **Time Travel**: Query any historical version
+- ✅ **Streaming + Batch**: Unified processing model
+- ✅ **Cost Optimized**: 60% cheaper than traditional storage
+
 ## 📚 Documentation
 
 ### Architecture Documents
 - [**System Architecture**](PKM-SYSTEM-ARCHITECTURE.md) - Complete system design and components
 - [**System Specification**](PKM-SYSTEM-SPECIFICATION.md) - Detailed functional and technical specifications
+- [**Lakehouse Architecture**](LAKEHOUSE-ARCHITECTURE.md) - Modern diskless data platform with Iceberg
+- [**Diskless Ingestion Pipeline**](DISKLESS-INGESTION-PIPELINE.md) - Serverless streaming processing
+- [**Storage Architecture**](STORAGE-ARCHITECTURE.md) - Multi-tier S3, Lance, and Parquet storage
+- [**Vault Structure**](VAULT-STRUCTURE-SPECIFICATION.md) - PKM organizational principles
 - [**Data Ingestion Pipeline**](DATA-INGESTION-PIPELINE.md) - Content processing workflows
 - [**Knowledge Extraction Framework**](KNOWLEDGE-EXTRACTION-FRAMEWORK.md) - NLP and pattern recognition
 - [**Content Generation System**](CONTENT-GENERATION-SYSTEM.md) - Synthesis and output generation
