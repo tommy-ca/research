@@ -527,9 +527,116 @@ protocol:
     - batch_processing
 ```
 
-## 6. Integration Specifications
+## 6. Storage Architecture
 
-### 6.1 Git Integration
+### 6.1 Multi-Tier Storage
+
+```yaml
+storage_tiers:
+  local:
+    purpose: Active markdown notes
+    technology: Git
+    characteristics:
+      - Version controlled
+      - Human readable
+      - Immediate access
+  
+  s3:
+    purpose: Media and backups
+    technology: AWS S3
+    characteristics:
+      - Scalable object storage
+      - Lifecycle management
+      - Cross-region replication
+  
+  lance:
+    purpose: Vector embeddings
+    technology: Lance format
+    characteristics:
+      - Columnar storage
+      - Optimized for vectors
+      - Fast similarity search
+  
+  parquet:
+    purpose: Analytics data
+    technology: Apache Parquet
+    characteristics:
+      - Columnar format
+      - Efficient compression
+      - Query optimization
+```
+
+### 6.2 S3 Storage Specification
+
+```yaml
+s3_configuration:
+  buckets:
+    pkm-vault-primary:
+      storage_classes:
+        - STANDARD: 0-30 days
+        - STANDARD_IA: 30-90 days
+        - GLACIER_IR: 90+ days
+      
+    pkm-vault-media:
+      cdn_enabled: true
+      max_object_size: 5GB
+      
+    pkm-vault-analytics:
+      format: [parquet, lance]
+      partitioning: by_date
+  
+  features:
+    encryption: AES-256
+    versioning: enabled
+    lifecycle_policies: automatic
+    cross_region_backup: true
+```
+
+### 6.3 Lance Vector Storage
+
+```yaml
+lance_specification:
+  use_cases:
+    - Note embeddings (768d)
+    - Image features (2048d)
+    - Audio embeddings (128d)
+  
+  indexing:
+    type: IVF_PQ
+    metric: cosine
+    optimization: automatic
+  
+  performance:
+    query_latency: < 10ms
+    indexing_speed: > 1000 vectors/sec
+```
+
+### 6.4 Parquet Analytics Storage
+
+```yaml
+parquet_specification:
+  datasets:
+    note_metrics:
+      schema: [note_id, timestamps, metrics, relationships]
+      partitioning: by_month
+      
+    user_analytics:
+      schema: [timestamp, action, details, context]
+      partitioning: by_day
+      
+    knowledge_graph:
+      schema: [edges, nodes, relationships, metadata]
+      partitioning: by_type
+  
+  optimization:
+    compression: snappy
+    file_size: 128MB
+    column_encoding: dictionary
+```
+
+## 7. Integration Specifications
+
+### 7.1 Git Integration
 
 ```yaml
 git_integration:

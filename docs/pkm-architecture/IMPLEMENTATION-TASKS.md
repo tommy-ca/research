@@ -24,7 +24,22 @@ This document provides a comprehensive breakdown of implementation tasks for the
 
 ### 1.1 Core Infrastructure
 
-#### TASK-001: Initialize PKM Repository Structure
+#### TASK-001: Initialize PKM Vault Structure
+- **Priority**: 🔴 Critical
+- **Effort**: M
+- **Dependencies**: None
+- **Acceptance Criteria**:
+  - [ ] Create complete vault directory structure
+  - [ ] Initialize Git repository
+  - [ ] Set up .pkm configuration
+  - [ ] Create storage configuration
+- **Implementation**:
+  ```bash
+  # Complete vault structure as per specification
+  mkdir -p vault/{00-inbox,01-notes,02-projects,03-areas,04-resources,05-archives,06-synthesis,07-journal,08-media,09-data,.pkm}
+  ```
+
+#### TASK-001A: Initialize PKM Repository Structure
 - **Priority**: 🔴 Critical
 - **Effort**: S
 - **Dependencies**: None
@@ -128,7 +143,65 @@ This document provides a comprehensive breakdown of implementation tasks for the
   - `backlink_updater.py`
   - `link_validator.py`
 
-### 1.3 Initial Agent Setup
+### 1.3 Storage Infrastructure
+
+#### TASK-008A: S3 Storage Setup
+- **Priority**: 🔴 Critical
+- **Effort**: L
+- **Dependencies**: AWS Account
+- **Acceptance Criteria**:
+  - [ ] Create S3 buckets (primary, media, backup, analytics)
+  - [ ] Configure lifecycle policies
+  - [ ] Set up IAM roles and policies
+  - [ ] Enable versioning and encryption
+- **Components**:
+  - `s3_manager.py`
+  - `s3_lifecycle.yaml`
+  - `iam_policies.json`
+
+#### TASK-008B: Lance Vector Storage Setup
+- **Priority**: 🔴 Critical
+- **Effort**: L
+- **Dependencies**: TASK-008A
+- **Acceptance Criteria**:
+  - [ ] Initialize Lance datasets
+  - [ ] Create embedding schemas
+  - [ ] Implement vector indices
+  - [ ] Test similarity search
+- **Components**:
+  - `lance_store.py`
+  - `vector_manager.py`
+  - `embedding_index.py`
+
+#### TASK-008C: Parquet Analytics Setup
+- **Priority**: 🟠 High
+- **Effort**: M
+- **Dependencies**: TASK-008A
+- **Acceptance Criteria**:
+  - [ ] Create Parquet schemas
+  - [ ] Implement partitioning strategy
+  - [ ] Set up analytics tables
+  - [ ] Configure compression
+- **Components**:
+  - `parquet_analytics.py`
+  - `metrics_collector.py`
+  - `analytics_query.py`
+
+#### TASK-008D: Storage Integration Layer
+- **Priority**: 🟠 High
+- **Effort**: L
+- **Dependencies**: TASK-008A, TASK-008B, TASK-008C
+- **Acceptance Criteria**:
+  - [ ] Unified storage interface
+  - [ ] Multi-tier routing logic
+  - [ ] Caching implementation
+  - [ ] Performance optimization
+- **Components**:
+  - `unified_storage.py`
+  - `storage_router.py`
+  - `cache_manager.py`
+
+### 1.4 Initial Agent Setup
 
 #### TASK-008: Agent Framework Foundation
 - **Priority**: 🔴 Critical
@@ -691,6 +764,12 @@ graph TD
     TASK-002 --> TASK-006
     TASK-004 --> TASK-007
     
+    TASK-008A --> TASK-008B
+    TASK-008A --> TASK-008C
+    TASK-008A --> TASK-008D
+    TASK-008B --> TASK-008D
+    TASK-008C --> TASK-008D
+    
     TASK-008 --> TASK-009
     TASK-008 --> TASK-010
     TASK-009 --> TASK-010
@@ -782,6 +861,28 @@ graph TD
 
 *This implementation task list will be updated weekly based on progress and discoveries. All tasks should be tracked in the project management system with appropriate labels and assignments.*
 
-**Total Estimated Effort**: ~6 person-months
-**Recommended Team Size**: 4-6 developers
+## Storage Implementation Milestones
+
+### Storage Phase 1: Local + Git
+- [ ] Vault structure created
+- [ ] Git integration operational
+- [ ] Local caching implemented
+
+### Storage Phase 2: S3 Integration
+- [ ] S3 buckets configured
+- [ ] Lifecycle policies active
+- [ ] Media upload/download working
+
+### Storage Phase 3: Lance Vectors
+- [ ] Lance datasets initialized
+- [ ] Vector search operational
+- [ ] Performance < 10ms queries
+
+### Storage Phase 4: Parquet Analytics
+- [ ] Analytics schemas defined
+- [ ] Partitioning implemented
+- [ ] Query optimization complete
+
+**Total Estimated Effort**: ~8 person-months (updated with storage tasks)
+**Recommended Team Size**: 4-6 developers + 1 DevOps engineer
 **Target Completion**: 12 months

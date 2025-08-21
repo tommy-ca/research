@@ -195,8 +195,13 @@ infrastructure:
    - Rationale: Faster development, easier debugging, natural boundaries
 
 2. **Storage Strategy**
-   - Decision: Filesystem for notes, database for metadata
-   - Rationale: Git compatibility, user control, performance
+   - Decision: Multi-tier storage with specialized backends
+   - Components:
+     - Local/Git: Markdown notes and version control
+     - S3: Media files, backups, and archives
+     - Lance: Vector embeddings and similarity search
+     - Parquet: Analytics and structured data
+   - Rationale: Optimized for each data type, scalability, cost-efficiency
 
 3. **Processing Model**
    - Decision: Event-driven with queues
@@ -205,6 +210,14 @@ infrastructure:
 4. **Agent Architecture**
    - Decision: Plugin-based with standardized interfaces
    - Rationale: Extensibility, maintainability, community contributions
+
+5. **Vector Storage**
+   - Decision: Lance format for embeddings
+   - Rationale: Columnar format, optimized for ML workloads, efficient updates
+
+6. **Analytics Storage**
+   - Decision: Parquet format with S3 backend
+   - Rationale: Industry standard, excellent compression, query performance
 
 ## Quality Standards
 
