@@ -21,6 +21,26 @@
       "enabled": true,
       "description": "Intelligent knowledge management with automatic everything",
       "tools": ["Read", "Write", "Edit", "Grep", "WebSearch", "WebFetch"]
+    },
+    "pkm-ingestion": {
+      "enabled": true,
+      "description": "Intelligent data ingestion for PKM system",
+      "tools": ["Read", "Write", "WebFetch", "WebSearch", "Task"]
+    },
+    "pkm-processor": {
+      "enabled": true,
+      "description": "Advanced knowledge processing and enhancement",
+      "tools": ["Read", "Write", "Edit", "Grep", "Task"]
+    },
+    "pkm-synthesizer": {
+      "enabled": true,
+      "description": "Knowledge synthesis and insight generation",
+      "tools": ["Read", "Write", "Task", "WebSearch", "Grep"]
+    },
+    "pkm-feynman": {
+      "enabled": true,
+      "description": "Feynman technique simplification and teaching",
+      "tools": ["Read", "Write", "Edit", "Task", "WebSearch"]
     }
   },
   "hooks": {
