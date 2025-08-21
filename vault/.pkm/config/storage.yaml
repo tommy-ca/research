@@ -1,0 +1,145 @@
+# PKM Storage Configuration
+
+storage:
+  # Local storage configuration
+  local:
+    vault_path: ./vault
+    temp_path: /tmp/pkm
+    cache_path: ./.pkm/cache
+    
+  # S3 configuration
+  s3:
+    enabled: true
+    region: us-east-1
+    buckets:
+      primary: pkm-vault-primary
+      media: pkm-vault-media
+      backup: pkm-vault-backup
+      analytics: pkm-vault-analytics
+    
+    lifecycle:
+      media:
+        - transition: STANDARD_IA
+          days: 30
+        - transition: GLACIER_IR
+          days: 90
+        - transition: GLACIER
+          days: 365
+      
+      backup:
+        - transition: GLACIER_IR
+          days: 1
+        - transition: DEEP_ARCHIVE
+          days: 90
+    
+    encryption:
+      method: AES256
+      kms_key: null  # Use default S3 encryption
+    
+    versioning: true
+    
+  # Lance configuration for vectors
+  lance:
+    enabled: true
+    base_path: s3://pkm-vault-analytics/lance/
+    datasets:
+      note_embeddings:
+        dimension: 768
+        index_type: IVF_PQ
+        metric: cosine
+        
+      media_features:
+        dimension: 2048
+        index_type: HNSW
+        metric: L2
+    
+    optimization:
+      compaction: weekly
+      index_rebuild: monthly
+      
+  # Parquet configuration for analytics
+  parquet:
+    enabled: true
+    base_path: s3://pkm-vault-analytics/parquet/
+    datasets:
+      note_metrics:
+        partitioning: [year, month]
+        compression: snappy
+        
+      user_analytics:
+        partitioning: [year, month, day]
+        compression: snappy
+        
+      knowledge_graph:
+        partitioning: [relationship_type]
+        compression: gzip
+    
+    optimization:
+      file_size: 128MB
+      row_group_size: 100MB
+      
+# Caching configuration
+cache:
+  memory:
+    max_size: 1GB
+    ttl:
+      embeddings: 3600
+      media_urls: 86400
+      search_results: 600
+      
+  disk:
+    max_size: 10GB
+    path: ./.pkm/cache
+    ttl:
+      media_thumbnails: 604800  # 1 week
+      processed_data: 86400     # 1 day
+      
+# Backup configuration
+backup:
+  enabled: true
+  strategies:
+    continuous:
+      method: git
+      target: origin
+      
+    hourly:
+      method: incremental
+      target: s3://pkm-vault-backup/hourly/
+      retention: 24
+      
+    daily:
+      method: snapshot
+      target: s3://pkm-vault-backup/daily/
+      retention: 30
+      
+    weekly:
+      method: full
+      target: s3://pkm-vault-backup/weekly/
+      retention: 12
+      
+    monthly:
+      method: archive
+      target: s3://pkm-vault-backup/monthly/
+      retention: 84  # 7 years
+      
+# Security configuration
+security:
+  encryption:
+    at_rest: true
+    in_transit: true
+    
+  access_control:
+    authentication: required
+    authorization: role_based
+    
+  audit:
+    enabled: true
+    log_path: ./.pkm/logs/audit.log
+    
+# Performance settings
+performance:
+  parallel_uploads: 4
+  chunk_size: 5MB
+  connection_pool: 10
+  retry_attempts: 3
+  timeout: 30
