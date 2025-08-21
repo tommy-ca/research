@@ -1,50 +1,49 @@
-# PKM Lakehouse Architecture
+# PKM Lightweight Lakehouse Architecture
 
 ## Executive Summary
 
-This document defines a modern, diskless lakehouse architecture for the PKM system, combining the flexibility of data lakes with the reliability of data warehouses. Using Apache Iceberg for table management, SlateDB for metadata, Lance for vectors, and S3 as the unified storage layer, this architecture eliminates local disk dependencies while providing ACID transactions, time travel, and unified analytics.
+This document defines a lightweight, Python/Rust-based lakehouse architecture for the PKM system, eliminating heavy Java dependencies. The architecture uses Fluvio for streaming, Arroyo for stream processing, Daft with Ray for batch processing, while maintaining Apache Iceberg for table management, SlateDB for metadata, and Lance for vectors. Claude Code serves as the intelligence layer orchestrating all workflows.
 
-## Architecture Overview
+## Lightweight Architecture Overview
 
 ```mermaid
 graph TB
-    subgraph "Source Layer (Git)"
-        A[Markdown Notes] --> B[Git Repository]
-        C[Configs/Code] --> B
-        D[Templates] --> B
+    subgraph "Intelligence Layer"
+        A[Claude Code] --> B[PKM Workflows]
+        A --> C[Subagents]
+        A --> D[Commands & Hooks]
     end
     
-    subgraph "Ingestion Layer (Diskless)"
-        E[Claude Code Agents] --> F[Stream Processor]
-        G[Web Sources] --> F
-        H[API Sources] --> F
+    subgraph "Streaming Layer (Rust/Python)"
+        E[Fluvio Streaming] --> F[Topics/Partitions]
+        G[Arroyo Processing] --> H[Stream Analytics]
+        I[Quix Streams] --> J[Python Processing]
     end
     
-    subgraph "Lakehouse Storage (S3)"
-        F --> I[Bronze Layer - Raw Data]
-        I --> J[Silver Layer - Processed]
-        J --> K[Gold Layer - Analytics]
-        
-        L[Iceberg Catalog] --> I
-        L --> J
-        L --> K
-        
-        M[SlateDB Metadata] --> L
-        N[Lance Vectors] --> K
+    subgraph "Batch Layer (Python)"
+        K[Daft DataFrames] --> L[Distributed Processing]
+        M[Ray Cluster] --> L
+        L --> N[Batch Analytics]
     end
     
-    subgraph "Query Layer"
-        O[Unified Query Engine]
-        O --> L
-        O --> N
-        O --> M
+    subgraph "Storage Layer (S3)"
+        O[Bronze - Raw] --> P[Iceberg Tables]
+        Q[Silver - Processed] --> P
+        R[Gold - Analytics] --> P
+        S[Lance Vectors] --> P
+        T[SlateDB Metadata] --> P
     end
     
-    subgraph "Compute Layer (Serverless)"
-        P[Lambda Functions]
-        Q[Container Tasks]
-        R[Spark Jobs]
+    subgraph "Query Layer (Python)"
+        U[DuckDB] --> P
+        V[Polars] --> P
+        W[PyIceberg] --> P
     end
+    
+    B --> E
+    H --> O
+    N --> Q
+    C --> K
 ```
 
 ## Core Components

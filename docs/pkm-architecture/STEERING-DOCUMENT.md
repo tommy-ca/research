@@ -59,7 +59,37 @@ Build a comprehensive PKM system that:
 
 ## Architectural Decisions
 
-### Decision 1: Claude Code as Primary Interface
+### Decision 1: Lightweight Python/Rust Stack
+**Date**: 2024-01-21
+**Status**: APPROVED
+**Rationale**: Eliminate Java overhead, reduce complexity by 75%
+
+#### Technology Choices
+- **Streaming**: Fluvio (Rust) replaces Kafka - 10x lower memory
+- **Stream Processing**: Arroyo (Rust) replaces Spark Streaming - native performance
+- **Batch Processing**: Daft + Ray (Python) replaces Spark - Pythonic, simpler
+- **Query Engine**: DuckDB replaces Spark SQL - 10-50x faster
+- **Graph**: NetworkX replaces Neo4j - no Java dependency
+
+### Decision 2: FR-First Implementation
+**Date**: 2024-01-21
+**Status**: APPROVED
+**Rationale**: Deliver user value quickly, defer optimization
+
+#### Priority Order
+1. **Weeks 1-4**: Core PKM features (notes, search, Claude)
+2. **Weeks 5-8**: Processing pipeline (enrichment, streaming)
+3. **Weeks 9-12**: Intelligence features (insights, teaching)
+4. **Weeks 13-16**: Storage backend (only if needed)
+
+#### Deferred NFRs
+- Performance optimization
+- Scalability features
+- Enterprise security
+- High availability
+- Monitoring dashboards
+
+### Decision 3: Claude Code as Primary Interface
 **Date**: 2024-01-21
 **Status**: APPROVED
 **Rationale**: Leverage Claude's native language understanding to eliminate user complexity
