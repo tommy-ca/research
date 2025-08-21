@@ -1,0 +1,87 @@
+# PKM System Configuration
+
+# Vault Settings
+vault:
+  path: ./vault
+  structure: PARA  # Projects, Areas, Resources, Archives
+  
+# Processing Configuration  
+processing:
+  auto_process: true
+  nlp_model: en_core_web_lg
+  chunking: semantic
+  
+# Note Settings
+notes:
+  daily:
+    path: vault/daily
+    format: "YYYY/MM-MMMM/YYYY-MM-DD.md"
+    template: vault/templates/daily-note.md
+    auto_create: true
+    
+  zettel:
+    path: vault/permanent/notes
+    format: "YYYYMMDDHHmm-{slug}.md"
+    template: vault/templates/zettel-note.md
+    
+  projects:
+    path: vault/1-projects
+    template: vault/templates/project-note.md
+    
+# Inbox Configuration
+inbox:
+  path: vault/0-inbox
+  process_interval: daily
+  auto_categorize: true
+  
+# Tagging System
+tags:
+  hierarchical: true
+  auto_generate: true
+  min_frequency: 2
+  
+# Linking Configuration
+links:
+  bidirectional: true
+  auto_suggest: true
+  orphan_check: weekly
+  
+# Git Integration
+git:
+  auto_commit: true
+  commit_interval: hourly
+  branch_strategy:
+    main: published
+    develop: work-in-progress
+    capture: inbox-items
+    
+# Synthesis Settings
+synthesis:
+  summary_levels: 3  # daily, weekly, monthly
+  insight_threshold: 0.7
+  pattern_detection: true
+  
+# Export Settings
+export:
+  formats: [markdown, pdf, html]
+  include_metadata: true
+  preserve_links: true
+  
+# Backup Configuration
+backup:
+  enabled: true
+  frequency: daily
+  location: ./.pkm/backups
+  retention_days: 30
+  
+# Claude Integration
+claude:
+  commands_enabled: true
+  auto_suggest: true
+  learning_mode: true
+  
+# Performance Settings
+performance:
+  cache_enabled: true
+  index_update: incremental
+  max_file_size_mb: 10
