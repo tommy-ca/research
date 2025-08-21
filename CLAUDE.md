@@ -14,6 +14,10 @@ This repository includes a complete `.claude/` folder structure following [Claud
 - **deep-research.md**: Comprehensive research capabilities with multi-source validation
 - **peer-review.md**: Systematic quality assurance and peer review
 - **synthesis.md**: Cross-domain integration and framework development
+- **pkm-ingestion.md**: Content ingestion and processing (TDD-implemented)
+- **pkm-processor.md**: NLP and knowledge extraction (specs-driven)
+- **pkm-synthesizer.md**: Knowledge synthesis and insights (FR-first)
+- **pkm-feynman.md**: Simplification and teaching (test-validated)
 
 ### Configuration (`.claude/settings.json`)
 Project-level settings following [Claude Code Settings](https://docs.anthropic.com/en/docs/claude-code/settings) specification with:
@@ -171,6 +175,90 @@ links: ["[[note1]]", "[[note2]]"]
 
 ## Development Standards
 
+### Core Development Principles
+
+#### 1. Test-Driven Development (TDD) - MANDATORY
+**All agents MUST follow TDD workflow:**
+```
+1. RED: Write failing test/spec first
+2. GREEN: Write minimal code to pass
+3. REFACTOR: Improve code while tests pass
+```
+
+**TDD Rules:**
+- **NEVER write code without a test/spec first**
+- **Tests define the specification**
+- **Each feature starts with expected behavior**
+- **Validation before implementation**
+
+**TDD Example Workflow:**
+```python
+# 1. Write the test FIRST (RED)
+def test_pkm_capture_creates_inbox_note():
+    result = pkm_capture("Test content")
+    assert exists(f"vault/0-inbox/{result.filename}")
+    assert result.frontmatter.type == "capture"
+    
+# 2. Write minimal implementation (GREEN)
+def pkm_capture(content):
+    # Minimal code to make test pass
+    
+# 3. Refactor for quality (REFACTOR)
+def pkm_capture(content, source=None, tags=None):
+    # Improved implementation
+```
+
+#### 2. Specs-Driven Development - PRIMARY WORKFLOW
+**Every implementation MUST follow:**
+1. **SPEC FIRST**: Write complete specification document
+2. **REVIEW SPEC**: Validate requirements and acceptance criteria
+3. **IMPLEMENT**: Build according to specification
+4. **VALIDATE**: Verify against original spec
+
+**Specification Template:**
+```markdown
+## Feature: [Name]
+### Requirements
+- FR-001: [Functional requirement]
+- FR-002: [Functional requirement]
+- NFR-001: [Non-functional requirement] (deferred)
+
+### Acceptance Criteria
+- [ ] Given [context], When [action], Then [outcome]
+- [ ] Given [context], When [action], Then [outcome]
+
+### Test Cases
+1. Test [scenario]: [expected result]
+2. Test [scenario]: [expected result]
+```
+
+#### 3. FR-First Prioritization - ALWAYS
+**Functional Requirements (FRs) ALWAYS come before Non-Functional Requirements (NFRs):**
+
+**PRIORITIZE (FRs):**
+- ✅ User-facing features
+- ✅ Core functionality  
+- ✅ Business logic
+- ✅ Workflows that deliver value
+- ✅ Integration points
+
+**DEFER (NFRs):**
+- ⏸️ Performance optimization (until it blocks FRs)
+- ⏸️ Scalability (until proven needed)
+- ⏸️ Security hardening (basic security only initially)
+- ⏸️ Monitoring/metrics (until system is stable)
+- ⏸️ High availability (until production)
+
+**Decision Framework:**
+```
+if feature.delivers_user_value:
+    priority = "HIGH"  # Implement now
+elif feature.enables_other_features:
+    priority = "MEDIUM"  # Implement soon
+elif feature.improves_quality and not feature.blocks_progress:
+    priority = "LOW"  # Defer to later phase
+```
+
 ### Research Excellence
 - All research must be reproducible with complete documentation
 - Multi-source validation required for critical findings
@@ -182,6 +270,9 @@ links: ["[[note1]]", "[[note2]]"]
 - Use structured research workflows with quality gates
 - Maintain comprehensive audit trails and version control
 - Implement security and privacy best practices
+- **MANDATORY: TDD for all new features**
+- **MANDATORY: Specs-driven development flow**
+- **MANDATORY: FR-first prioritization**
 
 ### Documentation Requirements
 - Research methodologies must be fully documented
@@ -230,6 +321,34 @@ For detailed information about the agent system, see `.claude/README.md`.
 4. **Capture → Synthesis**: Inbox items become synthesized knowledge
 
 ## Working with This Repository
+
+### Development Workflow for Agents
+
+#### When Implementing ANY Feature
+1. **Write Spec First** (specs-driven development)
+   ```markdown
+   Feature: PKM Capture Command
+   Requirements:
+   - FR-001: Capture text to inbox with timestamp
+   - FR-002: Add frontmatter metadata
+   - NFR-001: <100ms response (DEFER)
+   ```
+
+2. **Write Test First** (TDD)
+   ```python
+   def test_capture_creates_file():
+       # Test BEFORE implementation
+   ```
+
+3. **Implement FR First** (functional before performance)
+   - Build user-facing feature
+   - Defer optimization
+   - Ship working code fast
+
+4. **Validate Against Spec**
+   - Check acceptance criteria
+   - Run all tests
+   - Document completion
 
 ### For Every Session
 1. Check daily note: `vault/daily/YYYY/MM-month/YYYY-MM-DD.md`
