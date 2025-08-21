@@ -28,10 +28,14 @@ This is the master index for the Zettelkasten (permanent notes). Each note conta
 ## Recent Additions
 <!-- Updated automatically -->
 - 2024-01-21: Initial index created
+- 2024-01-21: [[202401210001-pkm-dogfooding]] - PKM Dogfooding Principles
+- 2024-01-21: [[202401210002-tdd-specs-principles]] - TDD and Specs-Driven Development
+- 2024-01-21: [[202401210003-compound-engineering-feynman]] - Compound Engineering (Feynman)
+- 2024-01-21: [[202401210004-first-principles-ai-development]] - First Principles of AI Development
 
 ## Statistics
-- Total Notes: 0
-- Total Links: 0
+- Total Notes: 4
+- Total Links: 8
 - Orphan Notes: 0
 - Last Updated: 2024-01-21
 
