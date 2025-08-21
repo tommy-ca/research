@@ -1,6 +1,7 @@
 # Data files
 *.csv
 *.json
+!.claude/*.json
 *.parquet
 *.h5
 *.hdf5

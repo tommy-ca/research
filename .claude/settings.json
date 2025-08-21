@@ -1,0 +1,50 @@
+{
+  "project": {
+    "name": "Research Knowledge Base",
+    "description": "Ultra-simplified research system with intelligent agents",
+    "version": "2.0.0"
+  },
+  "agents": {
+    "enabled": true,
+    "directory": ".claude/agents",
+    "research": {
+      "enabled": true,
+      "description": "Intelligent research with built-in quality validation",
+      "tools": ["WebSearch", "WebFetch", "Read", "Write", "Grep"]
+    },
+    "synthesis": {
+      "enabled": true,
+      "description": "Information synthesis with automatic insight extraction",
+      "tools": ["Read", "Write", "Edit"]
+    },
+    "knowledge": {
+      "enabled": true,
+      "description": "Intelligent knowledge management with automatic everything",
+      "tools": ["Read", "Write", "Edit", "Grep", "WebSearch", "WebFetch"]
+    }
+  },
+  "hooks": {
+    "router": {
+      "UserPromptSubmit": {
+        "match": "/research|/synthesize|/know|/explore",
+        "script": ".claude/hooks/router.sh",
+        "description": "Simple command routing"
+      }
+    }
+  },
+  "permissions": {
+    "tools": {
+      "WebSearch": "allow",
+      "WebFetch": "allow",
+      "Read": "allow",
+      "Write": "allow",
+      "Edit": "allow",
+      "Grep": "allow"
+    },
+    "file_access": {
+      "read": ["**/*"],
+      "write": ["docs/**/*", "tests/**/*", ".claude/**/*"],
+      "exclude": [".git/**/*", "node_modules/**/*"]
+    }
+  }
+}
