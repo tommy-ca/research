@@ -1,14 +1,15 @@
 # PKM System Specification v1.0
 
 ## Document Metadata
-- **Version**: 2.0.0
+- **Version**: 4.0.0
 - **Status**: Active Implementation
 - **Created**: 2024-01-20
 - **Last Updated**: 2024-01-21
 - **Authors**: PKM Architecture Team
 - **Review Status**: In Progress
-- **Architecture**: Modern Diskless Lakehouse
-- **Storage**: S3 + Iceberg + SlateDB + Lance
+- **Architecture**: Claude Implementation Platform
+- **Interface**: Dual (Text Editing + Natural Language)
+- **Storage**: Transparent Lakehouse (S3 + Iceberg + SlateDB + Lance)
 
 ## 1. System Overview
 

@@ -1,8 +1,8 @@
-# Claude-Orchestrated Personal Knowledge Management System Architecture
+# Claude-Implemented Personal Knowledge Management System Architecture
 
 ## Executive Summary
 
-A comprehensive, first-principles-based Personal Knowledge Management (PKM) system orchestrated by Claude Code as the primary intelligence interface. This architecture maintains PKM principles at the business layer (markdown + Git) while leveraging a modern diskless lakehouse for storage and Claude Code agents for all intelligence operations. Claude Code serves as the bridge between human-friendly markdown and powerful data processing capabilities.
+A comprehensive Personal Knowledge Management (PKM) system where all central workflows are implemented on top of Claude Code as the execution platform. Users interact through a dual interface - directly editing markdown texts and using natural language commands. Claude Code provides the implementation layer through specialized subagents, commands, and hooks that manage both PKM operations and lakehouse interactions. The system maintains PKM principles at the business layer while leveraging enterprise-grade storage transparently.
 
 ## Core Philosophy
 
@@ -19,44 +19,202 @@ A comprehensive, first-principles-based Personal Knowledge Management (PKM) syst
 - Progressive complexity layers from simple to advanced understanding
 - Teaching-oriented documentation as primary knowledge format
 
-## Three-Layer System Architecture
+## System Architecture: Claude Code as Implementation Platform
 
-### Overview: Claude Code as Central Orchestrator
+### Dual Interface Architecture
 
 ```mermaid
 graph TB
-    subgraph "User Experience Layer"
-        A[Markdown Files] --> B[Git Repository]
-        C[PKM Principles] --> B
-        D[Human-Readable Notes] --> B
+    subgraph "Dual User Interface"
+        A[Text Editing] --> B[Markdown Files]
+        C[Natural Language] --> D[Claude Commands]
+        B --> E[Git Repository]
+        D --> E
     end
     
-    subgraph "Intelligence Layer (Claude Code)"
-        E[Claude Primary Agent] --> F[Subagents]
-        E --> G[Commands & Hooks]
-        E --> H[Processing Engine]
-        F --> I[Ingestion Agent]
-        F --> J[Processor Agent]
-        F --> K[Synthesizer Agent]
-        F --> L[Feynman Agent]
+    subgraph "Implementation Platform (Claude Code)"
+        F[Workflow Engine] --> G[Text Processing Workflows]
+        F --> H[Command Workflows]
+        
+        G --> I[File Hooks]
+        G --> J[Git Hooks]
+        G --> K[Content Analysis]
+        
+        H --> L[User Commands]
+        H --> M[Scheduled Tasks]
+        H --> N[Event Triggers]
+        
+        O[Specialized Subagents]
+        O --> P[PKM Operations]
+        O --> Q[Lakehouse Interactions]
     end
     
-    subgraph "Storage Layer (Lakehouse)"
-        M[Apache Iceberg] --> N[Bronze Layer]
-        M --> O[Silver Layer]
-        M --> P[Gold Layer]
-        Q[SlateDB Metadata] --> M
-        R[Lance Vectors] --> M
-        S[S3 Storage] --> M
+    subgraph "Storage Backend (Transparent)"
+        R[Iceberg Tables] --> S[Bronze: Raw Notes]
+        R --> T[Silver: Processed]
+        R --> U[Gold: Analytics]
+        V[SlateDB] --> R
+        W[Lance Vectors] --> R
     end
     
-    B <--> E
-    E <--> M
+    E --> F
+    F --> R
+    B -.-> I
+    D -.-> L
+```
+
+## Dual Interface Design
+
+### Text Interface (Primary)
+Users work directly with markdown files, and Claude Code automatically processes changes:
+
+```yaml
+text_interface:
+  user_actions:
+    - Create new markdown files
+    - Edit existing notes
+    - Organize files in folders
+    - Commit changes to Git
+  
+  automatic_processing:
+    on_file_save:
+      - Syntax validation
+      - Frontmatter extraction
+      - Content analysis
+      - Link detection
+    
+    on_file_create:
+      - Template application
+      - Metadata generation
+      - Initial processing
+      - Inbox placement
+    
+    on_file_move:
+      - Link updates
+      - Reference tracking
+      - Category assignment
+    
+    on_git_commit:
+      - Batch processing
+      - Lakehouse sync
+      - Version tracking
+```
+
+### Natural Language Interface (Complementary)
+Users can also interact through commands and conversation:
+
+```yaml
+natural_language_interface:
+  command_triggers:
+    - Slash commands (/pkm-*)
+    - Natural language requests
+    - Question answering
+    - Task delegation
+  
+  capabilities:
+    - Content capture from any source
+    - Complex searches across knowledge
+    - Insight generation
+    - Teaching material creation
+```
+
+## Workflow Implementation on Claude Code
+
+### Core Implementation Pattern
+
+```python
+# All workflows are implemented as Claude Code operations
+class PKMWorkflow:
+    """Base workflow implementation on Claude Code platform"""
+    
+    def __init__(self):
+        self.claude = ClaudeCodePlatform()
+        self.subagents = self.initialize_subagents()
+        self.hooks = self.register_hooks()
+        self.commands = self.register_commands()
+    
+    def execute(self, trigger_type, payload):
+        """Main workflow execution engine"""
+        if trigger_type == "text_change":
+            return self.process_text_change(payload)
+        elif trigger_type == "command":
+            return self.process_command(payload)
+        elif trigger_type == "scheduled":
+            return self.process_scheduled(payload)
+```
+
+### Specialized Subagent Implementations
+
+```yaml
+subagent_implementations:
+  
+  pkm_text_processor:
+    purpose: "Process text file changes"
+    implementation:
+      monitors:
+        - File system events
+        - Git operations
+        - Content changes
+      processes:
+        - Markdown parsing
+        - Atomic note splitting
+        - Metadata extraction
+        - Quality validation
+      outputs:
+        - Enhanced markdown
+        - Extracted metadata
+        - Generated links
+        - Quality scores
+  
+  pkm_lakehouse_sync:
+    purpose: "Manage lakehouse interactions"
+    implementation:
+      operations:
+        - Batch ingestion to Bronze
+        - Processing to Silver
+        - Analytics to Gold
+        - Vector indexing with Lance
+      triggers:
+        - Git commits
+        - Scheduled sync
+        - Manual commands
+      transparency:
+        - No user visibility
+        - Automatic operation
+        - Error recovery
+  
+  pkm_knowledge_extractor:
+    purpose: "Extract knowledge from content"
+    implementation:
+      text_analysis:
+        - Concept identification
+        - Entity extraction
+        - Relationship mapping
+        - Pattern detection
+      enrichment:
+        - Tag generation
+        - Link suggestions
+        - Summary creation
+        - Question generation
+  
+  pkm_synthesis_engine:
+    purpose: "Generate insights and connections"
+    implementation:
+      cross_reference:
+        - Note clustering
+        - Topic modeling
+        - Temporal analysis
+        - Graph analysis
+      generation:
+        - Insight documents
+        - Synthesis reports
+        - Learning paths
+        - Knowledge maps
 ```
 
 ### Layer 1: User Experience (Business Domain)
 
-**Purpose**: Maintain familiar PKM workflows with markdown and Git
+**Purpose**: Dual interface for text editing and natural language interaction
 
 ```
 vault/                         # What users see and interact with
@@ -83,66 +241,93 @@ vault/                         # What users see and interact with
 - PKM methodologies (Zettelkasten, PARA, etc.) remain unchanged
 - All complexity hidden behind Claude Code interface
 
-### Layer 2: Intelligence (Claude Code Orchestration)
+### Layer 2: Implementation Platform (Claude Code)
 
-**Purpose**: Claude Code acts as the brain, doing all heavy lifting
+**Purpose**: Execute all PKM workflows through specialized implementations
 
 ```yaml
-claude_orchestration:
-  primary_agent:
-    role: "Master Orchestrator"
-    responsibilities:
-      - User interaction interface
-      - Task delegation to subagents
-      - Workflow coordination
-      - Quality assurance
+implementation_platform:
+  workflow_engine:
+    role: "Central Execution Platform"
+    capabilities:
+      - Text change detection and processing
+      - Command interpretation and execution
+      - Subagent coordination
+      - Lakehouse management
   
-  subagents:
-    pkm-ingestion:
-      triggers: ["/ingest", "new files", "web clips"]
-      actions:
-        - Parse any format
-        - Extract content
-        - Create atomic notes
-        - Store in lakehouse Bronze layer
+  text_triggered_workflows:
+    file_create:
+      trigger: "New .md file created"
+      implementation:
+        1. Detect via file system hook
+        2. Apply template if in specific folder
+        3. Extract initial metadata
+        4. Queue for processing
+        5. Sync to Bronze layer
     
-    pkm-processor:
-      triggers: ["/process", "note updates", "scheduled"]
-      actions:
-        - NLP analysis
-        - Concept extraction
-        - Link generation
-        - Update Silver layer
+    file_edit:
+      trigger: "Existing .md file modified"
+      implementation:
+        1. Detect changes via Git diff
+        2. Parse new content
+        3. Update metadata
+        4. Refresh links
+        5. Update Silver layer
     
-    pkm-synthesizer:
-      triggers: ["/synthesize", "pattern detection"]
-      actions:
-        - Cross-reference notes
-        - Generate insights
-        - Create summaries
-        - Populate Gold layer
-    
-    pkm-feynman:
-      triggers: ["/simplify", "complexity threshold"]
-      actions:
-        - Create ELI5 versions
-        - Identify knowledge gaps
-        - Generate analogies
+    git_commit:
+      trigger: "Git commit with .md changes"
+      implementation:
+        1. Batch process all changes
+        2. Update lakehouse layers
+        3. Trigger synthesis if threshold met
+        4. Generate commit insights
   
-  commands:
-    user_commands:
-      - "/pkm-capture": Ingest new content
-      - "/pkm-process": Process inbox items
-      - "/pkm-search": Semantic search
-      - "/pkm-synthesize": Generate insights
-      - "/pkm-teach": Create teaching materials
+  command_triggered_workflows:
+    capture:
+      command: "/pkm-capture [source]"
+      implementation:
+        1. Fetch content from source
+        2. Convert to markdown
+        3. Create atomic notes
+        4. Place in inbox
+        5. Trigger processing
     
-  hooks:
-    automation:
-      - on_file_create: Auto-process new notes
-      - on_commit: Update lakehouse
-      - on_schedule: Daily synthesis
-      - on_pattern: Trigger insights
+    search:
+      command: "/pkm-search [query]"
+      implementation:
+        1. Parse query intent
+        2. Query Gold layer
+        3. Perform vector search
+        4. Rank results
+        5. Format response
+    
+    synthesize:
+      command: "/pkm-synthesize [topic]"
+      implementation:
+        1. Gather related notes
+        2. Analyze patterns
+        3. Generate insights
+        4. Create synthesis document
+        5. Update Gold layer
+  
+  lakehouse_interactions:
+    bronze_operations:
+      - Raw markdown ingestion
+      - Git commit tracking
+      - File change logs
+      - Metadata extraction
+    
+    silver_operations:
+      - Content enrichment
+      - Concept extraction
+      - Link validation
+      - Quality scoring
+    
+    gold_operations:
+      - Analytics generation
+      - Vector indexing
+      - Graph building
+      - Insight creation
 ```
 
 ### Layer 3: Storage (Diskless Lakehouse)

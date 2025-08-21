@@ -2,11 +2,12 @@
 
 ## Executive Summary
 
-This steering document provides strategic guidance for implementing the Claude-Orchestrated Personal Knowledge Management (PKM) System. Claude Code serves as the primary intelligence interface between users working with familiar markdown files and a powerful diskless lakehouse backend. This architecture maintains PKM principles at the business layer while leveraging enterprise-grade data processing capabilities, all seamlessly orchestrated by Claude Code.
+This steering document provides strategic guidance for implementing the Claude-Implemented Personal Knowledge Management (PKM) System. All central workflows are built on top of Claude Code as the execution platform, with users interacting through a dual interface - directly editing markdown texts and using natural language commands. Claude Code provides specialized subagents, commands, and hooks that implement PKM operations and manage lakehouse interactions transparently.
 
 **Last Updated**: 2024-01-21
-**Architecture Version**: 3.0 (Claude-Orchestrated Lakehouse)
-**Interface**: Claude Code as Universal Orchestrator
+**Architecture Version**: 4.0 (Claude as Implementation Platform)
+**Interface**: Dual - Text Editing + Natural Language
+**Implementation**: Claude Code Platform with Specialized Workflows
 **Status**: Active Implementation
 
 ## Vision and Mission

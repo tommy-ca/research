@@ -1,21 +1,28 @@
-# Claude-Orchestrated Personal Knowledge Management (PKM) System
+# Claude-Implemented Personal Knowledge Management (PKM) System
 
 ## 🎯 Overview
 
-A revolutionary Personal Knowledge Management system where Claude Code serves as your intelligent assistant, handling all complexity while you work with simple markdown files. This system transforms information into wisdom through first-principles thinking and Feynman-based learning techniques, with Claude doing all the heavy lifting behind the scenes.
+A comprehensive Personal Knowledge Management system where all workflows are implemented on the Claude Code platform. Users interact through a **dual interface** - directly editing markdown files AND using natural language commands. Claude Code provides the complete implementation through specialized subagents, commands, and hooks that handle both PKM operations and transparent lakehouse storage.
 
-## 🤖 Claude Does the Heavy Lifting
+## 🎨 Dual Interface Design
 
-### How It Works
-1. **You**: Write markdown notes or ask Claude in natural language
-2. **Claude**: Handles everything else - processing, organizing, analyzing
-3. **Result**: Your knowledge is organized, enhanced, and accessible
+### Text Interface (Primary)
+- **Write Markdown**: Create and edit `.md` files as usual
+- **Organize Files**: Use folders and Git normally
+- **Automatic Processing**: Claude watches and processes all changes
+- **Transparent Enhancement**: Your notes are enriched automatically
 
-### No Learning Curve
-- **Natural Language**: Just talk to Claude like a colleague
-- **Familiar Tools**: Keep using markdown and Git
-- **Hidden Complexity**: Enterprise-grade backend invisible to you
-- **Intelligent Assistance**: Claude proactively helps and suggests
+### Natural Language Interface (Complementary)
+- **Ask Claude**: Use commands or conversation
+- **Get Help**: Claude assists with complex tasks
+- **Discover Insights**: Claude finds patterns and connections
+- **Generate Content**: Claude creates summaries and teaching materials
+
+### How They Work Together
+1. **You Edit Text** → Claude automatically processes changes
+2. **You Ask Claude** → Claude executes commands and workflows
+3. **Both Interfaces** → Same powerful implementation platform
+4. **Seamless Integration** → Text changes and commands work in harmony
 
 ## 🚀 Key Features
 
@@ -55,13 +62,14 @@ The PKM system features a cutting-edge **diskless lakehouse architecture** based
 ## 📚 Documentation
 
 ### Architecture Documents
-- [**System Architecture**](PKM-SYSTEM-ARCHITECTURE.md) - Claude-orchestrated three-layer design
+- [**System Architecture**](PKM-SYSTEM-ARCHITECTURE.md) - Claude implementation platform design
+- [**Workflow Implementation**](WORKFLOW-IMPLEMENTATION-SPECIFICATION.md) - Dual interface workflows
 - [**Claude Interface Specification**](CLAUDE-INTERFACE-SPECIFICATION.md) - Commands, hooks, and orchestration
-- [**System Specification**](PKM-SYSTEM-SPECIFICATION.md) - v3.0 with Claude as primary interface
-- [**Lakehouse Architecture**](LAKEHOUSE-ARCHITECTURE.md) - Modern diskless data platform (hidden from users)
+- [**System Specification**](PKM-SYSTEM-SPECIFICATION.md) - v4.0 with dual interface
+- [**Lakehouse Architecture**](LAKEHOUSE-ARCHITECTURE.md) - Modern diskless data platform (transparent)
 - [**Lakehouse Best Practices**](LAKEHOUSE-BEST-PRACTICES.md) - Industry patterns from Netflix, Uber, Databricks
-- [**Diskless Ingestion Pipeline**](DISKLESS-INGESTION-PIPELINE.md) - Serverless streaming (managed by Claude)
-- [**Storage Architecture**](STORAGE-ARCHITECTURE.md) - Multi-tier S3, Lance, and Parquet (invisible to users)
+- [**Diskless Ingestion Pipeline**](DISKLESS-INGESTION-PIPELINE.md) - Serverless streaming (automatic)
+- [**Storage Architecture**](STORAGE-ARCHITECTURE.md) - Multi-tier S3, Lance, and Parquet (invisible)
 - [**Vault Structure**](VAULT-STRUCTURE-SPECIFICATION.md) - PKM organizational principles
 - [**Data Ingestion Pipeline**](DATA-INGESTION-PIPELINE.md) - Content processing workflows
 - [**Knowledge Extraction Framework**](KNOWLEDGE-EXTRACTION-FRAMEWORK.md) - NLP and pattern recognition
@@ -335,9 +343,10 @@ Built on the shoulders of giants:
 
 *Transform information into wisdom through intelligent knowledge management*
 
-**Version**: 3.0.0  
-**Architecture**: Claude-Orchestrated Lakehouse  
-**Interface**: Claude Code as Universal Orchestrator  
+**Version**: 4.0.0  
+**Architecture**: Claude Implementation Platform  
+**Interface**: Dual - Text Editing + Natural Language  
+**Implementation**: Specialized Workflows on Claude Code  
 **Status**: Active Implementation - Phase 1 Complete  
 **Last Updated**: 2024-01-21  
-**Next Milestone**: M2 - Claude Intelligence Layer (Week 8)
+**Next Milestone**: M2 - Workflow Implementation (Week 8)
