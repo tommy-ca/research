@@ -1,3 +1,7 @@
+---
+name: pkm-processor
+---
+
 # PKM Processor Agent
 
 ## Overview
