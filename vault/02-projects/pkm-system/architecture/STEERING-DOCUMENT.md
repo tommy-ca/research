@@ -1,5 +1,10 @@
 # PKM System Steering Document
 
+## Recent Updates
+
+- Implemented Gist Markdown ingestion end-to-end (capture → inbox → PARA → validate → enrich → atomic note).
+- Migration tooling moved to `src/pkm_maintenance/migration` to separate maintenance scripts from core workflows.
+
 ## Executive Summary
 
 This steering document provides strategic guidance for implementing the Claude-Implemented Personal Knowledge Management (PKM) System. All central workflows are built on top of Claude Code as the execution platform, with users interacting through a dual interface - directly editing markdown texts and using natural language commands. Claude Code provides specialized subagents, commands, and hooks that implement PKM operations and manage lakehouse interactions transparently.

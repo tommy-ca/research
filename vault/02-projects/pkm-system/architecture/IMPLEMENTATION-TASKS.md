@@ -32,6 +32,16 @@ This document provides a comprehensive breakdown of implementation tasks for the
 
 ## Task Management Structure
 
+## Recently Completed
+
+### Gist Markdown Ingestion (End-to-End)
+- [x] CLI support for `--gist-url` in capture and pipeline scripts
+- [x] Auto-tag `#source/gist` when gist URL provided
+- [x] Atomic note created referencing the ingested resource
+- [x] Unit and integration tests added (TDD)
+- [x] Specifications and steering docs updated
+
+
 ### Priority Levels
 - 🔴 **Critical**: Core functionality, blocks other work
 - 🟠 **High**: Important features, significant user impact
