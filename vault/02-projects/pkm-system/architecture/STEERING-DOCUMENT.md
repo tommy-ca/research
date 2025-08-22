@@ -729,14 +729,26 @@ The steering committee commits to regular review and adjustment of these guideli
 ## Immediate Next Cycles (TDD)
 
 1) Cycle 6: Refactor & Cleanup (Immediate)
-- Separate maintenance scripts (`src/pkm_maintenance/`) from core workflows
-- Fix stale imports in docs and scripts; remove dead code
-- Ensure scripts have correct shebangs and helpful CLI args
+- Separate maintenance scripts (`src/pkm_maintenance/`) from core workflows (done); clean stragglers
+- Fix stale imports in docs/scripts; remove dead code
+- Ensure scripts have proper shebangs and consistent CLI flags (e.g., `--gist-url`)
+- Target: Green unit+integration locally; quality gates pass
 
-2) Cycle 7: CI/Test Pipeline Stabilization
-- Green unit+integration in CI; upload coverage and quality reports
-- Tighten discovery and speed up runs; keep logs concise
+2) Cycle 7: CI/Test Pipeline Stabilization (Next)
+- Green unit+integration in CI; upload coverage/quality reports
+- Tighten discovery and speed; concise logs; <2m local runtime
 
-3) Cycle 8: Ingestion Enrichment & Validation
-- Harden `kc_validate.py` and `kc_enrich.py`; formalize stdout JSON
-- Expand tests for failure/recovery paths
+3) Cycle 8: Ingestion Enrichment & Validation (Then)
+- Harden `kc_validate.py` and `kc_enrich.py`; formalize stdout JSON contract
+- Add failure/recovery path tests; smarter relocation rules
+
+4) Cycle 9: Link Graph & Backlinks (Later)
+- Improve `.link_index.yml`, broken link detection, orphan reporting
+
+## Current Sprint Plan (Cycle 6)
+
+- [ ] Sweep for stale imports and fix
+- [ ] Standardize scripts (headers/flags/output)
+- [ ] Stabilize core processors to meet tests (minimal logic)
+- [ ] Run local tests + quality gates, capture results
+- [ ] Update specs/tasks with outcomes

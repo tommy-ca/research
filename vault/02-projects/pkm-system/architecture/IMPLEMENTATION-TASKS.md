@@ -1039,11 +1039,16 @@ graph TD
 ## TDD Cycles Roadmap (Aug 2025)
 
 ### Cycle 6: Refactor & Cleanup
-- [ ] Move all migration tooling under `src/pkm_maintenance/migration`
+- [x] Move all migration tooling under `src/pkm_maintenance/migration`
 - [ ] Remove dead or duplicate scripts/docs
-- [ ] Update all steering/specs to reflect new imports and structure
-- [ ] Ensure scripts have correct shebang and flags (`--gist-url`, etc.)
-- [ ] Run unit/integration locally with clean `PYTHONPATH`
+- [x] Update steering/specs to reflect new imports and structure
+- [x] Ensure scripts have correct shebang and flags (`--gist-url`, etc.)
+- [ ] Run unit/integration locally with clean `PYTHONPATH` (stabilize remaining tests)
+
+Schedule (proposed):
+- Start: 2025-08-22
+- End: 2025-08-23
+- Owner: PKM Maintainer (you)
 
 ### Cycle 7: CI/Test Pipeline Stabilization
 - [ ] Ensure `scripts/run_test_pipeline.sh` completes on CI

@@ -136,8 +136,12 @@ Extracted from long documents into permanent notes:
 - [ ] Handle agent specifications with behavior extraction
 - [ ] Apply specialized domain knowledge patterns
 
-### CRITICAL Priority: TDD Cycle 6 (Day 5) — Reframed
+### CRITICAL Priority: TDD Cycle 6 (Day 5) — In Progress
 **Refactor, Validation & Completion**
+- [ ] Sweep for stale imports (docs + scripts)
+- [ ] Stabilize processors to meet test thresholds
+- [ ] Standardize scripts (headers/flags/output)
+- [ ] Run local tests + quality gates (record results)
 - [ ] Comprehensive completion verification (95%+ target)
 - [ ] Quality validation across all migrated content
 - [ ] Knowledge graph completeness validation  
