@@ -11,7 +11,12 @@ from pathlib import Path
 # Add the scripts directory to the path to import the ultra-migration-pipeline
 sys.path.insert(0, str(Path(__file__).parent))
 
-from ultra_migration_pipeline import UltraMigrationPipeline
+# Import by loading the module directly
+import importlib.util
+spec = importlib.util.spec_from_file_location("ultra_migration_pipeline", "ultra-migration-pipeline.py")
+ultra_module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(ultra_module)
+UltraMigrationPipeline = ultra_module.UltraMigrationPipeline
 
 def main():
     """Extract atomic notes from high-value content"""
