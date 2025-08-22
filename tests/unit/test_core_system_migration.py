@@ -22,7 +22,7 @@ from typing import List, Dict, Any
 
 # Import will fail initially - expected in TDD RED phase
 try:
-    from src.pkm.core.core_system_migration import (
+    from src.pkm_maintenance.migration.core_system_migration import (
         CoreSystemMigrationPipeline,
         AgentSpecificationProcessor,
         ResearchMethodologyProcessor,

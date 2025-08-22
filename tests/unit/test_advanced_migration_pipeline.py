@@ -20,15 +20,15 @@ from typing import List, Dict, Any
 
 # Import will fail initially - expected in TDD RED phase
 try:
-    from src.pkm.core.advanced_migration import (
+    from src.pkm_maintenance.migration.advanced_migration import (
         AdvancedMigrationPipeline, 
         ArchitectureMigrationResult,
         AtomicExtractionResult,
         QualityResult,
         CrossRefIndex
     )
-    from src.pkm.processors.architecture_processor import ArchitectureDocumentProcessor
-    from src.pkm.validators.migration_validator import MigrationQualityValidator
+    from src.pkm_maintenance.migration.processors.architecture_processor import ArchitectureDocumentProcessor
+    from src.pkm_maintenance.migration.validators.migration_validator import MigrationQualityValidator
     from src.pkm.exceptions import ProcessingError
 except ImportError:
     # Expected during RED phase - tests written before implementation

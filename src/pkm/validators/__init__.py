@@ -1,5 +1,6 @@
-"""PKM Validators Package"""
+"""PKM Validators Package
 
-from .migration_validator import MigrationQualityValidator
+Note: Migration-related validators moved to `pkm_maintenance.migration.validators`.
+"""
 
-__all__ = ['MigrationQualityValidator']
+__all__ = []

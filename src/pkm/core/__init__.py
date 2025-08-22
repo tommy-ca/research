@@ -1,17 +1,6 @@
 """PKM Core Package"""
 
 from .base import BasePkmProcessor
-from .advanced_migration import AdvancedMigrationPipeline
-from .core_system_migration import (
-    CoreSystemMigrationPipeline,
-    AgentSpecificationProcessor, 
-    ResearchMethodologyProcessor,
-    SimplificationPlanProcessor,
-    CoreSystemMigrationResult,
-    AgentSpecification,
-    ResearchMethodology,
-    SimplificationPlan
-)
 
 # Import optional modules that may exist
 try:
@@ -30,10 +19,7 @@ except ImportError:
     PkmCapture = None
 
 __all__ = [
-    'BasePkmProcessor', 'AdvancedMigrationPipeline', 'CoreSystemMigrationPipeline',
-    'AgentSpecificationProcessor', 'ResearchMethodologyProcessor',
-    'SimplificationPlanProcessor', 'CoreSystemMigrationResult',
-    'AgentSpecification', 'ResearchMethodology', 'SimplificationPlan'
+    'BasePkmProcessor'
 ]
 
 # Add optional modules to __all__ if they exist

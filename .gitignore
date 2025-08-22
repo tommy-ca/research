@@ -68,3 +68,13 @@ logs/
 *.pptx
 sensitive/
 private/
+
+# Build/test artifacts and reports
+.coverage
+.pytest_cache/
+.tox/
+.cache/
+coverage/
+htmlcov/
+tests/reports/
+tmp/

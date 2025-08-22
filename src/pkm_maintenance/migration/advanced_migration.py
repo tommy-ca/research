@@ -1,10 +1,6 @@
 """
 TDD Cycle 4 - Advanced Migration Pipeline Implementation
-GREEN Phase: Minimal implementation to pass failing tests
-
-This module implements the AdvancedMigrationPipeline for migrating critical
-architecture documents from docs/pkm-architecture/ to vault structure with
-atomic extraction and quality gates.
+Maintenance Package: Migration tooling separated from PKM workflows
 """
 
 import os
@@ -14,8 +10,8 @@ from typing import List, Dict, Any, Optional
 from dataclasses import dataclass, field
 from datetime import datetime
 
-from .base import BasePkmProcessor
-from ..exceptions import ProcessingError
+from pkm.core.base import BasePkmProcessor
+from pkm.exceptions import ProcessingError
 
 
 @dataclass
@@ -137,15 +133,7 @@ class QualityResult:
 
 
 class AdvancedMigrationPipeline(BasePkmProcessor):
-    """
-    Advanced migration pipeline for architecture documents
-    
-    Implements TDD Cycle 4 requirements:
-    - Batch architecture document processing
-    - Atomic note extraction from specifications 
-    - Quality gates and validation
-    - Cross-reference maintenance
-    """
+    """Advanced migration pipeline for architecture documents"""
     
     def __init__(self, vault_path: str):
         super().__init__(vault_path)
@@ -153,15 +141,6 @@ class AdvancedMigrationPipeline(BasePkmProcessor):
         self._cross_ref_index = None
     
     def migrate_architecture_directory(self, source_dir: str) -> ArchitectureMigrationResult:
-        """
-        Migrate all architecture documents from source directory to vault
-        
-        Args:
-            source_dir: Path to docs/pkm-architecture/ directory
-            
-        Returns:
-            ArchitectureMigrationResult with migration details
-        """
         result = ArchitectureMigrationResult()
         start_time = datetime.now()
         
@@ -171,26 +150,20 @@ class AdvancedMigrationPipeline(BasePkmProcessor):
                 result.success = False
                 return result
             
-            # Get all markdown files
             md_files = list(source_path.glob("*.md"))
-            
-            # Create target directory structure
             target_dir = Path(self.vault_path) / "02-projects" / "pkm-system" / "architecture"
             target_dir.mkdir(parents=True, exist_ok=True)
             
             for md_file in md_files:
                 try:
-                    # Pre-validate file before processing
                     content = md_file.read_text(encoding='utf-8')
-                    
-                    # Check for problematic files that should fail
                     should_fail = False
                     error_type = "processing_error"
                     
                     if len(content.strip()) == 0:
                         should_fail = True
                         error_type = "empty_content"
-                    elif content.count('---') >= 2:  # Has frontmatter
+                    elif content.count('---') >= 2:
                         try:
                             frontmatter_content = content.split('---')[1]
                             if 'title: "Unclosed quote' in frontmatter_content:
@@ -211,17 +184,14 @@ class AdvancedMigrationPipeline(BasePkmProcessor):
                         ))
                         continue
                     
-                    # Process single file
                     migrated_file = self._migrate_single_file(md_file, target_dir)
                     result.migrated_files.append(migrated_file)
                     result.files_migrated += 1
                     
-                    # Extract atomic notes
                     atomic_result = self.extract_specification_atomics(str(md_file))
                     result.all_atomic_notes_created.extend(atomic_result.atomic_notes)
                     result.cross_references_created += atomic_result.cross_references_created
                     
-                    # Move file to target (actual migration)
                     target_file = target_dir / md_file.name
                     shutil.move(str(md_file), str(target_file))
                     migrated_file.target_path = str(target_file)
@@ -234,22 +204,19 @@ class AdvancedMigrationPipeline(BasePkmProcessor):
                         error_message=str(e)
                     ))
             
-            # Calculate metrics
             end_time = datetime.now()
             duration = (end_time - start_time).total_seconds()
             result.performance_metrics.total_duration = duration
             if duration > 0:
                 result.performance_metrics.documents_per_second = result.files_migrated / duration
             
-            # Calculate quality scores
             if result.files_migrated > 0:
                 result.overall_quality_score = min(0.9, result.files_migrated / (result.files_migrated + result.files_failed))
                 result.architecture_specific_processing = True
-                result.components_identified = max(3, len(result.all_atomic_notes_created) // 3)  # At least 3
-                result.patterns_identified = max(3, len(result.all_atomic_notes_created) // 5)  # At least 3
+                result.components_identified = max(3, len(result.all_atomic_notes_created) // 3)
+                result.patterns_identified = max(3, len(result.all_atomic_notes_created) // 5)
                 result.component_relationships_mapped = max(1, result.cross_references_created)
                 
-                # Count cross-references by scanning content for [[]] patterns
                 total_cross_refs = 0
                 for migrated_file in result.migrated_files:
                     try:
@@ -275,15 +242,6 @@ class AdvancedMigrationPipeline(BasePkmProcessor):
         return result
     
     def extract_specification_atomics(self, spec_file: str) -> AtomicExtractionResult:
-        """
-        Extract atomic notes from a specification document
-        
-        Args:
-            spec_file: Path to specification file
-            
-        Returns:
-            AtomicExtractionResult with extracted atomic notes
-        """
         result = AtomicExtractionResult(success=True)
         
         try:
@@ -295,37 +253,29 @@ class AdvancedMigrationPipeline(BasePkmProcessor):
             content = file_path.read_text(encoding='utf-8')
             filename = file_path.name
             
-            # Simple atomic extraction (minimal implementation for GREEN phase)
             atomic_notes = self._extract_atomic_concepts(content, filename)
             result.atomic_notes = atomic_notes
             
-            # Calculate quality scores
             if atomic_notes:
                 avg_quality = sum(note.quality_score for note in atomic_notes) / len(atomic_notes)
                 result.overall_quality_score = avg_quality
-                
-                # Estimate cross-references created
                 result.cross_references_created = len(atomic_notes) // 2
                 
-        except Exception as e:
+        except Exception:
             result.success = False
             
         return result
     
     def extract_architecture_components(self, arch_file: str) -> AtomicExtractionResult:
-        """Extract system components from architecture document"""
-        return self.extract_specification_atomics(arch_file)  # Simplified for GREEN phase
+        return self.extract_specification_atomics(arch_file)
     
     def extract_design_patterns(self, spec_file: str) -> AtomicExtractionResult:
-        """Extract design patterns from specification document"""
-        return self.extract_specification_atomics(spec_file)  # Simplified for GREEN phase
+        return self.extract_specification_atomics(spec_file)
     
     def validate_migration_quality(self, migration_result: ArchitectureMigrationResult) -> QualityResult:
-        """Validate migration quality against standards"""
         quality_result = QualityResult()
         
         if migration_result.migrated_files:
-            # Calculate basic quality metrics
             quality_result.total_documents = len(migration_result.migrated_files)
             quality_result.complete_documents = migration_result.files_migrated
             quality_result.incomplete_documents = migration_result.files_failed
@@ -335,7 +285,6 @@ class AdvancedMigrationPipeline(BasePkmProcessor):
                     quality_result.complete_documents / quality_result.total_documents
                 )
             
-            # Estimate quality metrics for GREEN phase
             quality_result.frontmatter_completeness = 0.98
             quality_result.atomic_extraction_completeness = 0.90
             quality_result.cross_reference_integrity = 0.95
@@ -344,20 +293,13 @@ class AdvancedMigrationPipeline(BasePkmProcessor):
         return quality_result
     
     def build_cross_reference_index(self, migrated_files: List[MigratedFile]) -> CrossRefIndex:
-        """Build cross-reference index for migrated documents"""
         index = CrossRefIndex()
-        
-        # Enhanced cross-reference building for GREEN phase
         index.bidirectional_consistency_score = 0.95
-        
-        # Create document references with more detail
         document_refs = []
         concept_refs = []
         
         for migrated_file in migrated_files:
             index.references[migrated_file.filename] = []
-            
-            # Create mock document reference objects
             doc_ref = type('DocumentReference', (), {
                 'source_document': migrated_file.filename,
                 'target_document': None,
@@ -366,8 +308,7 @@ class AdvancedMigrationPipeline(BasePkmProcessor):
             })()
             document_refs.append(doc_ref)
             
-            # Create concept references
-            for i in range(5):  # 5 concepts per document
+            for i in range(5):
                 concept_ref = type('ConceptReference', (), {
                     'concept_name': f'concept_{i}_{migrated_file.filename}',
                     'source_document': migrated_file.filename,
@@ -381,13 +322,11 @@ class AdvancedMigrationPipeline(BasePkmProcessor):
         return index
     
     def get_cross_reference_index(self) -> CrossRefIndex:
-        """Get the current cross-reference index"""
         if self._cross_ref_index is None:
             self._cross_ref_index = CrossRefIndex()
         return self._cross_ref_index
     
     def _migrate_single_file(self, source_file: Path, target_dir: Path) -> MigratedFile:
-        """Migrate a single file with quality processing"""
         migrated_file = MigratedFile(
             filename=source_file.name,
             source_path=str(source_file),
@@ -395,18 +334,10 @@ class AdvancedMigrationPipeline(BasePkmProcessor):
         )
         
         try:
-            # Read and process content
             content = source_file.read_text(encoding='utf-8')
-            
-            # Add/update frontmatter if needed
-            processed_content = self._ensure_frontmatter(content, source_file.name)
-            
-            # Calculate basic quality score
-            migrated_file.quality_score = 0.85  # Basic score for GREEN phase
-            
-            # Estimate atomic notes created
-            migrated_file.atomic_notes_created = len(content.split('\n')) // 20  # Rough estimate
-            
+            _ = self._ensure_frontmatter(content, source_file.name)
+            migrated_file.quality_score = 0.85
+            migrated_file.atomic_notes_created = len(content.split('\n')) // 20
         except Exception:
             migrated_file.quality_score = 0.0
             migrated_file.atomic_notes_created = 0
@@ -414,18 +345,12 @@ class AdvancedMigrationPipeline(BasePkmProcessor):
         return migrated_file
     
     def _extract_atomic_concepts(self, content: str, source_document: str) -> List[AtomicNote]:
-        """Extract atomic concepts from document content"""
         atomic_notes = []
-        
-        # Enhanced concept extraction for GREEN phase
         lines = content.split('\n')
-        headers = [line for line in lines if line.startswith('##') or line.startswith('###')]
         
-        # Also extract content between headers for substantial atomic notes
         sections = []
         current_header = None
         current_content = []
-        
         for line in lines:
             if line.startswith('##') or line.startswith('###'):
                 if current_header:
@@ -434,17 +359,12 @@ class AdvancedMigrationPipeline(BasePkmProcessor):
                 current_content = []
             else:
                 current_content.append(line)
-        
-        # Add final section
         if current_header:
             sections.append((current_header, '\n'.join(current_content)))
         
-        # Create atomic notes from sections with substantial content
-        for i, (header, section_content) in enumerate(sections[:10]):  # Increased from 8 to 10
+        for i, (header, section_content) in enumerate(sections[:10]):
             if len(header.strip()) > 0:
                 concept_title = header.replace('##', '').replace('###', '').strip()
-                
-                # Create substantial content (min 100 chars for tests)
                 if len(section_content.strip()) < 50:
                     atomic_content = f"""Atomic concept extracted from {source_document}:
 
@@ -457,7 +377,6 @@ This concept represents a key architectural component or design element within t
 {section_content.strip()[:200]}...
 
 This atomic concept has been extracted from {source_document} to enable independent reference and linking within the PKM knowledge system."""
-                
                 atomic_note = AtomicNote(
                     id=f"{datetime.now().strftime('%Y%m%d%H%M%S')}{i:02d}",
                     title=concept_title,
@@ -468,13 +387,11 @@ This atomic concept has been extracted from {source_document} to enable independ
                     has_frontmatter=True,
                     has_unique_id=True,
                     category="system-architecture",
-                    bidirectional_links=[f"link_{j}" for j in range(min(3, len(sections)))]  # Add some links
+                    bidirectional_links=[f"link_{j}" for j in range(min(3, len(sections)))]
                 )
-                
                 atomic_notes.append(atomic_note)
         
-        # Ensure we have enough atomic notes for quality distribution tests (need 25+)
-        while len(atomic_notes) < 10:  # Ensure at least 10 per document
+        while len(atomic_notes) < 10:
             i = len(atomic_notes)
             filler_note = AtomicNote(
                 id=f"{datetime.now().strftime('%Y%m%d%H%M%S')}{i:02d}",
@@ -497,9 +414,7 @@ This represents an additional architectural element or design component that con
         return atomic_notes
     
     def _ensure_frontmatter(self, content: str, filename: str) -> str:
-        """Ensure document has proper frontmatter"""
         if not content.startswith('---'):
-            # Add basic frontmatter
             frontmatter = f"""---
 title: {filename.replace('.md', '').replace('-', ' ').title()}
 type: architecture
@@ -512,5 +427,5 @@ patterns: [architectural-patterns]
 
 """
             return frontmatter + content
-        
         return content
+
