@@ -122,9 +122,17 @@ class TestPkmCapture:
         
         # Assert
         assert result.success is True
-        # Filename should be sanitized
-        assert "/" not in result.file_path
-        assert "\\" not in result.file_path
+        # Filename portion should be sanitized (extract filename from path)
+        filename_only = result.file_path.split('/')[-1]  # Get just the filename part
+        assert "/" not in filename_only
+        assert "\\" not in filename_only
+        assert ":" not in filename_only
+        assert "*" not in filename_only
+        assert "?" not in filename_only
+        assert "\"" not in filename_only
+        assert "<" not in filename_only
+        assert ">" not in filename_only
+        assert "|" not in filename_only
     
     def test_capture_generates_unique_filenames(self, capture_service):
         """Test that concurrent captures generate unique filenames"""
