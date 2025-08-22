@@ -4,11 +4,11 @@
 
 This steering document provides strategic guidance for implementing the Claude-Implemented Personal Knowledge Management (PKM) System. All central workflows are built on top of Claude Code as the execution platform, with users interacting through a dual interface - directly editing markdown texts and using natural language commands. Claude Code provides specialized subagents, commands, and hooks that implement PKM operations and manage lakehouse interactions transparently.
 
-**Last Updated**: 2024-01-21
-**Architecture Version**: 4.0 (Claude as Implementation Platform)
+**Last Updated**: 2024-08-22
+**Architecture Version**: 5.0 (TDD-First Implementation with Migration Completion Focus)
 **Interface**: Dual - Text Editing + Natural Language
-**Implementation**: Claude Code Platform with Specialized Workflows
-**Status**: Active Implementation
+**Implementation**: Claude Code Platform with TDD Methodology
+**Status**: Migration Completion Phase (79% complete, 57 files remaining)
 
 ## Vision and Mission
 
@@ -162,33 +162,43 @@ Build a comprehensive PKM system that:
 
 ## Implementation Strategy
 
-### Phase 1: Foundation (Months 1-3) ✅ COMPLETED
-**Goal**: Establish core infrastructure and basic functionality
+### Phase 1: Foundation & Migration (Current - August 2024) 🔄 IN PROGRESS
+**Goal**: Complete TDD implementation and finish content migration
 
-#### Priorities
-1. **Core Infrastructure** ✅
-   - Vault structure setup ✅
-   - Git integration ✅
-   - Basic markdown processing ✅
-   - File management system ✅
+#### Completed Achievements ✅
+1. **Core TDD Implementation** ✅
+   - 3 complete TDD cycles: Capture → Inbox Processing → Atomic Notes ✅
+   - 49/49 tests passing with 88% coverage ✅
+   - KISS/DRY/SOLID principles integrated ✅
+   - BasePkmProcessor for common patterns ✅
 
-2. **Essential Features**
-   - Note creation and editing
-   - Basic linking system
-   - Simple search functionality
-   - Template system
+2. **Vault Infrastructure** ✅
+   - PARA structure standardized (zero-padded directories) ✅
+   - Atomic note framework with Zettelkasten principles ✅
+   - Bidirectional linking system ✅
+   - Search indexing infrastructure ✅
 
-3. **Initial Agents** ✅
-   - Basic ingestion agent ✅
-   - Simple processing agent ✅
-   - Markdown validation ✅
-   - Feynman simplification agent ✅
+3. **Partial Migration** ✅
+   - 216 files migrated to organized vault structure ✅
+   - 25 atomic concept notes extracted from high-value content ✅
+   - Domain categorization and quality pipeline proven ✅
 
-#### Success Criteria
-- [x] Functional vault structure
-- [x] Git commit automation
-- [x] Agent framework integrated
-- [x] Lakehouse architecture designed
+#### Current Priority: Migration Completion 🎯
+**Status**: 79% complete (57 files, 28,623 lines remaining in docs/)
+
+**Critical Remaining Work**:
+- [ ] Migrate 19 critical architecture documents from docs/pkm-architecture/
+- [ ] Extract atomic notes from system specifications  
+- [ ] Complete domain knowledge processing
+- [ ] Achieve 95%+ migration completion (≤3 files remaining)
+
+#### Success Criteria (Revised)
+- [x] Functional vault structure with PARA method
+- [x] TDD methodology proven with 3 complete cycles
+- [x] Core PKM classes implemented and tested
+- [ ] **≥95% content migration complete** (vs current 79%)
+- [ ] **All critical specifications accessible in vault**
+- [ ] **Complete knowledge graph with atomic notes**
 
 ### Phase 2: Intelligence (Months 4-6)
 **Goal**: Add intelligent processing and extraction capabilities
@@ -393,26 +403,25 @@ validation:
 
 ## Project Schedule and Milestones
 
-### Master Timeline (12-Month Plan)
+### Master Timeline (Corrected - TDD-First Approach)
 
-#### Q1 2024: Foundation & Lakehouse Infrastructure
-**Weeks 1-4: Core Setup** ✅
-- ✅ Vault structure implementation
-- ✅ Agent framework (4 agents)
-- ✅ Lakehouse architecture design
-- ✅ Best practices research
+#### August 2024: Migration Completion Phase (CURRENT FOCUS)
+**Week 1: TDD Foundation Complete** ✅
+- ✅ TDD Cycles 1-3: Capture, Inbox Processing, Atomic Notes
+- ✅ 49/49 tests passing, 88% coverage
+- ✅ KISS/DRY/SOLID principles integrated
+- ✅ Partial migration: 216 files organized
 
-**Weeks 5-8: Lakehouse Deployment**
-- [ ] Deploy Iceberg catalog on AWS Glue
-- [ ] Initialize SlateDB on S3
-- [ ] Set up Kinesis streams
-- [ ] Deploy Lambda processors
+**Week 2: Migration Completion** 🔄 IN PROGRESS
+- [ ] **TDD Cycle 4**: Advanced migration pipeline (Days 1-2)
+- [ ] **TDD Cycle 5**: Domain-specific processing (Days 3-4) 
+- [ ] **TDD Cycle 6**: Migration validation (Day 5)
+- [ ] **Target**: 95%+ completion (≤3 files remaining in docs/)
 
-**Weeks 9-12: Streaming Pipeline**
-- [ ] Implement diskless ingestion
-- [ ] Configure medallion layers
-- [ ] Set up Spark streaming
-- [ ] Deploy Ray cluster
+**Week 3: Intelligence Development** 📅 DEFERRED UNTIL MIGRATION COMPLETE
+- [ ] TDD Cycles 7-9: Search, Discovery, Synthesis
+- [ ] Advanced PKM capabilities
+- [ ] Workflow automation
 
 #### Q2 2024: Intelligence Layer
 **Weeks 13-16: NLP Integration**
@@ -471,22 +480,20 @@ validation:
 - [ ] Training materials
 - [ ] Community setup
 
-### Key Milestones
+### Key Milestones (Corrected Timeline)
 
 | Milestone | Target Date | Success Criteria | Status |
 |-----------|------------|------------------|---------|
-| M1: Foundation Complete | Week 4 | Vault + Agents operational | ✅ Complete |
-| M2: Lakehouse Deployed | Week 8 | Iceberg + SlateDB running | 🔄 In Progress |
-| M3: Streaming Active | Week 12 | Real-time processing live | 📅 Planned |
-| M4: NLP Integrated | Week 16 | 80% extraction accuracy | 📅 Planned |
-| M5: Graph Operational | Week 20 | Knowledge graph populated | 📅 Planned |
-| M6: Analytics Ready | Week 24 | Sub-100ms queries | 📅 Planned |
-| M7: Generation Live | Week 28 | Content generation working | 📅 Planned |
-| M8: Quality Assured | Week 32 | 80% test coverage | 📅 Planned |
-| M9: UI Deployed | Week 36 | Frontend operational | 📅 Planned |
-| M10: Production Ready | Week 40 | AWS deployment complete | 📅 Planned |
-| M11: Optimized | Week 44 | Performance targets met | 📅 Planned |
-| M12: Launch Ready | Week 48 | Full system operational | 📅 Planned |
+| M1: TDD Foundation Complete | August Week 1 | 3 TDD cycles, 49/49 tests | ✅ Complete |
+| M2: Migration Complete | August Week 2 | 95%+ content migrated (≤3 files in docs/) | 🔄 In Progress |
+| M3: Intelligence Phase 1 | August Week 3 | Advanced search & discovery | 📅 Deferred |
+| M4: Intelligence Phase 2 | August Week 4 | Knowledge synthesis | 📅 Deferred |
+| M5: Intelligence Phase 3 | September Week 1 | Workflow automation | 📅 Deferred |
+| M6: System Integration | September Week 2 | All components working together | 📅 Planned |
+| M7: Performance Optimization | September Week 3 | Response times <100ms | 📅 Planned |
+| M8: Documentation Complete | September Week 4 | Complete user & dev docs | 📅 Planned |
+
+**CRITICAL**: All intelligence milestones (M3-M5) are blocked until Migration Complete (M2) achieves ≥95% completion.
 
 ### Resource Allocation
 
