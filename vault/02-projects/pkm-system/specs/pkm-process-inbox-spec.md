@@ -1,48 +1,56 @@
 ---
 title: "PKM Process Inbox Command Specification"
-date: 2024-01-21
+date: 2024-08-22
 type: specification
-status: draft
-tags: [spec, pkm, inbox, tdd, fr-first]
+status: approved
+priority: P0
+tier: core
+tags: [spec, pkm, inbox, tdd, fr-first, para-method]
+created: 2024-08-22T22:00:00Z
+updated: 2024-08-22T22:00:00Z
 ---
 
-# Specification: PKM Process Inbox Command
+# Feature: PKM Process Inbox Command
 
-## Feature Overview
-Command to process all items in the PKM inbox, categorizing them according to PARA method and extracting metadata.
+## Overview
+Automated inbox processing command that takes captured notes and categorizes them according to the PARA method (Projects, Areas, Resources, Archives), moving files to appropriate vault directories with enhanced metadata.
 
-## Requirements
-
-### Functional Requirements (PRIORITY: HIGH - Implement Week 2)
+## Functional Requirements (IMPLEMENT NOW - Week 1)
 
 #### FR-001: Read Inbox Items
-- **Description**: Scan and read all files in `vault/0-inbox/`
+- **Description**: Scan and read all files in `vault/00-inbox/`
 - **Acceptance**: All .md files discovered and loaded
+- **Priority**: P0 - Foundation requirement
 - **Test**: `test_reads_all_inbox_files()`
 
 #### FR-002: Extract Metadata
 - **Description**: Parse frontmatter from each inbox item
 - **Acceptance**: YAML frontmatter extracted as dictionary
+- **Priority**: P0 - Foundation requirement
 - **Test**: `test_extracts_frontmatter()`
 
 #### FR-003: Categorize by PARA
 - **Description**: Determine if item is Project, Area, Resource, or Archive
-- **Acceptance**: Each item assigned a PARA category
+- **Acceptance**: Each item assigned a PARA category (01-projects, 02-areas, 03-resources, 04-archives)
+- **Priority**: P0 - Core functionality
 - **Test**: `test_categorizes_by_para()`
 
 #### FR-004: Move to Target Folder
 - **Description**: Move file to appropriate PARA folder
 - **Acceptance**: File exists in new location, removed from inbox
+- **Priority**: P0 - Core functionality
 - **Test**: `test_moves_to_para_folder()`
 
 #### FR-005: Update Frontmatter
-- **Description**: Add processing metadata (date, category, etc.)
+- **Description**: Add processing metadata (processed_date, category, etc.)
 - **Acceptance**: Frontmatter includes processing info
+- **Priority**: P0 - Foundation requirement
 - **Test**: `test_updates_frontmatter()`
 
 #### FR-006: Generate Report
 - **Description**: Return summary of processed items
 - **Acceptance**: Report shows items processed and destinations
+- **Priority**: P0 - Foundation requirement
 - **Test**: `test_generates_report()`
 
 ### Non-Functional Requirements (PRIORITY: LOW - Defer to Week 4+)
@@ -97,21 +105,21 @@ def test_categorizes_by_para():
     result = process_inbox()
     
     # Then: Correct categorization
-    assert result.categorized['project.md'] == '1-projects'
-    assert result.categorized['area.md'] == '2-areas'
-    assert result.categorized['resource.md'] == '3-resources'
+    assert result.categorized['project.md'] == '01-projects'
+    assert result.categorized['area.md'] == '02-areas'
+    assert result.categorized['resource.md'] == '03-resources'
 
 def test_moves_to_para_folder():
     """FR-004: Should move files to correct folders"""
     # Given: File categorized as project
-    create_file('vault/0-inbox/task.md', type='project')
+    create_file('vault/00-inbox/task.md', type='project')
     
     # When: Process inbox
     result = process_inbox()
     
     # Then: File moved to projects
-    assert not exists('vault/0-inbox/task.md')
-    assert exists('vault/1-projects/task.md')
+    assert not exists('vault/00-inbox/task.md')
+    assert exists('vault/01-projects/task.md')
 
 def test_empty_inbox():
     """Should handle empty inbox gracefully"""
@@ -136,7 +144,7 @@ def test_malformed_frontmatter():
     
     # Then: File skipped with error logged
     assert result.errors['bad.md'] == 'Invalid frontmatter'
-    assert exists('vault/0-inbox/bad.md')  # Not moved
+    assert exists('vault/00-inbox/bad.md')  # Not moved
 ```
 
 ## Implementation Plan (Following TDD)
@@ -151,7 +159,7 @@ def test_malformed_frontmatter():
 ```python
 # Minimal code to make tests pass
 def process_inbox():
-    inbox_path = Path('vault/0-inbox')
+    inbox_path = Path('vault/00-inbox')
     result = ProcessResult()
     
     # FR-001: Read files
@@ -203,7 +211,7 @@ def process_inbox():
 
 ## Priority Decision (FR-First)
 
-### Implement NOW (Week 2)
+### Implement IMMEDIATELY (Week 1, Day 2)
 - ✅ Basic file reading
 - ✅ Simple categorization rules
 - ✅ File moving
@@ -216,20 +224,110 @@ def process_inbox():
 - ⏸️ Metrics dashboard
 - ⏸️ ML-based categorization
 
+## Implementation Design
+
+### API Interface
+```python
+class PkmInboxProcessor:
+    def __init__(self, vault_path: str):
+        self.vault_path = Path(vault_path)
+        self.inbox_path = self.vault_path / "00-inbox"
+    
+    def process_inbox(self) -> ProcessResult:
+        """Process all items in inbox with PARA categorization"""
+        pass
+    
+    def _extract_frontmatter(self, content: str) -> Dict[str, Any]:
+        """Extract YAML frontmatter from markdown content"""
+        pass
+    
+    def _categorize_content(self, content: str, frontmatter: Dict[str, Any]) -> str:
+        """Categorize content according to PARA method"""
+        pass
+    
+    def _move_file(self, source_path: Path, target_dir: str) -> Path:
+        """Move file to target directory"""
+        pass
+
+class ProcessResult:
+    success: bool
+    files_found: int
+    files_processed: int
+    categorized: Dict[str, str]  # filename -> category
+    errors: Dict[str, str]  # filename -> error message
+    report: str
+```
+
+### PARA Categorization Rules
+```yaml
+categorization_logic:
+  projects: # 01-projects/
+    - keywords: [deadline, project, goal, complete]
+    - frontmatter: type == 'project'
+    - content_patterns: action items, deliverables
+  
+  areas: # 02-areas/
+    - keywords: [area, ongoing, maintain, responsibility]
+    - frontmatter: type == 'area'
+    - content_patterns: standards, processes
+  
+  resources: # 03-resources/
+    - keywords: [reference, resource, learn, information]
+    - frontmatter: type == 'resource'
+    - content_patterns: documentation, links
+  
+  archives: # 04-archives/
+    - keywords: [completed, archive, old, inactive]
+    - frontmatter: type == 'archive'
+    - content_patterns: historical, deprecated
+```
+
 ## Success Metrics
 
-### Week 2 Success (FRs)
+### Week 1 Success (FRs)
 - [ ] Command processes inbox files
 - [ ] Files moved to correct folders
 - [ ] Basic categorization working
 - [ ] Users can process inbox daily
+
+### Quality Metrics
+- [ ] 100% test pass rate
+- [ ] >90% code coverage for inbox processing module
+- [ ] Zero critical bugs in inbox workflow
+- [ ] User satisfaction >85% for organization experience
 
 ### Future Success (NFRs - Only if Needed)
 - [ ] Process 100+ files quickly (if volume increases)
 - [ ] 99.9% reliability (if critical)
 - [ ] Real-time processing (if users request)
 
+## Dependencies
+- **Required**: Vault directory structure (`vault/00-inbox/`, `vault/01-projects/`, etc.)
+- **Required**: Python YAML library for frontmatter parsing
+- **Required**: Path utilities for file operations
+- **Optional**: NLP libraries for content analysis (deferred)
+
+## Risk Mitigation
+- **File conflicts**: Unique naming and conflict resolution
+- **Missing directories**: Auto-creation with error handling
+- **Malformed content**: Graceful error handling and reporting
+- **Large files**: Memory-efficient processing
+- **Concurrent access**: File locking (deferred)
+
 ---
 
-*Specification follows TDD and FR-First principles*
-*Build functional features first, optimize only when proven necessary*
+## Implementation Notes
+
+This specification follows our proven TDD and FR-First principles:
+- **Tests written first** - All behavior defined by tests (following capture pattern)
+- **Functional requirements prioritized** - User value delivered quickly  
+- **Non-functional requirements deferred** - Optimization only when needed
+- **Quality gates enforced** - No compromise on reliability
+
+**Next Action**: Create comprehensive test suite following proven capture feature pattern (RED phase)
+
+---
+
+*Specification approved for immediate implementation*  
+*Part of PKM Phase 3 Week 1 core operations development*
+*Following proven TDD methodology from successful capture feature*

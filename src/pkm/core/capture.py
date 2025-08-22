@@ -51,19 +51,31 @@ class PkmCapture:
         # Ensure inbox directory exists
         self.inbox_path.mkdir(parents=True, exist_ok=True)
         
-        # Generate timestamp and filename with high precision for uniqueness
+        # Generate timestamp and filename with guaranteed uniqueness
         import time
         timestamp = datetime.now()
         date_str = timestamp.strftime("%Y%m%d")
         time_str = timestamp.strftime("%H%M%S")
-        # For pattern matching test compliance: YYYYMMDD-HHMMSS format
-        # But ensure uniqueness by replacing last digit with nano precision
-        nano_suffix = str(int(time.time_ns()))[-1:]  # Last digit for uniqueness
-        unique_time_str = f"{time_str[:-1]}{nano_suffix}"  # Replace last second digit with nano
         timestamp_str = f"{date_str}{time_str}"
         filename = self._generate_filename(content)
-        full_filename = f"{date_str}-{unique_time_str}-{filename}"
-        file_path = self.inbox_path / full_filename
+        
+        # Ensure uniqueness by checking for existing files and adding counter
+        base_filename = f"{date_str}-{time_str}-{filename}"
+        file_path = self.inbox_path / base_filename
+        counter = 1
+        while file_path.exists():
+            # Add microsecond precision for uniqueness
+            microseconds = timestamp.strftime("%f")[:3]  # First 3 digits of microseconds
+            unique_filename = f"{date_str}-{time_str}{microseconds}-{filename}"
+            file_path = self.inbox_path / unique_filename
+            if not file_path.exists():
+                break
+            # If still conflicts, add counter
+            stem = Path(unique_filename).stem
+            suffix = Path(unique_filename).suffix
+            unique_filename = f"{stem}-{counter}{suffix}"
+            file_path = self.inbox_path / unique_filename
+            counter += 1
         
         # Create frontmatter
         frontmatter = self._create_frontmatter(source, tags or [], timestamp)
@@ -80,11 +92,11 @@ class PkmCapture:
             'type': 'capture',
             'status': 'inbox',
             'timestamp': timestamp_str,
-            'filename': full_filename
+            'filename': file_path.name
         }
         
         # Return result with relative path for first test compatibility
-        relative_path = f"00-inbox/{full_filename}"
+        relative_path = f"00-inbox/{file_path.name}"
         return CaptureResult(
             success=True,
             file_path=relative_path,

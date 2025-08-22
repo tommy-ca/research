@@ -274,6 +274,176 @@ elif feature.improves_quality and not feature.blocks_progress:
 - **MANDATORY: Specs-driven development flow**
 - **MANDATORY: FR-first prioritization**
 
+### Core Software Engineering Principles
+
+#### 4. KISS Principle (Keep It Simple, Stupid) - ALWAYS PRIORITIZE
+**Simplicity is the ultimate sophistication in PKM systems:**
+
+**KISS Rules:**
+- **Simple over clever**: Write code that anyone can understand and maintain
+- **Minimal viable features**: Start with the simplest implementation that works
+- **Clear function names**: Use descriptive names over comments
+- **Single-purpose functions**: Each function should do one thing well
+- **Avoid premature optimization**: Make it work first, optimize later only if needed
+
+**KISS Examples:**
+```python
+# GOOD (KISS): Simple, clear, readable
+def create_note_id():
+    return datetime.now().strftime("%Y%m%d%H%M")
+
+# BAD (Complex): Over-engineered for current needs
+def create_note_id(format_type="timestamp", precision="minute", timezone=None, prefix=""):
+    # 50 lines of complex logic...
+```
+
+**KISS Decision Framework:**
+```
+if solution.solves_problem and solution.is_simple:
+    implement()
+elif solution.solves_problem and solution.is_complex:
+    simplify_first()
+else:
+    reject()
+```
+
+#### 5. DRY Principle (Don't Repeat Yourself) - ELIMINATE DUPLICATION
+**Every piece of knowledge must have a single, unambiguous representation:**
+
+**DRY Rules:**
+- **Extract common logic**: Identify patterns and create reusable functions
+- **Configuration over code**: Use data structures for repeated patterns
+- **Shared constants**: Define values once, reference everywhere
+- **Template patterns**: Create templates for similar structures
+- **Inheritance hierarchies**: Use base classes for common behavior
+
+**DRY Implementation Patterns:**
+```python
+# GOOD (DRY): Shared configuration
+PARA_CATEGORIES = {
+    'project': '01-projects',
+    'area': '02-areas',
+    'resource': '03-resources',
+    'archive': '04-archives'
+}
+
+# GOOD (DRY): Common base class
+class BasePkmProcessor:
+    def __init__(self, vault_path: str):
+        self.vault_path = Path(vault_path)
+        self.create_directories()
+
+class PkmCapture(BasePkmProcessor):
+    pass
+
+class PkmInboxProcessor(BasePkmProcessor):
+    pass
+```
+
+**DRY vs Copy-Paste Decision:**
+- **Copy once**: Acceptable, monitor for patterns
+- **Copy twice**: Consider extracting common logic
+- **Copy thrice**: MUST extract - DRY violation
+
+#### 6. SOLID Principles - ARCHITECTURAL FOUNDATION
+**Object-oriented design principles for maintainable, flexible code:**
+
+**S - Single Responsibility Principle (SRP)**
+- **Rule**: Each class should have only one reason to change
+- **PKM Application**: Separate capture, processing, and indexing concerns
+```python
+class PkmCapture:           # Only responsible for capturing content
+class PkmInboxProcessor:    # Only responsible for inbox processing  
+class PkmNoteIndexer:       # Only responsible for indexing notes
+```
+
+**O - Open/Closed Principle (OCP)**
+- **Rule**: Classes should be open for extension, closed for modification
+- **PKM Application**: Use strategy pattern for different categorization methods
+```python
+class BaseCategorizer:
+    def categorize(self, content: str) -> str:
+        raise NotImplementedError
+
+class ParaCategorizer(BaseCategorizer):
+    def categorize(self, content: str) -> str:
+        # PARA method implementation
+
+class TagBasedCategorizer(BaseCategorizer):
+    def categorize(self, content: str) -> str:
+        # Tag-based implementation
+```
+
+**L - Liskov Substitution Principle (LSP)**
+- **Rule**: Derived classes must be substitutable for their base classes
+- **PKM Application**: All processors must work with same interfaces
+```python
+def process_content(processor: BasePkmProcessor, content: str):
+    # Must work with any processor implementation
+    return processor.process(content)
+```
+
+**I - Interface Segregation Principle (ISP)**
+- **Rule**: Clients shouldn't depend on interfaces they don't use
+- **PKM Application**: Separate interfaces for different capabilities
+```python
+class Searchable:
+    def search(self, query: str) -> List[str]: pass
+
+class Linkable:
+    def create_links(self, content: str) -> List[str]: pass
+
+class Taggable:
+    def generate_tags(self, content: str) -> List[str]: pass
+```
+
+**D - Dependency Inversion Principle (DIP)**
+- **Rule**: Depend on abstractions, not concretions
+- **PKM Application**: Inject dependencies rather than hard-coding
+```python
+class PkmSystem:
+    def __init__(self, 
+                 capture_service: CaptureInterface,
+                 processor_service: ProcessorInterface,
+                 indexer_service: IndexerInterface):
+        self.capture = capture_service
+        self.processor = processor_service
+        self.indexer = indexer_service
+```
+
+#### Integration with TDD and Specs-Driven Development
+
+**Principle Hierarchy:**
+1. **TDD** - Test specification drives implementation
+2. **Specs-driven** - Requirements define architecture
+3. **FR-first** - User value before optimization
+4. **KISS** - Simple solutions over clever ones
+5. **DRY** - Eliminate duplication after patterns emerge
+6. **SOLID** - Structure for long-term maintainability
+
+**Decision Framework:**
+```python
+def design_decision(requirement, options):
+    # 1. Does it pass tests? (TDD)
+    if not all(test.passes for option in options):
+        return "write_better_tests"
+    
+    # 2. Does it meet specs? (Specs-driven)
+    valid_options = [opt for opt in options if opt.meets_specs]
+    
+    # 3. Does it deliver user value? (FR-first)
+    fr_options = [opt for opt in valid_options if opt.delivers_value]
+    
+    # 4. Is it simple? (KISS)
+    simple_options = [opt for opt in fr_options if opt.is_simple]
+    
+    # 5. Does it avoid duplication? (DRY)  
+    dry_options = [opt for opt in simple_options if not opt.duplicates_code]
+    
+    # 6. Is it well-structured? (SOLID)
+    return min(dry_options, key=lambda x: x.solid_violations)
+```
+
 ### Documentation Requirements
 - Research methodologies must be fully documented
 - All findings require source attribution and validation
