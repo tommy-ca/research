@@ -1,9 +1,7 @@
-#!/bin/bash
-"""
-PKM System Complete Testing Pipeline
-Executes comprehensive test suite with quality gates
-Based on AUTOMATED-TESTING-VALIDATION-FRAMEWORK.md
-"""
+#!/usr/bin/env bash
+# PKM System Complete Testing Pipeline
+# Executes comprehensive test suite with quality gates
+# Based on AUTOMATED-TESTING-VALIDATION-FRAMEWORK.md
 
 set -e  # Exit on any error
 
