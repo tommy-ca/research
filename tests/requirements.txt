@@ -1,0 +1,35 @@
+# PKM System Testing Dependencies
+# Core testing framework
+pytest>=7.4.0
+pytest-xdist>=3.3.0         # Parallel test execution
+pytest-mock>=3.11.0         # Mocking and patching
+pytest-cov>=4.1.0           # Coverage reporting
+pytest-html>=3.2.0          # HTML test reports
+pytest-benchmark>=4.0.0     # Performance benchmarking
+
+# Quality assurance tools
+coverage>=7.2.0             # Code coverage measurement
+flake8>=6.0.0               # Code quality linting
+black>=23.0.0               # Code formatting validation
+mypy>=1.4.0                 # Type checking validation
+bandit>=1.7.0               # Security vulnerability scanning
+
+# Performance testing
+memory-profiler>=0.60.0     # Memory usage profiling
+psutil>=5.9.0               # System resource monitoring
+
+# Mocking and fixtures
+responses>=0.23.0           # HTTP request mocking
+freezegun>=1.2.0            # Time/date mocking
+factory-boy>=3.3.0          # Test data factories
+faker>=19.0.0               # Realistic fake data generation
+
+# Reporting and analysis
+allure-pytest>=2.13.0       # Advanced test reporting
+junit2html>=31.0.0          # JUnit report conversion
+
+# Development utilities
+hypothesis>=6.80.0          # Property-based testing
+pydantic>=2.0.0             # Data validation
+pyyaml>=6.0.0               # YAML processing
+markdown>=3.4.0             # Markdown processing
