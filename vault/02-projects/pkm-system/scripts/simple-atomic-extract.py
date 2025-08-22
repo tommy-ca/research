@@ -81,11 +81,11 @@ def main():
     
     # High-value documents for atomic extraction  
     high_value_docs = [
-        "../../../docs/feynman-first-principles-pkm-research.md",
-        "../../../docs/knowledge-management-workflows.md",
-        "../../../docs/pkm-systems-analysis.md",
-        "../../../docs/pkm-architecture/PKM-SYSTEM-ARCHITECTURE.md",
-        "../../../docs/pkm-architecture/PKM-SYSTEM-SPECIFICATION.md"
+        "docs/feynman-first-principles-pkm-research.md",
+        "docs/knowledge-management-workflows.md",
+        "docs/pkm-systems-analysis.md",
+        "docs/pkm-architecture/PKM-SYSTEM-ARCHITECTURE.md",
+        "docs/pkm-architecture/PKM-SYSTEM-SPECIFICATION.md"
     ]
     
     target_dir = Path("vault/permanent/notes/concepts")
