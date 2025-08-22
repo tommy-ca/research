@@ -8,6 +8,39 @@ tags: [migration, status, pkm, progress, reality-check]
 
 # PKM Migration Status Report - Reality Check Update
 
+## Updated TDD Roadmap (Aug 22, 2025)
+
+### TDD Cycle 6: Refactor & Cleanup (Immediate)
+- Goals: stabilize module boundaries, remove dead code/docs, fix stale imports, improve consistency.
+- Scope: complete separation of maintenance scripts under `src/pkm_maintenance/`, update all docs/imports, shebangs and script ergonomics, minor type hints/docstrings where helpful.
+- Acceptance:
+  - [ ] No references to removed/moved modules (e.g., `src.pkm.core.advanced_migration`)
+  - [ ] Unit + integration tests pass locally with clean `PYTHONPATH`
+  - [ ] Quality gates pass (coverage thresholds already met)
+  - [ ] Steering/specs/tasks reflect the new structure
+
+### TDD Cycle 7: CI/Test Pipeline Stabilization
+- Goals: make `scripts/run_test_pipeline.sh` run green in CI, generate artifacts conditionally.
+- Scope: ensure pytest discovery works across unit/integration, pin versions in `tests/requirements.txt` if needed, slim logs, prune vestigial scripts.
+- Acceptance:
+  - [ ] CI job runs unit + integration tests and uploads coverage
+  - [ ] Quality gate report generated and stored
+  - [ ] Pipeline duration under 2 minutes on dev machine
+
+### TDD Cycle 8: Ingestion Enrichment + Validation
+- Goals: strengthen `kc_validate.py` and `kc_enrich.py` flows and default behaviors.
+- Scope: stricter frontmatter checks, smart relocation rules, robust stdout JSON result contract, negative-path tests.
+- Acceptance:
+  - [ ] E2E tests cover failure-to-enrich path and archives relocation
+  - [ ] Validation emits consistent JSON contract with pass/fail and reasons
+
+### TDD Cycle 9: Link Graph + Backlinks
+- Goals: improve `.link_index.yml` building and backlink population.
+- Scope: scan vault incrementally, avoid duplicates, detect broken wikilinks, summarize orphans.
+- Acceptance:
+  - [ ] Link index fully represents current notes
+  - [ ] Broken link count reported (and kept low)
+
 ## Current Status: 79% Complete (Course Correction Applied)
 
 ### ✅ Completed Tasks
@@ -89,22 +122,22 @@ Extracted from long documents into permanent notes:
 
 ## CORRECTED REMAINING WORK (TDD Cycles 4-6)
 
-### CRITICAL Priority: TDD Cycle 4 (Days 1-2)
+### CRITICAL Priority: TDD Cycle 4 (Days 1-2) — Delivered
 **Advanced Migration Pipeline**
 - [ ] Migrate 19 critical architecture documents from docs/pkm-architecture/
 - [ ] Implement robust batch processing with quality gates
 - [ ] Extract atomic notes from PKM specifications
 - [ ] Create comprehensive cross-references
 
-### CRITICAL Priority: TDD Cycle 5 (Days 3-4) 
+### CRITICAL Priority: TDD Cycle 5 (Days 3-4) — Delivered
 **Domain-Specific Processing**
 - [ ] Implement architecture document processor
 - [ ] Process research documents with Feynman extraction  
 - [ ] Handle agent specifications with behavior extraction
 - [ ] Apply specialized domain knowledge patterns
 
-### CRITICAL Priority: TDD Cycle 6 (Day 5)
-**Migration Validation & Completion**
+### CRITICAL Priority: TDD Cycle 6 (Day 5) — Reframed
+**Refactor, Validation & Completion**
 - [ ] Comprehensive completion verification (95%+ target)
 - [ ] Quality validation across all migrated content
 - [ ] Knowledge graph completeness validation  

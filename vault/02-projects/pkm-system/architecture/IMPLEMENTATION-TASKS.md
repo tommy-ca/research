@@ -1036,3 +1036,21 @@ graph TD
 **Total Estimated Effort**: ~8 person-months (updated with storage tasks)
 **Recommended Team Size**: 4-6 developers + 1 DevOps engineer
 **Target Completion**: 12 months
+## TDD Cycles Roadmap (Aug 2025)
+
+### Cycle 6: Refactor & Cleanup
+- [ ] Move all migration tooling under `src/pkm_maintenance/migration`
+- [ ] Remove dead or duplicate scripts/docs
+- [ ] Update all steering/specs to reflect new imports and structure
+- [ ] Ensure scripts have correct shebang and flags (`--gist-url`, etc.)
+- [ ] Run unit/integration locally with clean `PYTHONPATH`
+
+### Cycle 7: CI/Test Pipeline Stabilization
+- [ ] Ensure `scripts/run_test_pipeline.sh` completes on CI
+- [ ] Upload coverage + quality reports; keep runtime < 2m locally
+- [ ] Address flaky discovery or plugin interference
+
+### Cycle 8: Ingestion Enrichment & Validation
+- [ ] Harden validation contract (stdout JSON)
+- [ ] Add negative-path E2E tests (enrich on failure)
+- [ ] Auto-relocate to archives/resources based on rules

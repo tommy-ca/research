@@ -90,7 +90,7 @@ def test_extracts_atomic_notes_from_system_specification():
 8. **Execute Real Migration on docs/pkm-architecture/**
    ```bash
    python -c "
-   from src.pkm.core.advanced_migration import AdvancedMigrationPipeline
+   from src.pkm_maintenance.migration.advanced_migration import AdvancedMigrationPipeline
    pipeline = AdvancedMigrationPipeline('vault')
    result = pipeline.migrate_architecture_directory('docs/pkm-architecture/')
    print(f'Migrated {result.files_migrated} files, created {result.atomic_notes_created} atomic notes')

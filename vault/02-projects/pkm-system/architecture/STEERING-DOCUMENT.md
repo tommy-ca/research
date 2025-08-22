@@ -726,3 +726,17 @@ The steering committee commits to regular review and adjustment of these guideli
 *Document Version: 1.0*
 *Last Updated: 2024-01-20*
 *Next Review: 2024-04-20*
+## Immediate Next Cycles (TDD)
+
+1) Cycle 6: Refactor & Cleanup (Immediate)
+- Separate maintenance scripts (`src/pkm_maintenance/`) from core workflows
+- Fix stale imports in docs and scripts; remove dead code
+- Ensure scripts have correct shebangs and helpful CLI args
+
+2) Cycle 7: CI/Test Pipeline Stabilization
+- Green unit+integration in CI; upload coverage and quality reports
+- Tighten discovery and speed up runs; keep logs concise
+
+3) Cycle 8: Ingestion Enrichment & Validation
+- Harden `kc_validate.py` and `kc_enrich.py`; formalize stdout JSON
+- Expand tests for failure/recovery paths
