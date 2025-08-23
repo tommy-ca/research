@@ -79,7 +79,7 @@ def enrich(file_path: Path, vault: Path, category: str, source_override: str | N
     # Ensure source
     if source_override:
         fm['source'] = source_override
-    # Type and category
+# Type and category
     fm['type'] = 'resource'
     fm['category'] = category
     # References section
@@ -107,7 +107,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Enrich a knowledge entry and align PARA category")
     parser.add_argument("file", help="Path to markdown file")
     parser.add_argument("--vault", default=str(VAULT_DEFAULT), help="Path to vault root")
-    parser.add_argument("--category", default="03-resources", help="Target PARA category path")
+    parser.add_argument("--category", default="04-resources", help="Target PARA category path")
     parser.add_argument("--source", default=None, help="Override/add source URL")
     args = parser.parse_args()
 

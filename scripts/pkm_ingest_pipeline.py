@@ -8,7 +8,7 @@ Steps:
   1) Capture to inbox (adds frontmatter, optional source, tags)
   2) Process inbox (PARA categorization)
   3) Validate quality gates (kc_validate)
-  4) If FAIL or categorized as archives, enrich and move to 03-resources
+  4) If FAIL or categorized as archives, enrich and move to 04-resources
   5) Create an atomic note referencing the resource (updates indexes)
 
 Outputs a concise summary with the final resource location and atomic note path.
@@ -104,7 +104,7 @@ def main() -> int:
     if needs_enrich:
         enr = subprocess.run([
             sys.executable, str(REPO_ROOT / 'scripts' / 'kc_enrich.py'), str(moved_path),
-            '--vault', args.vault, '--category', '03-resources',
+            '--vault', args.vault, '--category', '04-resources',
             *(('--source', args.source) if args.source else tuple())
         ], capture_output=True, text=True)
         # Parse enriched path from stdout
