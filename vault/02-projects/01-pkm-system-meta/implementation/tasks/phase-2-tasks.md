@@ -4,7 +4,15 @@
 
 This document provides detailed task breakdowns for Phase 2: Retrieval Agent implementation, organized by sprint with specific acceptance criteria, dependencies, and validation steps.
 
-## Sprint 1: Core Engine Foundation (Week 1)
+---
+
+## Workstream A: Foundation Components (Weeks 1-2)
+
+**Objective**: Build reliable primitive components that serve as foundation for all higher-level functionality  
+**Team Size**: 1 developer  
+**Development Method**: Sequential with quality gates (enables parallel WS-B + WS-C)  
+
+### Week 1: Core Primitives (Level 1)
 
 ### RET-001: Setup Project Structure with TDD Framework
 **Priority**: 🔴 Critical  

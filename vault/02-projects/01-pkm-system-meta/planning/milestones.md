@@ -16,11 +16,10 @@ gantt
     Test Framework           :done, testing, 2024-08-15, 2024-08-23
     Phase 1 Complete         :milestone, m1, 2024-08-23, 1d
     
-    section Phase 2: Retrieval Agent
-    Core Engine              :engine, 2024-08-24, 14d
-    CLI Interface           :cli, after engine, 14d
-    Claude Integration      :claude, after cli, 14d
-    Production Deploy       :deploy, after claude, 7d
+    section Phase 2: Compound Engineering
+    Foundation Components    :foundation, 2024-08-24, 14d
+    Parallel Development    :parallel, after foundation, 28d
+    Orchestration Layer     :orchestration, after parallel, 14d
     Phase 2 Complete        :milestone, m2, 2024-10-19, 1d
     
     section Phase 3: Intelligence
