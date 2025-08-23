@@ -68,8 +68,16 @@ def main() -> int:
     cap_res = cap.capture(content=content, source=src_url, tags=tags or None)
     captured = Path(args.vault) / cap_res.file_path
 
-    # Process inbox
-    proc = PkmInboxProcessor(args.vault)
+    # Process inbox (override PARA mapping to 02/03/04/05 scheme)
+    proc = PkmInboxProcessor(
+        args.vault,
+        para_mapping={
+            'project': '02-projects',
+            'area': '03-areas',
+            'resource': '04-resources',
+            'archive': '05-archives',
+        },
+    )
     proc_res = proc.process_inbox()
 
     # Determine new location
