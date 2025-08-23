@@ -1,8 +1,8 @@
 
 === DOMAIN KNOWLEDGE MIGRATION REPORT ===
-Timestamp: 2025-08-22T04:31:03.518303
+Timestamp: 2025-08-23T19:18:05.880191
 
-Total Files Migrated: 40
+Total Files Migrated: 30
 Migration Mappings: 13
 
 Migration Structure:
