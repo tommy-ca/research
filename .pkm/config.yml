@@ -1,0 +1,276 @@
+# PKM System Configuration
+# Configuration for Personal Knowledge Management system with Claude Code integration
+
+system:
+  name: "PKM Retrieval System"
+  version: "2.0.0"
+  last_updated: "2024-08-23"
+
+vault:
+  # Vault structure configuration
+  structure:
+    inbox: "00-inbox"
+    projects: "02-projects"
+    areas: "03-areas"
+    resources: "04-resources"
+    archives: "05-archives"
+    synthesis: "06-synthesis"
+    journal: "07-journal"
+    media: "08-media"
+    data: "09-data"
+    permanent: "permanent"
+    templates: "templates"
+
+  # File naming conventions
+  naming:
+    atomic_notes: "{timestamp}-{title-slug}.md"
+    daily_notes: "{YYYY-MM-DD}.md"
+    project_files: "{project-id}-{component}-{version}.{ext}"
+    timestamp_format: "YYYYMMDD-HHMMSS"
+
+  # PARA categorization mappings
+  para_mapping:
+    project: "02-projects"
+    area: "03-areas"
+    resource: "04-resources"
+    archive: "05-archives"
+
+# Retrieval system configuration
+retrieval:
+  # Search configuration
+  search:
+    default_limit: 10
+    max_limit: 100
+    methods: ["content", "tags", "semantic", "hybrid"]
+    ranking:
+      content_weight: 0.6
+      metadata_weight: 0.2
+      link_weight: 0.2
+    response_time_target: 100  # milliseconds
+
+  # Indexing configuration
+  indexing:
+    content_fields: ["title", "content", "tags"]
+    metadata_fields: ["type", "status", "created", "modified"]
+    update_frequency: "on_change"
+    cache_size: 1000
+    rebuild_threshold: 100  # new notes before rebuild
+
+  # Link discovery configuration
+  links:
+    suggestion_threshold: 0.7
+    max_suggestions: 10
+    orphan_threshold: 0  # No incoming links
+    graph_depth: 3
+    bidirectional_check: true
+
+  # Note retrieval configuration
+  get:
+    include_metadata: true
+    max_collection_size: 100
+    timeout_seconds: 30
+
+# CLI configuration
+cli:
+  # Default settings
+  defaults:
+    output_format: "table"  # table, json, markdown
+    verbose: false
+    color: true
+
+  # Output formatting
+  formatting:
+    table:
+      max_width: 120
+      truncate_content: 200
+    json:
+      indent: 2
+      sort_keys: true
+    markdown:
+      include_metadata: true
+      include_links: true
+
+# Claude Code integration
+claude:
+  # Agent specifications
+  agents:
+    pkm_retrieval:
+      name: "PKM Retrieval Agent"
+      description: "Intelligent search, get, and link operations for PKM vault"
+      capabilities:
+        - search_vault_content
+        - retrieve_notes
+        - discover_relationships
+        - natural_language_processing
+      tools: ["Read", "Write", "Grep", "Glob", "StrReplace"]
+
+  # Command mappings
+  commands:
+    "/pkm-search":
+      agent: "pkm-retrieval"
+      description: "Search across vault content"
+      parameters:
+        query:
+          type: "string"
+          required: true
+          description: "Search query or natural language"
+        method:
+          type: "enum"
+          values: ["content", "tags", "semantic", "hybrid"]
+          default: "hybrid"
+        limit:
+          type: "integer"
+          default: 10
+          max: 50
+
+    "/pkm-get":
+      agent: "pkm-retrieval"
+      description: "Retrieve specific notes or collections"
+      parameters:
+        identifier:
+          type: "string"
+          required: true
+          description: "Note ID, tag, or identifier"
+        type:
+          type: "enum"
+          values: ["id", "tag", "type", "date_range", "auto"]
+          default: "auto"
+        format:
+          type: "enum"
+          values: ["summary", "full", "metadata"]
+          default: "summary"
+
+    "/pkm-links":
+      agent: "pkm-retrieval"
+      description: "Discover and manage note relationships"
+      parameters:
+        note_id:
+          type: "string"
+          required: true
+          description: "Source note identifier"
+        operation:
+          type: "enum"
+          values: ["related", "suggest", "validate", "graph"]
+          default: "related"
+        depth:
+          type: "integer"
+          default: 2
+          max: 5
+
+# Performance configuration
+performance:
+  # Caching
+  cache:
+    enabled: true
+    ttl: 3600  # seconds
+    max_entries: 1000
+    strategy: "lru"
+
+  # Memory limits
+  memory:
+    max_index_size_mb: 100
+    max_graph_nodes: 10000
+    gc_frequency: 3600  # seconds
+
+  # Timeouts
+  timeouts:
+    search_ms: 5000
+    get_ms: 3000
+    links_ms: 10000
+
+# Logging configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: ".pkm/logs/pkm.log"
+  max_size_mb: 10
+  backup_count: 5
+
+# Quality assurance
+quality:
+  # Validation rules
+  validation:
+    require_frontmatter: true
+    require_title: true
+    min_content_length: 50
+    max_content_length: 10000
+
+  # Metrics tracking
+  metrics:
+    track_search_accuracy: true
+    track_performance: true
+    track_usage: true
+    export_frequency: "daily"
+
+# Security configuration
+security:
+  # Access control
+  access:
+    require_authentication: false  # Local system
+    log_access: true
+    rate_limiting: false
+
+  # Data protection
+  data:
+    encrypt_sensitive: false  # Local vault
+    backup_encryption: true
+    sanitize_logs: true
+
+# Development configuration
+development:
+  # Testing
+  testing:
+    test_vault: "tests/fixtures/test_vault"
+    mock_responses: false
+    debug_mode: false
+
+  # TDD configuration
+  tdd:
+    auto_run_tests: true
+    coverage_threshold: 90
+    fail_on_coverage: true
+
+# External integrations (future)
+integrations:
+  # Placeholder for future integrations
+  obsidian:
+    enabled: false
+    import_path: ""
+  
+  roam:
+    enabled: false
+    export_format: "json"
+
+  notion:
+    enabled: false
+    api_key: ""
+
+# Backup configuration
+backup:
+  # Local backups
+  local:
+    enabled: true
+    frequency: "daily"
+    retention_days: 30
+    location: ".pkm/backups"
+
+  # Remote backups (future)
+  remote:
+    enabled: false
+    provider: "s3"
+    bucket: ""
+    encryption: true
+
+# Monitoring configuration
+monitoring:
+  # Health checks
+  health:
+    enabled: true
+    check_frequency: 300  # seconds
+    alert_threshold: 5  # failed checks
+
+  # Metrics collection
+  metrics:
+    enabled: true
+    collection_frequency: 60  # seconds
+    retention_days: 7

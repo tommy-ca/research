@@ -4,31 +4,33 @@
 
 This document provides a comprehensive breakdown of implementation tasks for the PKM system, organized by phase, priority, and dependencies. Each task includes acceptance criteria, estimated effort, and assigned components.
 
-**Last Updated**: 2024-01-21
-**Architecture**: Diskless Lakehouse v2.0
-**Status**: Active Implementation - Phase 1 Complete
+**Last Updated**: 2024-08-23
+**Architecture**: Claude Code + Diskless Lakehouse v2.0
+**Status**: Phase 1 Complete ✅ - Phase 2 Ready (Retrieval Agent)
 
 ## Current Status Summary
 
-### ✅ Completed (Phase 1 - Weeks 1-4)
-- Vault structure implementation
-- Agent framework (4 agents)
-- Markdown processing
-- Git integration
-- Lakehouse architecture design
-- Industry best practices research
+### ✅ Completed (Phase 1 - Foundation)
+- **Vault Structure**: Clean 00/02/03/04/05 PARA organization ✅
+- **Ingestion Pipeline**: Working with 04-resources default ✅
+- **Test Framework**: All categorization tests passing ✅
+- **Validation Scripts**: Updated for new structure ✅
+- **Git Integration**: Ready for development ✅
+- **Agent Framework**: Basic Claude Code integration ✅
 
-### 🔄 In Progress (Weeks 5-8)
-- Iceberg catalog deployment
-- SlateDB initialization
-- Kinesis stream setup
-- Lambda processor deployment
+### 🔄 In Progress (Phase 2 - Retrieval Agent)
+- **Core Retrieval Engine**: Search, Get, Links functionality
+- **CLI Interface**: `pkm search|get|links` commands
+- **Claude Code Integration**: `/pkm-search`, `/pkm-get`, `/pkm-links`
+- **Natural Language Interface**: Intent parsing and response
+- **Testing Suite**: TDD-driven implementation
 
-### 📅 Upcoming (Weeks 9-12)
-- Diskless ingestion pipeline
-- Medallion layer configuration
-- Spark streaming setup
-- Ray cluster deployment
+### 📅 Upcoming (Phase 3 - Advanced Features)
+- **Semantic Search**: Embedding-based similarity
+- **Graph Visualization**: Interactive relationship maps
+- **Auto-linking**: Intelligent suggestion system
+- **Performance Optimization**: Caching and indexing
+- **Lakehouse Integration**: Vector storage with Lance
 
 ## Task Management Structure
 
@@ -46,7 +48,303 @@ This document provides a comprehensive breakdown of implementation tasks for the
 - **XL**: 1-2 weeks
 - **XXL**: > 2 weeks
 
-## Phase 1: Foundation Tasks
+## Phase 1: Foundation Tasks ✅ COMPLETED
+
+*Phase 1 focused on establishing the core vault structure and ingestion pipeline. All tasks in this phase have been completed successfully.*
+
+## Phase 2: Retrieval Agent Implementation 🔄 CURRENT
+
+*This phase focuses on building the intelligent retrieval system that provides search, get, and link operations through both CLI and Claude Code interfaces.*
+
+**Development Principles**: TDD (Test-Driven Development), Specs-First, FR-First Prioritization
+
+### 2.1 Core Retrieval Engine
+
+#### TASK-RET-001: Implement RetrievalEngine Core
+- **Priority**: 🔴 Critical
+- **Effort**: L
+- **Dependencies**: None
+- **TDD Approach**: Write failing tests first for search, get, links
+- **Acceptance Criteria**:
+  - [ ] RetrievalEngine class with search(), get(), links() methods
+  - [ ] Content indexing from vault markdown files
+  - [ ] Metadata extraction and indexing
+  - [ ] Basic relevance scoring algorithm
+  - [ ] 90% test coverage
+- **Implementation**:
+  ```python
+  # tests/unit/test_retrieval_engine.py - WRITE FIRST
+  def test_search_returns_relevant_results():
+      engine = RetrievalEngine("test_vault")
+      results = engine.search("machine learning")
+      assert len(results) > 0
+      assert results[0].relevance_score > 0.7
+  ```
+
+#### TASK-RET-002: Build Search Functionality
+- **Priority**: 🔴 Critical
+- **Effort**: L
+- **Dependencies**: TASK-RET-001
+- **TDD Approach**: Test each search method independently
+- **Acceptance Criteria**:
+  - [ ] Content search with text matching
+  - [ ] Tag-based search with metadata
+  - [ ] Hybrid search combining methods
+  - [ ] Result ranking by relevance score
+  - [ ] Search response time < 100ms
+- **Test Implementation**:
+  ```python
+  def test_content_search_accuracy():
+      # Test content search returns relevant notes
+  def test_tag_search_precision():
+      # Test tag search returns exact matches
+  def test_hybrid_search_ranking():
+      # Test hybrid search ranks results properly
+  ```
+
+#### TASK-RET-003: Implement Note Retrieval System
+- **Priority**: 🔴 Critical  
+- **Effort**: M
+- **Dependencies**: TASK-RET-001
+- **TDD Approach**: Test retrieval by different identifiers
+- **Acceptance Criteria**:
+  - [ ] Get note by unique ID
+  - [ ] Get notes by tag collection
+  - [ ] Get notes by type (project/area/resource)
+  - [ ] Get notes by date range
+  - [ ] Include metadata in results
+- **Test Implementation**:
+  ```python
+  def test_get_note_by_id():
+      # Test single note retrieval
+  def test_get_notes_by_tag():
+      # Test collection retrieval
+  ```
+
+#### TASK-RET-004: Build Link Discovery Engine
+- **Priority**: 🔴 Critical
+- **Effort**: L
+- **Dependencies**: TASK-RET-001
+- **TDD Approach**: Test graph construction and traversal
+- **Acceptance Criteria**:
+  - [ ] Build link graph from [[wikilinks]]
+  - [ ] Find related notes through content similarity
+  - [ ] Suggest missing bidirectional links
+  - [ ] Detect orphan notes (no incoming links)
+  - [ ] Calculate relationship strength scores
+- **Test Implementation**:
+  ```python
+  def test_build_link_graph():
+      # Test graph construction from wikilinks
+  def test_find_related_notes():
+      # Test content similarity discovery
+  def test_suggest_bidirectional_links():
+      # Test missing link suggestions
+  ```
+
+### 2.2 CLI Interface Development
+
+#### TASK-RET-005: Setup CLI Framework
+- **Priority**: 🟠 High
+- **Effort**: S
+- **Dependencies**: TASK-RET-002, TASK-RET-003, TASK-RET-004
+- **TDD Approach**: Use click.testing for CLI tests
+- **Acceptance Criteria**:
+  - [ ] Click-based CLI with pkm command group
+  - [ ] Configuration management for vault path
+  - [ ] Output formatting (JSON, table, markdown)
+  - [ ] Error handling and user feedback
+  - [ ] Help system and documentation
+- **Implementation**:
+  ```bash
+  # CLI Interface Design
+  pkm search "query" [--method=content|tags|semantic] [--limit=10]
+  pkm get <identifier> [--type=id|tag|type] [--format=json|markdown]
+  pkm links <note-id> [--operation=related|suggest] [--depth=2]
+  ```
+
+#### TASK-RET-006: Implement PKM Search Command
+- **Priority**: 🟠 High
+- **Effort**: M
+- **Dependencies**: TASK-RET-005
+- **TDD Approach**: Test CLI command invocation and output
+- **Acceptance Criteria**:
+  - [ ] `pkm search` command with query parameter
+  - [ ] Method selection (content, tags, hybrid)
+  - [ ] Result limit and formatting options
+  - [ ] Relevance score display
+  - [ ] Clear error messages for invalid queries
+- **Test Implementation**:
+  ```python
+  def test_search_command_basic():
+      result = runner.invoke(cli, ['search', 'machine learning'])
+      assert result.exit_code == 0
+      assert 'Found' in result.output
+  ```
+
+#### TASK-RET-007: Implement PKM Get Command
+- **Priority**: 🟠 High  
+- **Effort**: M
+- **Dependencies**: TASK-RET-005
+- **TDD Approach**: Test various get operations
+- **Acceptance Criteria**:
+  - [ ] `pkm get` command with identifier parameter
+  - [ ] Type selection (id, tag, type, date_range)
+  - [ ] Metadata inclusion options
+  - [ ] Multiple output formats
+  - [ ] Progress indicators for large collections
+
+#### TASK-RET-008: Implement PKM Links Command
+- **Priority**: 🟠 High
+- **Effort**: M  
+- **Dependencies**: TASK-RET-005
+- **TDD Approach**: Test link operations and graph output
+- **Acceptance Criteria**:
+  - [ ] `pkm links` command with note ID parameter
+  - [ ] Operation selection (related, suggest, validate, graph)
+  - [ ] Depth control for graph traversal
+  - [ ] Visual graph output (ASCII art or file export)
+  - [ ] Link suggestion confidence scores
+
+### 2.3 Claude Code Integration
+
+#### TASK-RET-009: Create PKM Retrieval Agent Specification
+- **Priority**: 🔴 Critical
+- **Effort**: S
+- **Dependencies**: CLI commands complete
+- **TDD Approach**: Test agent command handling
+- **Acceptance Criteria**:
+  - [ ] Claude agent specification file (.claude/agents/pkm-retrieval.md)
+  - [ ] Agent capabilities and tools defined
+  - [ ] Integration with RetrievalEngine
+  - [ ] Error handling and response formatting
+  - [ ] Documentation and examples
+- **Implementation**:
+  ```yaml
+  # .claude/agents/pkm-retrieval.md
+  name: pkm-retrieval
+  capabilities:
+    - search_vault_content
+    - retrieve_notes
+    - discover_relationships
+  tools: ["Read", "Write", "Grep", "Glob"]
+  ```
+
+#### TASK-RET-010: Implement /pkm-search Command
+- **Priority**: 🔴 Critical
+- **Effort**: M
+- **Dependencies**: TASK-RET-009
+- **TDD Approach**: Test Claude command integration
+- **Acceptance Criteria**:
+  - [ ] `/pkm-search` command in Claude Code settings
+  - [ ] Natural language query parsing
+  - [ ] Parameter validation and defaults
+  - [ ] Formatted results for Claude interface
+  - [ ] Error handling with helpful messages
+- **Command Specification**:
+  ```yaml
+  "/pkm-search":
+    description: "Search across vault content"
+    agent: "pkm-retrieval"
+    parameters:
+      - query: string (required)
+      - method: enum [content, tags, semantic, hybrid]
+      - limit: integer (default: 10)
+  ```
+
+#### TASK-RET-011: Implement /pkm-get Command
+- **Priority**: 🔴 Critical
+- **Effort**: M
+- **Dependencies**: TASK-RET-009
+- **TDD Approach**: Test get command variations
+- **Acceptance Criteria**:
+  - [ ] `/pkm-get` command with identifier parsing
+  - [ ] Type detection and selection
+  - [ ] Summary vs full content options
+  - [ ] Metadata inclusion control
+  - [ ] Collection handling for multiple notes
+
+#### TASK-RET-012: Implement /pkm-links Command
+- **Priority**: 🔴 Critical
+- **Effort**: M
+- **Dependencies**: TASK-RET-009
+- **TDD Approach**: Test link discovery and suggestions
+- **Acceptance Criteria**:
+  - [ ] `/pkm-links` command with note ID validation
+  - [ ] Operation type selection
+  - [ ] Graph depth control
+  - [ ] Visual relationship display
+  - [ ] Link suggestion explanations
+
+### 2.4 Advanced Features
+
+#### TASK-RET-013: Natural Language Query Processing
+- **Priority**: 🟡 Medium
+- **Effort**: L
+- **Dependencies**: TASK-RET-012
+- **TDD Approach**: Test intent recognition and parsing
+- **Acceptance Criteria**:
+  - [ ] Natural language query parsing
+  - [ ] Intent detection (search, get, links)
+  - [ ] Parameter extraction from natural language
+  - [ ] Query expansion and refinement
+  - [ ] Ambiguity handling with clarification
+
+#### TASK-RET-014: Performance Optimization
+- **Priority**: 🟡 Medium (defer until FR complete)
+- **Effort**: M
+- **Dependencies**: All core features
+- **TDD Approach**: Performance benchmarks as tests
+- **Acceptance Criteria**:
+  - [ ] Search response time < 100ms
+  - [ ] Index build time < 5 seconds for 1000 notes
+  - [ ] Memory usage < 100MB for typical vault
+  - [ ] Caching for frequently accessed content
+  - [ ] Incremental index updates
+
+#### TASK-RET-015: Semantic Search with Embeddings
+- **Priority**: 🟢 Low (defer until Phase 3)
+- **Effort**: XL
+- **Dependencies**: Core functionality proven
+- **TDD Approach**: Semantic similarity tests
+- **Acceptance Criteria**:
+  - [ ] Embedding generation for notes
+  - [ ] Vector similarity search
+  - [ ] Semantic clustering of results
+  - [ ] Integration with existing search
+  - [ ] Performance benchmarks
+
+### 2.5 Integration Testing
+
+#### TASK-RET-016: End-to-End Testing Suite
+- **Priority**: 🔴 Critical
+- **Effort**: L
+- **Dependencies**: All implementation tasks
+- **TDD Approach**: Complete user workflow tests
+- **Acceptance Criteria**:
+  - [ ] CLI integration tests with real vault
+  - [ ] Claude Code integration tests
+  - [ ] Performance benchmarks
+  - [ ] Error handling validation
+  - [ ] User acceptance test scenarios
+- **Test Scenarios**:
+  ```python
+  def test_complete_search_workflow():
+      # User searches -> gets results -> follows links
+  def test_note_discovery_workflow():
+      # User explores -> finds related -> discovers gaps
+  ```
+
+#### TASK-RET-017: Documentation and Examples
+- **Priority**: 🟠 High
+- **Effort**: M  
+- **Dependencies**: Implementation complete
+- **Acceptance Criteria**:
+  - [ ] CLI usage documentation
+  - [ ] Claude Code command examples
+  - [ ] API documentation for RetrievalEngine
+  - [ ] Performance tuning guide
+  - [ ] Troubleshooting documentation
 
 ### 1.1 Core Infrastructure
 
