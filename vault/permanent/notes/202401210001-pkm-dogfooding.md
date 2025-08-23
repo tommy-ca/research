@@ -59,7 +59,7 @@ Our own PKM implementation serves as living proof - this vault itself is the dog
 ## References
 - Original concept from Microsoft (eating their own dog food)
 - Lean Startup methodology - Build, Measure, Learn
-- Our implementation: `/vault/1-projects/pkm-system/`
+- Our implementation: `/vault/02-projects/pkm-system/`
 
 ---
 *Zettelkasten Note - One idea, fully developed*
