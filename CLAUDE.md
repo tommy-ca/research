@@ -54,11 +54,11 @@ Automation scripts following [Claude Code Hooks](https://docs.anthropic.com/en/d
 ### PKM Vault Structure (Primary)
 ```
 vault/                    # PKM Vault Root (PARA Method)
-├── 0-inbox/             # 📥 Capture everything here first
-├── 1-projects/          # 🎯 Active projects with deadlines
-├── 2-areas/             # 🔄 Ongoing responsibilities  
-├── 3-resources/         # 📚 Reference materials
-├── 4-archives/          # 🗄️ Completed/inactive items
+├── 00-inbox/            # 📥 Capture everything here first
+├── 02-projects/         # 🎯 Active projects with deadlines
+├── 03-areas/            # 🔄 Ongoing responsibilities  
+├── 04-resources/        # 📚 Reference materials
+├── 05-archives/         # 🗄️ Completed/inactive items
 ├── daily/               # 📅 Daily notes (YYYY/MM-month/YYYY-MM-DD.md)
 ├── permanent/           # 🧠 Zettelkasten atomic notes
 └── templates/           # 📝 Note templates
@@ -92,7 +92,7 @@ vault/                    # PKM Vault Root (PARA Method)
 ## Persistent PKM Rules
 
 ### ALWAYS (Non-Negotiable)
-1. **Capture First, Organize Later**: Everything goes to `vault/0-inbox/` first
+1. **Capture First, Organize Later**: Everything goes to `vault/00-inbox/` first
 2. **Daily Notes**: Create/update `vault/daily/YYYY/MM-month/YYYY-MM-DD.md` for each day
 3. **Atomic Notes**: One idea per note in `vault/permanent/notes/`
 4. **Bidirectional Links**: Create `[[links]]` between related notes
@@ -110,8 +110,8 @@ vault/                    # PKM Vault Root (PARA Method)
 ### Processing Rules
 1. **Inbox Zero**: Process inbox items within 48 hours
 2. **Weekly Reviews**: Every Sunday, run `/pkm-review weekly`
-3. **Project Updates**: Update project status in `vault/1-projects/` daily
-4. **Archive Completed**: Move finished projects to `vault/4-archives/`
+3. **Project Updates**: Update project status in `vault/02-projects/` daily
+4. **Archive Completed**: Move finished projects to `vault/05-archives/`
 5. **Link Maintenance**: Check for broken links weekly
 
 ## PKM Workflow Automation
@@ -522,8 +522,8 @@ For detailed information about the agent system, see `.claude/README.md`.
 
 ### For Every Session
 1. Check daily note: `vault/daily/YYYY/MM-month/YYYY-MM-DD.md`
-2. Process any inbox items: `vault/0-inbox/`
-3. Update relevant projects: `vault/1-projects/`
+2. Process any inbox items: `vault/00-inbox/`
+3. Update relevant projects: `vault/02-projects/`
 4. Create atomic notes for insights: `vault/permanent/notes/`
 5. Commit changes with descriptive messages
 

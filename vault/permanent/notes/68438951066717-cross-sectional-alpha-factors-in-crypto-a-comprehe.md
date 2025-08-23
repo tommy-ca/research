@@ -11,7 +11,7 @@ title: 'Cross-Sectional Alpha Factors in Crypto: A Comprehensive Analysis'
 type: atomic
 ---
 
-Reference: vault/03-resources/20250822-151358-cross-sectional-alpha-factors-in-crypto.md
+Reference: vault/04-resources/20250822-151358-cross-sectional-alpha-factors-in-crypto.md
 
 [[Cross-Sectional Alpha Factors in Crypto: A Comprehensive Analysis]] — resource captured from https://gist.github.com/tommy-ca/fa06576b9d24b14630ee97fe25f19602.
 

@@ -4,7 +4,7 @@ title: "PKM Dogfooding Principles"
 date: 2024-01-21
 type: zettel
 tags: [pkm, dogfooding, methodology, implementation]
-links: ["[[202508231435-claude-code-for-information-architecture]]", "[[202508231438-content-as-code-approach]]"]
+links: ["[[202508231435-claude-code-for-information-architecture]]", "[[202508231438-content-as-code-approach]]", "[[20250823203957-pkm-architecture-index]]"]
 created: 2024-01-21T10:00:00Z
 modified: 2024-01-21T10:00:00Z
 ---
@@ -47,6 +47,7 @@ When building a PKM system, the most effective validation comes from using it yo
 - Contrasts with: [[202401210003-waterfall-methodology]]
 - Builds on: [[202401210004-feedback-loops]]
 - Leads to: [[202401210005-system-validation]]
+- Architecture: [[20250823203957-pkm-architecture-index]]
 
 ## Evidence
 Our own PKM implementation serves as living proof - this vault itself is the dogfooding experiment, with every note, every workflow, and every automation being tested through actual use.
@@ -59,7 +60,7 @@ Our own PKM implementation serves as living proof - this vault itself is the dog
 ## References
 - Original concept from Microsoft (eating their own dog food)
 - Lean Startup methodology - Build, Measure, Learn
-- Our implementation: `/vault/1-projects/pkm-system/`
+- Our implementation: `/vault/02-projects/pkm-system/`
 
 ---
 *Zettelkasten Note - One idea, fully developed*

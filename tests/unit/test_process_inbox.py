@@ -208,9 +208,9 @@ Just regular markdown content"""
         
         # Assert
         assert result.success is True
-        assert result.categorized["project-file.md"] == "01-projects"
-        assert result.categorized["area-file.md"] == "02-areas"
-        assert result.categorized["resource-file.md"] == "03-resources"
+        assert result.categorized["project-file.md"] == "02-projects"
+        assert result.categorized["area-file.md"] == "03-areas"
+        assert result.categorized["resource-file.md"] == "04-resources"
     
     def test_categorizes_by_frontmatter_type(self, inbox_processor, temp_vault):
         """Should prioritize frontmatter type field for categorization"""
@@ -231,7 +231,7 @@ But the type field says it's a project"""
         result = inbox_processor.process_inbox()
         
         # Assert
-        assert result.categorized["explicit-project.md"] == "01-projects"
+        assert result.categorized["explicit-project.md"] == "02-projects"
     
     def test_categorizes_by_content_keywords(self, inbox_processor, temp_vault):
         """Should categorize based on content keywords when type not specified"""
@@ -254,7 +254,7 @@ All files moved to historical storage."""
         result = inbox_processor.process_inbox()
         
         # Assert
-        assert result.categorized["archive-note.md"] == "04-archives"
+        assert result.categorized["archive-note.md"] == "05-archives"
     
     def test_default_categorization_fallback(self, inbox_processor, temp_vault):
         """Should have a default category for ambiguous content"""
@@ -298,7 +298,7 @@ Some random thoughts that don't clearly fit any category."""
         # Files should exist in target directories
         assert (temp_vault / "01-projects" / "project-file.md").exists()
         assert (temp_vault / "02-areas" / "area-file.md").exists()
-        assert (temp_vault / "03-resources" / "resource-file.md").exists()
+        assert (temp_vault / "04-resources" / "resource-file.md").exists()
     
     def test_creates_target_directories_if_missing(self, inbox_processor, temp_vault):
         """Should create PARA directories if they don't exist"""
@@ -496,7 +496,7 @@ Arabic: محتوى عربي
         assert result.success is True
         assert result.files_processed == 1
         # File should be moved and content preserved
-        processed_file = temp_vault / "03-resources" / "unicode-test.md"
+        processed_file = temp_vault / "04-resources" / "unicode-test.md"
         assert processed_file.exists()
         content = processed_file.read_text(encoding='utf-8')
         assert "Café Configuration ☕" in content

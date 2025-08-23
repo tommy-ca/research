@@ -28,34 +28,37 @@ class ProcessResult:
 
 class PkmInboxProcessor:
     """PKM inbox processing service with PARA categorization"""
-    
-    # PARA type mappings
+
+    # Default PARA type mappings
     PARA_TYPE_MAPPING = {
-        'project': '01-projects',
-        'area': '02-areas', 
-        'resource': '03-resources',
-        'archive': '04-archives'
+        'project': '02-projects',
+        'area': '03-areas',
+        'resource': '04-resources',
+        'archive': '05-archives',
     }
-    
+
     # PARA categorization keywords (ordered by specificity)
     PARA_KEYWORDS = {
-        '04-archives': ['archived', 'archive', 'completed', 'historical', 'old', 'inactive', 'deprecated'],
-        '01-projects': ['deadline', 'project', 'goal', 'deliverable', 'launch'],
-        '02-areas': ['area', 'ongoing', 'maintain', 'responsibility', 'routine', 'habit'],
-        '03-resources': ['reference', 'resource', 'learn', 'information', 'documentation', 'tutorial']
+        '05-archives': ['archived', 'archive', 'completed', 'historical', 'old', 'inactive', 'deprecated'],
+        '02-projects': ['deadline', 'project', 'goal', 'deliverable', 'launch'],
+        '03-areas': ['area', 'ongoing', 'maintain', 'responsibility', 'routine', 'habit'],
+        '04-resources': ['reference', 'resource', 'learn', 'information', 'documentation', 'tutorial'],
     }
-    
-    DEFAULT_CATEGORY = '03-resources'
-    
-    def __init__(self, vault_path: str):
+
+    DEFAULT_CATEGORY = '04-resources'
+
+    def __init__(self, vault_path: str, para_mapping: Dict[str, str] | None = None):
         """Initialize inbox processor with vault path"""
         self.vault_path = Path(vault_path)
         self.inbox_path = self.vault_path / "00-inbox"
-        
+
+        # Allow overriding PARA mapping (e.g., to 02/03/04/05 scheme)
+        self.para_type_mapping = para_mapping or self.PARA_TYPE_MAPPING
+
         # PARA directories
         self.para_dirs = {
-            category: self.vault_path / category 
-            for category in self.PARA_TYPE_MAPPING.values()
+            category: self.vault_path / category
+            for category in self.para_type_mapping.values()
         }
     
     def process_inbox(self) -> ProcessResult:
@@ -147,8 +150,8 @@ class PkmInboxProcessor:
         """Categorize content according to PARA method"""
         # Priority 1: Explicit type in frontmatter
         frontmatter_type = frontmatter.get('type')
-        if frontmatter_type in self.PARA_TYPE_MAPPING:
-            return self.PARA_TYPE_MAPPING[frontmatter_type]
+        if frontmatter_type in self.para_type_mapping:
+            return self.para_type_mapping[frontmatter_type]
         
         # Priority 2: Content-based keyword analysis
         return self._categorize_by_keywords(content)

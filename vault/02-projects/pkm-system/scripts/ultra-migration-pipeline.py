@@ -81,7 +81,6 @@ class UltraMigrationPipeline:
         # Zero-padded directory structure (resolve conflict)
         self.vault_structure = {
             'inbox': '00-inbox',
-            'notes': '01-notes', 
             'projects': '02-projects',
             'areas': '03-areas',
             'resources': '04-resources',
@@ -558,7 +557,7 @@ modified: {datetime.now().isoformat()}
             ),
             MigrationTarget(
                 source_path="docs/feynman-first-principles-pkm-research.md", 
-                destination_path="01-notes/permanent/methods",
+                destination_path="permanent/notes",
                 processing_method=ProcessingMethod.DEEP_ATOMIC_EXTRACTION,
                 atomic_note_target=15,
                 priority="P0", 
@@ -613,7 +612,7 @@ modified: {datetime.now().isoformat()}
             atomic_notes = self.extract_atomic_notes(source_file, target.atomic_note_target)
             
             # Save atomic notes
-            atomic_dir = self.vault_root / "01-notes" / "permanent" / "concepts"
+            atomic_dir = self.vault_root / "permanent" / "notes"
             for note in atomic_notes:
                 self.save_atomic_note(note, atomic_dir)
                 

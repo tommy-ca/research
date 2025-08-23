@@ -4,7 +4,7 @@ title: "Dual Interface Architecture: Text + Natural Language"
 date: 2024-08-22
 type: zettel
 tags: [architecture, interface-design, claude-code, pkm-system]
-links: ["[[claude-code-implementation]]", "[[workflow-engine]]"]
+links: ["[[claude-code-implementation]]", "[[workflow-engine]]", "[[20250823203954-dual-interface-pkm]]"]
 source: PKM-SYSTEM-ARCHITECTURE.md
 extraction_method: manual_architecture
 domain: architecture
@@ -47,3 +47,4 @@ Both interfaces converge on the same Git repository, ensuring consistency and en
 - Enables: [[workflow-engine]]
 - Supports: [[pkm-operations]]
 - Facilitates: [[user-experience-design]]
+- Extended by: [[20250823203954-dual-interface-pkm]]

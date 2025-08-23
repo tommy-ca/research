@@ -283,7 +283,7 @@ class CoreSystemMigrationPipeline(BasePkmProcessor):
             result.principles_extracted = processing_result.principles_extracted
             result.examples_created = processing_result.examples_created
             result.eli5_summaries = processing_result.eli5_summaries
-            target_dir = Path(self.vault_path) / "03-resources" / "research" / "methodologies"
+            target_dir = Path(self.vault_path) / "04-resources" / "research" / "methodologies"
             target_dir.mkdir(parents=True, exist_ok=True)
             target_file = target_dir / file_path.name
             shutil.copy2(str(file_path), str(target_file))

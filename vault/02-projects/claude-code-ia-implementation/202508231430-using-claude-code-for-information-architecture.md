@@ -1,11 +1,26 @@
 ---
-date: 2025-08-23
-type: capture
-tags: [information-architecture, claude-code, ai-tools, pkm, taxonomy, content-organization]
-status: draft
-source: https://jarango.com/2025/07/01/using-claude-code-for-information-architecture/
 author: Jorge Arango
-links: ["[[202508231435-claude-code-for-information-architecture]]", "[[202401210001-pkm-dogfooding]]", "[[202401210006-zettelkasten-principles]]", "[[202408220442-dual-interface-architecture]]", "[[PKM-SYSTEM-ARCHITECTURE]]", "[[CLAUDE-INTERFACE-SPECIFICATION]]"]
+category: 01-projects
+date: 2025-08-23
+links:
+- '[[202508231435-claude-code-for-information-architecture]]'
+- '[[202401210001-pkm-dogfooding]]'
+- '[[202401210006-zettelkasten-principles]]'
+- '[[202408220442-dual-interface-architecture]]'
+- '[[PKM-SYSTEM-ARCHITECTURE]]'
+- '[[CLAUDE-INTERFACE-SPECIFICATION]]'
+processed_by: pkm-inbox-processor
+processed_date: '2025-08-23'
+source: https://jarango.com/2025/07/01/using-claude-code-for-information-architecture/
+status: draft
+tags:
+- information-architecture
+- claude-code
+- ai-tools
+- pkm
+- taxonomy
+- content-organization
+type: capture
 ---
 
 # Using Claude Code for Information Architecture

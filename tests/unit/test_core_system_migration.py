@@ -69,7 +69,7 @@ class TestCoreSystemMigrationPipeline:
             vault_dir.mkdir()
             docs_dir.mkdir()
             (vault_dir / "02-projects" / "pkm-system" / "agents").mkdir(parents=True)
-            (vault_dir / "03-resources" / "research" / "methodologies").mkdir(parents=True)
+            (vault_dir / "04-resources" / "research" / "methodologies").mkdir(parents=True)
             (vault_dir / "02-projects" / "pkm-system" / "planning").mkdir(parents=True)
             (vault_dir / "permanent" / "notes" / "concepts").mkdir(parents=True)
             
@@ -395,7 +395,7 @@ Transform complex PKM systems into intuitive, effortless knowledge tools followi
         assert result.eli5_summaries >= 3
         
         # Verify target location in resources
-        target_file = temp_dirs['vault'] / "03-resources" / "research" / "methodologies" / "feynman-first-principles-pkm-research.md"
+        target_file = temp_dirs['vault'] / "04-resources" / "research" / "methodologies" / "feynman-first-principles-pkm-research.md"
         assert target_file.exists()
 
     def test_extracts_research_principles_as_atomic_notes(self, core_system_pipeline, temp_dirs, mock_core_system_documents):
@@ -523,7 +523,7 @@ Transform complex PKM systems into intuitive, effortless knowledge tools followi
         
         # Verify proper PARA categorization
         agents_files = list((temp_dirs['vault'] / "02-projects" / "pkm-system" / "agents").glob("*.md"))
-        research_files = list((temp_dirs['vault'] / "03-resources" / "research" / "methodologies").glob("*.md"))
+        research_files = list((temp_dirs['vault'] / "04-resources" / "research" / "methodologies").glob("*.md"))
         planning_files = list((temp_dirs['vault'] / "02-projects" / "pkm-system" / "planning").glob("*.md"))
         
         assert len(agents_files) >= 1
