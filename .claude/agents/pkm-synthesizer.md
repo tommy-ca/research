@@ -1,3 +1,7 @@
+---
+name: pkm-synthesizer
+---
+
 # PKM Synthesizer Agent
 
 ## Overview

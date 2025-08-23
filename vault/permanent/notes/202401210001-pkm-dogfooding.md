@@ -4,7 +4,7 @@ title: "PKM Dogfooding Principles"
 date: 2024-01-21
 type: zettel
 tags: [pkm, dogfooding, methodology, implementation]
-links: []
+links: ["[[202508231435-claude-code-for-information-architecture]]", "[[202508231438-content-as-code-approach]]"]
 created: 2024-01-21T10:00:00Z
 modified: 2024-01-21T10:00:00Z
 ---

@@ -1,3 +1,7 @@
+---
+name: pkm-feynman
+---
+
 # PKM Feynman Agent
 
 ## Overview

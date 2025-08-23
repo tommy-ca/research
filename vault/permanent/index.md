@@ -31,8 +31,26 @@ This is the master index for the Zettelkasten (permanent notes). Each note conta
 - [[202401210004-first-principles-ai-development]] - Fundamental reasoning
 - [[spaced-repetition]] - Memory optimization (planned)
 
+### Finance & Economics
+- [[202408221230-currency-scarcity-value-principle]] - Currency value fundamentals
+- [[202408221234-first-principles-axiom-supply-demand]] - Universal supply-demand principle
+- [[202408221236-earnings-acceleration-momentum-principle]] - Growth investing mechanics
+
+### Analysis Frameworks
+- [[202408221235-currency-physics-force-analogy]] - Market forces as physics
+- [[202408221237-roe-efficiency-filter-principle]] - Capital efficiency measurement
+
 ## Recent Additions
 <!-- Updated automatically -->
+- 2024-08-22: **Day 2 Migration** - Added finance & economics domain
+- 2024-08-22: [[202408221230-currency-scarcity-value-principle]] - Currency value fundamentals
+- 2024-08-22: [[202408221231-money-supply-inflation-birthday-cake]] - Inflation mechanics
+- 2024-08-22: [[202408221232-interest-rates-currency-flow]] - Interest rate effects
+- 2024-08-22: [[202408221233-purchasing-power-parity-big-mac]] - PPP theory
+- 2024-08-22: [[202408221234-first-principles-axiom-supply-demand]] - Universal principle
+- 2024-08-22: [[202408221235-currency-physics-force-analogy]] - Market forces
+- 2024-08-22: [[202408221236-earnings-acceleration-momentum-principle]] - Growth investing
+- 2024-08-22: [[202408221237-roe-efficiency-filter-principle]] - Capital efficiency
 - 2024-01-21: Initial index created
 - 2024-01-21: [[202401210001-pkm-dogfooding]] - PKM Dogfooding Principles
 - 2024-01-21: [[202401210002-tdd-specs-principles]] - TDD and Specs-Driven Development
@@ -43,10 +61,10 @@ This is the master index for the Zettelkasten (permanent notes). Each note conta
 - 2024-01-21: [[202401210007-atomic-notes-concept]] - Atomic Notes Building Blocks
 
 ## Statistics
-- Total Notes: 7
-- Total Links: 20+
+- Total Notes: 15 (8 added today)
+- Total Links: 35+
 - Orphan Notes: 0
-- Last Updated: 2024-01-21
+- Last Updated: 2024-08-22
 
 ## Navigation Paths
 
