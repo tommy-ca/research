@@ -55,6 +55,12 @@ NUMBERED_PARENTS = [
     "05-archives",
 ]
 
+# Additional required sub-structure
+REQUIRED_SUBSTRUCTURE = {
+    "permanent": ["notes", "index.md"],
+    "templates": ["daily-note.md", "project-note.md", "zettel-note.md"],
+}
+
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Validate PKM vault structure")
@@ -94,6 +100,34 @@ def main() -> int:
                 warnings.append(
                     f"Unnumbered subdirectory under {parent}: {child.name} (expected 'NN-name')"
                 )
+
+    # Sub-structure checks
+    permanent_dir = VAULT / "permanent"
+    if permanent_dir.exists():
+        # Ensure notes directory
+        if not (permanent_dir / "notes").exists():
+            errors.append("Missing 'permanent/notes' directory")
+        # Ensure index.md exists
+        if not (permanent_dir / "index.md").exists():
+            errors.append("Missing 'permanent/index.md'")
+    else:
+        errors.append("Missing 'permanent' directory")
+
+    templates_dir = VAULT / "templates"
+    if templates_dir.exists():
+        for fname in REQUIRED_SUBSTRUCTURE["templates"]:
+            path = templates_dir / fname
+            if not path.exists():
+                errors.append(f"Missing template: templates/{fname}")
+            else:
+                try:
+                    head = path.read_text(encoding="utf-8").lstrip()
+                    if not head.startswith("---"):
+                        warnings.append(f"Template missing YAML frontmatter: templates/{fname}")
+                except Exception:
+                    warnings.append(f"Could not read template: templates/{fname}")
+    else:
+        errors.append("Missing 'templates' directory")
 
     # Report
     # In strict mode, unnumbered subdirectories are errors
