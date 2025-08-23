@@ -44,13 +44,19 @@
     }
   },
   "hooks": {
-    "router": {
-      "UserPromptSubmit": {
-        "match": "/research|/synthesize|/know|/explore",
-        "script": ".claude/hooks/router.sh",
-        "description": "Simple command routing"
+    "UserPromptSubmit": [
+      {
+        "matcher": {
+          "prompts": ["/research", "/synthesize", "/know", "/explore"]
+        },
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/router.sh"
+          }
+        ]
       }
-    }
+    ]
   },
   "permissions": {
     "tools": {
