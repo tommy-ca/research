@@ -24,6 +24,12 @@ Introduces a new `compound` agent that orchestrates compound engineering workflo
 - `/ce-review` critiques a target and lists fix-forward actions
 - `/ce-pr` generates a concise PR summary
 
+## Tests
+- Added `tests/unit/test_compound_engineering.py` validating:
+  - Settings registers `compound` agent and `/ce-*` prompts in hooks
+  - Frontmatter validity and size limits for CE commands
+  - Router routes `/ce-*` to `compound` and preserves existing agent routing
+
 ## Risks and Mitigations
 - Scope creep → Keep commands minimal; orchestration logic lives in agent behavior
 - Overlap with existing commands → Namespaced under `ce-*` to avoid collisions
