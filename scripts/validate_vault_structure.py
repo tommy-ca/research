@@ -16,6 +16,7 @@ Exit code:
 
 from pathlib import Path
 import sys
+import argparse
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 VAULT = REPO_ROOT / "vault"
@@ -56,6 +57,9 @@ NUMBERED_PARENTS = [
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description="Validate PKM vault structure")
+    parser.add_argument("--strict", action="store_true", help="Treat unnumbered subdirectories as errors")
+    args = parser.parse_args()
     errors: list[str] = []
     warnings: list[str] = []
 
@@ -92,6 +96,10 @@ def main() -> int:
                 )
 
     # Report
+    # In strict mode, unnumbered subdirectories are errors
+    if args.strict and warnings:
+        errors.append("Unnumbered subdirectories present under numbered parents (strict mode)")
+
     if errors:
         print("❌ Vault structure validation failed:", file=sys.stderr)
         for e in errors:
