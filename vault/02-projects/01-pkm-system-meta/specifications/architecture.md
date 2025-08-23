@@ -39,10 +39,12 @@ graph TB
         K[Retrieval Agent]
         L[Processing Agent]
         M[Synthesis Agent]
+        N[Content Creation Agent]
         
         I --> K
         I --> L
         I --> M
+        I --> N
     end
     
     subgraph "Core Engine"
