@@ -18,10 +18,10 @@ def temp_vault():
     # Create standard vault structure
     vault_dirs = [
         "00-inbox",
-        "01-projects", 
-        "02-areas",
-        "03-resources", 
-        "04-archives",
+        "02-projects", 
+        "03-areas",
+        "04-resources", 
+        "05-archives",
         "permanent/notes",
         "daily",
         "templates"

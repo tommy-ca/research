@@ -23,7 +23,6 @@ VAULT = REPO_ROOT / "vault"
 
 REQUIRED_TOP_LEVEL = {
     "00-inbox",
-    "01-notes",
     "02-projects",
     "03-areas",
     "04-resources",
@@ -39,6 +38,7 @@ REQUIRED_TOP_LEVEL = {
 
 FORBIDDEN_TOP_LEVEL = {
     "0-inbox",
+    "01-notes",
     "1-projects",
     "2-areas",
     "3-resources",
@@ -50,7 +50,7 @@ FORBIDDEN_TOP_LEVEL = {
 
 NUMBERED_PARENTS = [
     "02-projects",
-    "03-areas",
+    "03-areas", 
     "04-resources",
     "05-archives",
 ]
