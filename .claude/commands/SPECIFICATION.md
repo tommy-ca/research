@@ -9,7 +9,7 @@ Custom commands are Markdown files with YAML frontmatter.
 ---
 name: command_name      # Unique identifier
 pattern: /command       # Pattern to match (must start with /)
-agent: research|synthesis  # Which agent processes the command
+agent: research|synthesis|compound  # Which agent processes the command
 ---
 ```
 
@@ -50,7 +50,7 @@ Brief description of what the command does.
 2. **File Extension**: Must be `.md`
 3. **File Size**: Maximum 50 lines
 4. **Pattern Format**: Must start with `/`
-5. **Agent Selection**: Must use existing agents (research or synthesis)
+5. **Agent Selection**: Use existing agents (research, synthesis, or compound)
 
 ## Agent Capabilities
 
@@ -67,6 +67,13 @@ Best for:
 - Pattern recognition
 - Comparison tasks
 - Framework generation
+
+### Compound Agent
+Best for:
+- Planning small, testable steps
+- Orchestrating multi-agent execution
+- Structured critique and fix-forward loops
+- Preparing concise PR summaries
 
 ## Examples
 

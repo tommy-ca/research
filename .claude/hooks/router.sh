@@ -27,6 +27,11 @@ case "$COMMAND" in
         echo "🧩 Synthesis Agent activated"  
         echo "Agent: synthesis"
         ;;
+    
+    /ce-plan*|/ce-exec*|/ce-review*|/ce-pr*)
+        echo "🛠️ Compound Engineering activated"
+        echo "Agent: compound"
+        ;;
         
     *)
         echo "Available commands:"
@@ -34,6 +39,10 @@ case "$COMMAND" in
         echo "  /explore [topic] [target] - Explore connections"
         echo "  /research [topic] - Research anything"
         echo "  /synthesize - Combine insights"
+        echo "  /ce-plan \"goal\" - Plan compound work"
+        echo "  /ce-exec [context] - Execute plan"
+        echo "  /ce-review [target] - Critique outputs"
+        echo "  /ce-pr - Generate PR summary"
         exit 1
         ;;
 esac

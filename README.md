@@ -10,32 +10,32 @@ This repository serves as a centralized knowledge base for research activities, 
 
 ```
 research/
-├── docs/                    # Research documentation
-│   ├── research/           # Research studies and findings
-│   ├── methodologies/      # Research methodologies
-│   ├── findings/          # Key findings and conclusions
-│   └── references/        # Reference materials
-├── experiments/            # Experimental work
-│   ├── code/              # Experimental code and scripts
-│   ├── data/              # Experimental datasets
-│   └── notebooks/         # Analysis notebooks
-├── knowledge-base/         # Structured knowledge
-│   ├── concepts/          # Core concepts and definitions
-│   ├── frameworks/        # Theoretical frameworks
-│   └── tools/             # Research tools documentation
-└── resources/             # Supporting resources
-    ├── papers/            # Academic papers
-    ├── datasets/          # Reference datasets
-    └── templates/         # Document templates
+├── vault/                  # Complete PKM System (PARA Method)
+│   ├── 00-inbox/          # Capture zone for incoming information
+│   ├── 02-projects/       # Active projects with deadlines
+│   │   └── 01-pkm-system-meta/  # Central project coordination
+│   ├── 03-areas/          # Ongoing life areas and responsibilities
+│   ├── 04-resources/      # All reference materials and specifications
+│   │   ├── architecture/   # System architecture and specifications
+│   │   ├── frameworks/     # Analysis frameworks and methodologies
+│   │   ├── concepts/       # Core concepts and definitions
+│   │   └── examples/       # Examples and templates
+│   ├── 05-archives/       # Completed and inactive items
+│   ├── permanent/         # Zettelkasten atomic notes
+│   └── daily/             # Daily notes and logs
+├── scripts/               # Automation and utility scripts
+├── src/                   # Source code for PKM system
+├── tests/                 # Comprehensive testing framework
+└── .claude/               # Claude Code integration and agents
 ```
 
-## Research Workflow
+## PKM Workflow
 
-1. **Planning**: Document research objectives in `docs/research/`
-2. **Experimentation**: Conduct experiments in `experiments/`
-3. **Analysis**: Use notebooks for data analysis and visualization
-4. **Documentation**: Record findings and methodologies in `docs/`
-5. **Knowledge Capture**: Store insights in `knowledge-base/`
+1. **Capture**: All information starts in `vault/00-inbox/`
+2. **Process**: Content is organized using PARA method (Projects, Areas, Resources, Archives)
+3. **Connect**: Create atomic notes in `vault/permanent/` with bidirectional links
+4. **Create**: Generate insights and synthesis in organized vault structure
+5. **Review**: Regular processing and maintenance of knowledge system
 
 ## Getting Started
 

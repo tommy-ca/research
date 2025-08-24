@@ -8,6 +8,11 @@ Ultra-simple research agents: 121 lines of code, infinite intelligence.
 ```bash
 /research "any topic"        # Research with automatic quality validation
 /synthesize file1 file2 ...  # Synthesize multiple sources into insights
+\n+# Compound engineering
+/ce-plan "goal"              # Plan small, testable steps
+/ce-exec [context]           # Execute plan with checkpoints
+/ce-review [target]          # Critique vs. spec/tests
+/ce-pr                       # Generate PR summary
 ```
 
 ### Custom Commands

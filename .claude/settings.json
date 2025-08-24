@@ -22,6 +22,11 @@
       "description": "Intelligent knowledge management with automatic everything",
       "tools": ["Read", "Write", "Edit", "Grep", "WebSearch", "WebFetch"]
     },
+    "compound": {
+      "enabled": true,
+      "description": "Compound Engineering orchestrator for planning, critique, and iterative execution",
+      "tools": ["Read", "Write", "Edit", "Grep", "Task"]
+    },
     "pkm-ingestion": {
       "enabled": true,
       "description": "Intelligent data ingestion for PKM system",
@@ -47,7 +52,7 @@
     "UserPromptSubmit": [
       {
         "matcher": {
-          "prompts": ["/research", "/synthesize", "/know", "/explore"]
+          "prompts": ["/research", "/synthesize", "/know", "/explore", "/ce-plan", "/ce-exec", "/ce-review", "/ce-pr"]
         },
         "hooks": [
           {

@@ -8,9 +8,9 @@ This is the primary knowledge vault following PKM best practices and organizatio
 Capture zone for all incoming information before processing.
 Files captured here are processed automatically into PARA.
 
-### 01-notes/
-Atomic notes organized by permanence level (Zettelkasten method).
-Contains `permanent/notes/` for Zettelkasten; index at `permanent/index.md`.
+### permanent/
+Atomic notes organized using Zettelkasten method.
+Contains `notes/` for all permanent notes; index at `index.md`.
 
 ### 02-projects/
 Active projects with associated notes and resources (PARA method).
