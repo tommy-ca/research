@@ -46,13 +46,23 @@
       "enabled": true,
       "description": "Feynman technique simplification and teaching",
       "tools": ["Read", "Write", "Edit", "Task", "WebSearch"]
+    },
+    "principles-coach": {
+      "enabled": true,
+      "description": "Ray Dalio principles-based decision making and daily automation coach",
+      "tools": ["Read", "Write", "Edit", "Grep", "Task"]
+    },
+    "principles-analyzer": {
+      "enabled": true,
+      "description": "Advanced pattern recognition and analysis for principles effectiveness",
+      "tools": ["Read", "Write", "Edit", "Grep", "Task"]
     }
   },
   "hooks": {
     "UserPromptSubmit": [
       {
         "matcher": {
-          "prompts": ["/research", "/synthesize", "/know", "/explore", "/ce-plan", "/ce-exec", "/ce-review", "/ce-pr"]
+          "prompts": ["/research", "/synthesize", "/know", "/explore", "/ce-plan", "/ce-exec", "/ce-review", "/ce-pr", "/principles-morning", "/principles-evening", "/principles-decision", "/principles-weekly", "/principles-quarterly"]
         },
         "hooks": [
           {

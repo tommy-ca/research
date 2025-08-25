@@ -27,7 +27,7 @@ tags: [pkm, status, summary, dogfooding]
 ### 3. Documentation Created
 - DOGFOODING-PLAN.md - Complete implementation strategy
 - Week 2 Schedule - Detailed migration plan
-- Project tracking in vault/1-projects/pkm-system/
+- Project tracking in vault/02-projects/01-pkm-system-meta/
 - First daily note (2024-01-21)
 - First zettelkasten note on dogfooding
 
@@ -122,7 +122,7 @@ tags: [pkm, status, summary, dogfooding]
 5. **Dogfooding reveals gaps** - Using the system exposes improvements
 
 ## 🔗 Related Notes
-- [[vault/1-projects/pkm-system/README]] - Project overview
+- [[vault/02-projects/01-pkm-system-meta/README]] - Project overview
 - [[vault/daily/2024/01-january/2024-01-21]] - Today's daily note
 - [[docs/pkm-architecture/DOGFOODING-PLAN]] - Implementation plan
 - [[vault/permanent/notes/202401210001-pkm-dogfooding]] - Principles
