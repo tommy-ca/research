@@ -156,7 +156,8 @@ class QualityGateValidator:
     
     def validate_specification_compliance(self) -> None:
         """Validate implementation matches specifications"""
-        spec_dir = Path("vault/02-projects/pkm-system/specs")
+        # Updated after merging pkm-system into 01-pkm-system-meta
+        spec_dir = Path("vault/02-projects/01-pkm-system-meta/imported/pkm-system/specs")
         if not spec_dir.exists():
             self.fail_gate("Specifications directory not found")
             return

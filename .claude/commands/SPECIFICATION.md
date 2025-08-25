@@ -1,5 +1,8 @@
 # Custom Command Specification v1.0
 
+Note: PKM-specific command contracts and routing are specified in
+`vault/02-projects/01-pkm-system-meta/specifications/claude-commands-and-subagents.md`.
+
 ## Command Format
 
 Custom commands are Markdown files with YAML frontmatter.

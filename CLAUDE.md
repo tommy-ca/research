@@ -565,3 +565,7 @@ For detailed information about the agent system, see `.claude/README.md`.
 ---
 
 *This CLAUDE.md serves as the persistent guide for Claude Code to maintain and evolve this PKM system through active dogfooding.*
+ 
+## References
+- Full PKM command and subagent specification: `vault/02-projects/01-pkm-system-meta/specifications/claude-commands-and-subagents.md`
+- Steering and governance: `vault/02-projects/01-pkm-system-meta/STEERING.md`

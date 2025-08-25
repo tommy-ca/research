@@ -54,16 +54,16 @@ Design, develop, and deploy a comprehensive Personal Knowledge Management (PKM) 
 ```
 vault/02-projects/01-pkm-system-meta/
 ├── README.md                    # This overview document
+├── STEERING.md                  # Governance and quality gates
 ├── planning/                    # Project planning and roadmaps
 │   ├── phase-1-foundation.md    # Foundation phase documentation
 │   ├── phase-2-retrieval.md     # Current phase planning
 │   ├── phase-3-intelligence.md  # Future phase planning
-│   └── milestones.md            # Key milestones and deliverables
+│   ├── milestones.md            # Key milestones and deliverables
+│   └── pkm-workflow-reorg-plan.md # Cleanup & reorg plan for workflows
 ├── specifications/              # Technical specifications
-│   ├── architecture.md         # System architecture
-│   ├── api-design.md           # API specifications
-│   ├── data-models.md          # Data structure definitions
-│   └── integration-specs.md    # Claude Code integration specs
+│   ├── architecture.md          # System architecture
+│   └── claude-commands-and-subagents.md # Command + subagent spec
 ├── implementation/              # Development tracking
 │   ├── tasks/                  # Detailed task breakdown
 │   ├── sprints/                # Sprint planning and progress
@@ -180,3 +180,27 @@ vault/02-projects/01-pkm-system-meta/
 ---
 
 *This meta project serves as the central coordination point for all PKM system development activities, ensuring clear objectives, systematic progress, and high-quality deliverables.*
+
+## Quick Links
+- Steering: `./STEERING.md`
+- Spec (Commands/Subagents): `./specifications/claude-commands-and-subagents.md`
+- Tasks: `./implementation/tasks/claude-commands-and-subagents.md`
+- Reorg Plan: `./planning/pkm-workflow-reorg-plan.md`
+ - Content Pipeline Plan: `./planning/content-generation-pipeline.md`
+ - Content Tasks: `./implementation/tasks/content-generation.md`
+
+## Related Projects
+
+- [Claude Code Agent System](/.claude/README.md): Core agent implementation
+- [PKM Architecture Documentation](/docs/PKM-SYSTEM-ARCHITECTURE.md): System design
+- [[11-compound-engineering-article]]: Theoretical framework for compound engineering
+- [[12-parallel-compound-engineering]]: Parallel CE implementation project
+- Research output feeds into main vault structure
+
+## Merged Content
+- Legacy PKM project content has been merged into this structure:
+  - Planning (legacy): `./planning/legacy/pkm-system/`
+  - Specifications (legacy): `./specifications/legacy/pkm-system/`
+  - Implementation (legacy): `./implementation/legacy/pkm-system/`
+  - Testing framework: `./implementation/testing/AUTOMATED-TESTING-VALIDATION-FRAMEWORK.md`
+  - The `imported/` folder is now empty (kept as a marker only).
