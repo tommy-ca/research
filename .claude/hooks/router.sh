@@ -33,6 +33,36 @@ case "$COMMAND" in
         echo "Agent: compound"
         ;;
         
+    /principles-morning*)
+        echo "🌅 Principles Morning Planning activated"
+        echo "Agent: principles-coach"
+        echo "Intent: Daily principle planning and preparation"
+        ;;
+        
+    /principles-evening*)
+        echo "🌅 Principles Evening Reflection activated"
+        echo "Agent: principles-coach"
+        echo "Intent: Systematic reflection and learning extraction"
+        ;;
+        
+    /principles-decision*)
+        echo "⚖️ Principles Decision Support activated"
+        echo "Agent: principles-coach"
+        echo "Intent: Systematic decision-making with principle frameworks"
+        ;;
+        
+    /principles-weekly*)
+        echo "📊 Principles Weekly Analysis activated"
+        echo "Agent: principles-analyzer"
+        echo "Intent: Pattern recognition and cross-domain insights"
+        ;;
+        
+    /principles-quarterly*)
+        echo "🔄 Principles Quarterly Evolution activated"
+        echo "Agent: principles-analyzer"
+        echo "Intent: Systematic refinement and stakeholder integration"
+        ;;
+        
     *)
         echo "Available commands:"
         echo "  /know [topic] [content] - Manage knowledge"
@@ -43,6 +73,13 @@ case "$COMMAND" in
         echo "  /ce-exec [context] - Execute plan"
         echo "  /ce-review [target] - Critique outputs"
         echo "  /ce-pr - Generate PR summary"
+        echo ""
+        echo "Principles Commands:"
+        echo "  /principles-morning [focus] - Daily principle planning"
+        echo "  /principles-evening [depth] - Evening reflection"
+        echo "  /principles-decision \"situation\" - Decision support"
+        echo "  /principles-weekly [focus] - Weekly pattern analysis"
+        echo "  /principles-quarterly [focus] - Quarterly evolution"
         exit 1
         ;;
 esac
