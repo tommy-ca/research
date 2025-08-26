@@ -63,6 +63,36 @@ case "$COMMAND" in
         echo "Intent: Systematic refinement and stakeholder integration"
         ;;
         
+    /mental-models-daily*)
+        echo "🧠 Mental Models Daily Application activated"
+        echo "Agent: mental-models-coach"
+        echo "Intent: Multi-disciplinary thinking and bias recognition"
+        ;;
+        
+    /mental-models-decision*)
+        echo "🎯 Mental Models Decision Analysis activated"
+        echo "Agent: mental-models-coach"
+        echo "Intent: Multi-disciplinary decision support with bias checking"
+        ;;
+        
+    /mental-models-bias-check*)
+        echo "🔍 Mental Models Bias Recognition activated"
+        echo "Agent: mental-models-coach"
+        echo "Intent: Cognitive bias detection and mitigation"
+        ;;
+        
+    /mental-models-synthesis*)
+        echo "🔬 Mental Models Synthesis activated"
+        echo "Agent: mental-models-synthesizer"
+        echo "Intent: Cross-disciplinary pattern recognition and latticework development"
+        ;;
+        
+    /mental-models-mastery*)
+        echo "📊 Mental Models Mastery Assessment activated"
+        echo "Agent: mental-models-synthesizer"
+        echo "Intent: Competency evaluation and systematic development planning"
+        ;;
+        
     *)
         echo "Available commands:"
         echo "  /know [topic] [content] - Manage knowledge"
@@ -80,6 +110,13 @@ case "$COMMAND" in
         echo "  /principles-decision \"situation\" - Decision support"
         echo "  /principles-weekly [focus] - Weekly pattern analysis"
         echo "  /principles-quarterly [focus] - Quarterly evolution"
+        echo ""
+        echo "Mental Models Commands:"
+        echo "  /mental-models-daily [focus] - Multi-disciplinary thinking"
+        echo "  /mental-models-decision \"situation\" - Multi-model decision analysis"
+        echo "  /mental-models-bias-check \"thinking\" - Cognitive bias detection"
+        echo "  /mental-models-synthesis [scope] - Cross-disciplinary synthesis"
+        echo "  /mental-models-mastery [assessment] - Competency evaluation"
         exit 1
         ;;
 esac

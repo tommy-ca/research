@@ -56,13 +56,23 @@
       "enabled": true,
       "description": "Advanced pattern recognition and analysis for principles effectiveness",
       "tools": ["Read", "Write", "Edit", "Grep", "Task"]
+    },
+    "mental-models-coach": {
+      "enabled": true,
+      "description": "Charlie Munger mental models application and multi-disciplinary thinking coach",
+      "tools": ["Read", "Write", "Edit", "Grep", "Task"]
+    },
+    "mental-models-synthesizer": {
+      "enabled": true,
+      "description": "Cross-disciplinary synthesis and mental model pattern recognition agent",
+      "tools": ["Read", "Write", "Edit", "Grep", "Task"]
     }
   },
   "hooks": {
     "UserPromptSubmit": [
       {
         "matcher": {
-          "prompts": ["/research", "/synthesize", "/know", "/explore", "/ce-plan", "/ce-exec", "/ce-review", "/ce-pr", "/principles-morning", "/principles-evening", "/principles-decision", "/principles-weekly", "/principles-quarterly"]
+          "prompts": ["/research", "/synthesize", "/know", "/explore", "/ce-plan", "/ce-exec", "/ce-review", "/ce-pr", "/principles-morning", "/principles-evening", "/principles-decision", "/principles-weekly", "/principles-quarterly", "/mental-models-daily", "/mental-models-decision", "/mental-models-bias-check", "/mental-models-synthesis", "/mental-models-mastery"]
         },
         "hooks": [
           {
