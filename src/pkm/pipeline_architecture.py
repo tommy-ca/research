@@ -113,12 +113,22 @@ class InboxProcessor(PkmProcessor):
             title = file_path.stem
             
         # Create PKM item
+        # Handle date parsing safely
+        date_str = frontmatter.get('date')
+        if isinstance(date_str, str):
+            try:
+                created_date = datetime.fromisoformat(date_str)
+            except ValueError:
+                created_date = datetime.now()
+        else:
+            created_date = datetime.now()
+            
         return PkmItem(
             file_path=file_path,
             title=title,
             content=content_body,
             frontmatter=frontmatter,
-            created_date=datetime.fromisoformat(frontmatter.get('date', datetime.now().isoformat())),
+            created_date=created_date,
             tags=set(frontmatter.get('tags', [])),
             links=set(self._extract_links(content_body))
         )
