@@ -1,175 +1,196 @@
 ---
 atomic_notes:
-- 202509021914-claude-implementation-platform
-- 202509021914-status
-- 202509021914-link
-- 202509021914-key-concepts
-- 202509021914-actions
-- 202509021914-quality-standards
-- 202509021914-key-concepts-to-extract
-- 202509021914-system
-- 202509021914-next-actions
+- 202509022205-dual-interface
+- 202509022205-agent-integration-framework
+- 202509022205-next
+- 202509022205-pkm
+- 202509022205-notes
+- 202509022205-validation
+- 202509022205-status
+- 202509022205-claude-code-platform-architecture
+- 202509022205-processing
+- 202509022205-para
 concepts:
-- Claude Implementation Platform
-- AI
-- Status
-- Link
-- Key Concepts
-- actions
-- Quality Standards
-- key concepts to extract
-- System
-- Next Actions
-- notes
-- Architecture
-- next
-- Claude Code Platform Architecture
-- Validation
-- Markdown-Based
-- Source
-- Ingestion
-- Based Personal Knowledge Management
-- System Specification
-- streaming
-- concepts
 - Dual Interface
-- Lance
-- extract
-- Streaming Processing Pipeline
-- PARA
-- Iceberg
-- iceberg
-- lakehouse
-- Extract
-- Update
-- Natural Language
-- PKM
-- Processing Notes
-- Diskless Lakehouse Architecture
-- processing
-- summary
 - Agent Integration Framework
+- next
+- PKM
+- notes
+- Validation
+- Status
+- Claude Code Platform Architecture
+- processing
+- PARA
+- processing notes
+- Based Personal Knowledge Management
+- Quality Standards
+- Lance
+- AI
+- Version
+- Processing Notes
+- Link
+- Architecture
+- Method Implementation
+- Iceberg
+- Text
+- lakehouse
+- Source
+- Extract
+- Transparent Storage Backend
+- Markdown-Based
+- Update
+- Streaming Processing Pipeline
 - 'Summary
 
   Comprehensive'
-- Markdown
-- Create
-- Active Implementation
-- Transparent Storage Backend
+- iceberg
+- Natural Language
+- Diskless Lakehouse Architecture
 - next actions
-- Method Implementation
-- Version
+- Ingestion
+- concepts
+- Claude Implementation Platform
+- streaming
+- summary
+- Markdown
+- System Specification
 - Zettelkasten Integration
-- Text
-- processing notes
+- actions
+- Active Implementation
+- key concepts to extract
+- extract
+- System
+- Key Concepts
+- Create
+- Next Actions
 date: 2025-08-23
 links:
-- 202408241605-plan-build-review-agent-pools
-- 202508251201-principles-based-decision-making
-- 202508251205-principles-automation-system
-- 202508251216-pkm-system-compound-intelligence-evidence
-- 202509011435-apache-iceberg-blockchain-performance
-- 202509021914-claude-implementation-platform
-- 202509011445-crypto-lakehouse-technical-patterns
-- 202509021914-status
-- 202401210005-para-method-principles
-- 202508251206-pkm-principles-integration-breakthrough
-- 202509021914-key-concepts
-- 202401210007-atomic-notes-concept
-- 202508231438-content-as-code-approach
-- 72278740365740-first-principles-currency-valuation-framework
-- 202508231441-graph-rag-limitations
-- 20250823203954-dual-interface-pkm
-- 202408220443-four-step-feynman-method
-- 202509021914-next-actions
-- 68438951066717-cross-sectional-alpha-factors-in-crypto-a-comprehe
-- 202408220440-knowledge-atomicity-principle
-- 202509011460-crypto-lakehouse-future-trends
-- 202509021914-link
-- 20250823203956-multi-agent-coordination
-- 202401210006-zettelkasten-principles
-- 202408241600-parallel-compound-engineering-architecture
-- 202508251203-work-effectiveness-principles
-- 202408220442-dual-interface-architecture
-- 202509021914-actions
-- 202509011450-crypto-lakehouse-business-value
-- 202509021914-quality-standards
-- 202509021914-system
-- 202408241606-github-actions-parallel-ce-integration
-- 202408220446-analogy-creation-framework
-- 20250823203955-specification-driven-development
-- 202508251215-implementation-methodology-breakthrough-patterns
-- 20250823203953-diskless-lakehouse-architecture
-- 202508231435-claude-code-for-information-architecture
-- 202408220445-transparent-storage-backend
 - 202509011455-crypto-lakehouse-vendor-selection
-- 20250823203957-pkm-architecture-index
-- 202408241602-pkm-ce-integration-patterns
-- 202509021914-key-concepts-to-extract
+- 202509011440-web3-data-lakehouse-platforms
+- 20250823203956-multi-agent-coordination
+- 202508251201-principles-based-decision-making
+- 202408241600-parallel-compound-engineering-architecture
+- 20250823203955-specification-driven-development
+- 202509022205-para
+- 202509021914-quality-standards
+- 202508231438-content-as-code-approach
+- 202408220445-transparent-storage-backend
+- 202509021914-key-concepts
+- 202509021914-link
+- 202509021914-data-quality
+- 202509022205-processing
+- 202509022205-storage-optimization
+- 202509021914-agent-types-documented
 - 202408241604-ce-implementation-roadmap
 - 202509011465-crypto-lakehouse-master-index
-- 202509011430-crypto-data-lakehouse-architecture
-- 202509011440-web3-data-lakehouse-platforms
+- 202509021914-research-sources-validation
+- 202509011435-apache-iceberg-blockchain-performance
+- 202508231441-graph-rag-limitations
+- 20250823203957-pkm-architecture-index
+- 202401210005-para-method-principles
+- 202508251215-implementation-methodology-breakthrough-patterns
+- 202509011460-crypto-lakehouse-future-trends
+- 202509022205-status
 - 202508251202-personal-effectiveness-principles
+- 202509011430-crypto-data-lakehouse-architecture
+- 202509021914-key-concepts-to-extract
+- 202408220440-knowledge-atomicity-principle
+- 202401210007-atomic-notes-concept
+- 202509011445-crypto-lakehouse-technical-patterns
+- 202509022205-ingestion-architecture-patterns
+- 72278740365740-first-principles-currency-valuation-framework
+- 202509021914-actions
+- 202408220442-dual-interface-architecture
+- 202509021914-synthesis-agent
+- 202401210006-zettelkasten-principles
+- 202509022205-centric-architecture
+- 202509021914-status
+- 202408241602-pkm-ce-integration-patterns
+- 202509022205-dual-interface
+- 202509021914-next-actions
+- 20250823203954-dual-interface-pkm
+- 202509022205-next
+- 202508251203-work-effectiveness-principles
+- 202509022205-claude-code-platform-architecture
+- 202509022205-validation
+- 202509021914-system
+- 202408241606-github-actions-parallel-ce-integration
+- 202508251206-pkm-principles-integration-breakthrough
+- 202508251205-principles-automation-system
+- 202509022205-agent-integration-framework
+- 202509022205-notes
+- 202408220446-analogy-creation-framework
+- 20250823203953-diskless-lakehouse-architecture
+- 202509021914-feynman-agent
+- 202509021914-quality-assurance-standards
+- 202408241605-plan-build-review-agent-pools
+- 202509011450-crypto-lakehouse-business-value
+- 202509021914-claude-implementation-platform
+- 202509022205-next-generation
+- 68438951066717-cross-sectional-alpha-factors-in-crypto-a-comprehe
+- 202508251216-pkm-system-compound-intelligence-evidence
+- 202509021914-processor-agent
+- 202408220443-four-step-feynman-method
+- 202508231435-claude-code-for-information-architecture
 para_category: resource
 processed: true
-processed_date: '2025-09-02T19:14:29.333603'
+processed_date: '2025-09-02T22:05:12.817757'
 source: vault/04-resources/architecture/pkm/PKM-SYSTEM-SPECIFICATION.md
 status: draft
 tags:
-- pipeline
-- architecture
-- zettelkasten-integration
-- active-implementation
-- actions
-- technology
-- system-specification
-- system-design
-- notes
+- key-concepts
+- claude-code-platform-architecture
+- pkm
+- diskless-lakehouse-architecture
+- update
 - status
-- natural-language
-- agent-integration-framework
+- method-implementation
+- link
+- lakehouse
+- iceberg
+- system-design
+- next-actions
+- concepts
+- streaming
+- technology
 - 'summary
 
   comprehensive'
 - storage
-- text
-- next
-- data
-- based-personal-knowledge-management
-- ingestion
-- claude-code-platform-architecture
-- version
-- source
-- quality-standards
-- transparent-storage-backend
-- streaming
-- validation
-- create
-- concepts
-- dual-interface
-- update
-- extract
-- para
-- diskless-lakehouse-architecture
-- system
-- next-actions
-- iceberg
-- lakehouse
-- method-implementation
 - streaming-processing-pipeline
-- key-concepts
-- specifications
-- claude-implementation-platform
-- pkm
-- key-concepts-to-extract
-- markdown-based
-- processing
-- summary
-- lance
-- link
-- markdown
+- extract
+- pipeline
+- text
+- data
 - processing-notes
+- next
+- zettelkasten-integration
+- based-personal-knowledge-management
+- active-implementation
+- para
+- create
+- processing
+- agent-integration-framework
+- architecture
+- specifications
+- lance
+- markdown
+- source
+- system
+- claude-implementation-platform
+- natural-language
+- version
+- markdown-based
+- system-specification
+- dual-interface
+- summary
+- transparent-storage-backend
+- key-concepts-to-extract
+- actions
+- validation
+- ingestion
+- notes
+- quality-standards
 type: capture
 ---
 
