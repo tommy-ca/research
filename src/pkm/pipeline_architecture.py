@@ -205,6 +205,11 @@ class ConceptExtractor(PkmProcessor):
             clean_header = re.sub(r'[^\w\s]', '', header).strip()
             if len(clean_header.split()) <= 4:  # Short phrases only
                 concepts.add(clean_header.lower())
+                # Also add individual words from multi-word headers
+                words = clean_header.lower().split()
+                for word in words:
+                    if len(word) > 3:  # Skip short words
+                        concepts.add(word)
         
         item.concepts = list(concepts)
         return item
