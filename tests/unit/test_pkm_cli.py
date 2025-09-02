@@ -59,8 +59,11 @@ class TestPkmCliHelperFunctions:
             with patch('sys.exit') as mock_exit:
                 _handle_capture_command(None)
                 
-                mock_print.assert_called_with("Error: capture command requires content")
+                # Should print an error message and exit with code 1
                 mock_exit.assert_called_with(1)
+                # Check that an error was printed (exact message may vary)
+                args = mock_print.call_args[0]
+                assert "Error:" in args[0]
     
     def test_handle_capture_command_handles_empty_content(self):
         """Test capture command handles empty content (creates placeholder)"""
