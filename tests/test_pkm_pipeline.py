@@ -199,9 +199,11 @@ class TestConceptExtractor:
         extractor = ConceptExtractor()
         processed_item = extractor.process(sample_item)
         
-        # Should extract cleaned header text
+        # Should extract individual words from headers
         concepts_lower = [c.lower() for c in processed_item.concepts]
-        assert any('defi protocol integration' in c for c in concepts_lower)
+        assert 'defi' in concepts_lower
+        assert 'protocol' in concepts_lower
+        assert 'integration' in concepts_lower
 
 class TestAtomicNoteGenerator:
     """Test atomic note generation"""
