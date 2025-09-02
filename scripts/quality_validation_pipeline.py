@@ -397,20 +397,31 @@ def main():
         success = pipeline.print_final_summary(results)
         sys.exit(0 if success else 1)
     
-    # Run individual checks
+    # Run individual checks with detailed output
+    print("🔍 Running PKM System Quality Validation Pipeline...")
+    print("=" * 60)
+    
     results = {}
     
     if args.check_tdd:
+        print(f"\n📋 Running TDD compliance check...")
         results["tdd"] = pipeline.checkers["tdd"].check_tdd_compliance()
+        pipeline._print_result_summary("tdd", results["tdd"])
         
     if args.check_kiss:
+        print(f"\n📋 Running KISS principle check...")
         results["kiss"] = pipeline.checkers["kiss"].check_kiss_compliance()
+        pipeline._print_result_summary("kiss", results["kiss"])
         
     if args.check_solid:
+        print(f"\n📋 Running SOLID principles check...")
         results["solid"] = pipeline.checkers["solid"].check_solid_compliance()
+        pipeline._print_result_summary("solid", results["solid"])
         
     if args.check_performance:
+        print(f"\n📋 Running performance check...")
         results["performance"] = pipeline.checkers["performance"].check_performance_standards()
+        pipeline._print_result_summary("performance", results["performance"])
     
     success = pipeline.print_final_summary(results)
     sys.exit(0 if success else 1)
