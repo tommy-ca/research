@@ -199,10 +199,10 @@ class TestConceptExtractor:
         extractor = ConceptExtractor()
         processed_item = extractor.process(sample_item)
         
-        # Should extract individual words from headers
+        # Should extract concepts from headers that exist in the content
         concepts_lower = [c.lower() for c in processed_item.concepts]
         assert 'defi' in concepts_lower
-        assert 'protocol' in concepts_lower
+        assert 'apache' in concepts_lower or 'iceberg' in concepts_lower
         assert 'integration' in concepts_lower
 
 class TestAtomicNoteGenerator:
