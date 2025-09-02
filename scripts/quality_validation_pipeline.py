@@ -156,7 +156,9 @@ class TddComplianceChecker:
             f"test_{rel_path.stem}.py",
             f"test_{rel_path.stem}_functional.py", 
             f"test_pkm_{rel_path.stem}.py",
-            f"test_pkm_{rel_path.stem}_functional.py"
+            f"test_pkm_{rel_path.stem}_functional.py",
+            f"test_pkm_{rel_path.stem}_fr001.py",
+            f"test_pkm_{rel_path.stem}_fr001_functional.py"
         ]
         
         test_found = False
