@@ -62,7 +62,47 @@ def pkm_capture(content: str, vault_path: Optional[Path] = None) -> CaptureResul
         return _create_error_result(str(e))
 
 
-# Following SRP: Separate frontmatter creation
+# Helper functions following SRP (Single Responsibility Principle)
+
+def _create_error_result(error_message: str) -> CaptureResult:
+    """Create error result - SRP helper"""
+    return CaptureResult(
+        filename="",
+        filepath=Path(),
+        frontmatter={},
+        content="",
+        success=False,
+        error=error_message
+    )
+
+
+def _prepare_capture_file(vault_path: Path) -> Path:
+    """Prepare capture file path - SRP helper"""
+    inbox_path = vault_path / "00-inbox"
+    inbox_path.mkdir(parents=True, exist_ok=True)
+    
+    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+    filename = f"{timestamp}.md"
+    return inbox_path / filename
+
+
+def _create_capture_frontmatter() -> dict:
+    """Create capture frontmatter - SRP helper"""
+    return {
+        "date": datetime.now().strftime("%Y-%m-%d"),
+        "type": "capture",
+        "tags": [],
+        "status": "draft",
+        "source": "capture_command"
+    }
+
+
+def _format_markdown_file(frontmatter: dict, content: str) -> str:
+    """Format markdown file with frontmatter - SRP helper"""
+    return "---\n" + yaml.dump(frontmatter) + "---\n" + content
+
+
+# Legacy functions for backward compatibility
 def create_daily_note_frontmatter(capture_date: datetime) -> dict:
     """Create frontmatter for daily note - separate concern"""
     return {
@@ -74,7 +114,6 @@ def create_daily_note_frontmatter(capture_date: datetime) -> dict:
     }
 
 
-# Following KISS: Simple filename generation
 def generate_capture_filename() -> str:
     """Generate timestamp-based filename"""
     return datetime.now().strftime("%Y%m%d%H%M%S") + ".md"
