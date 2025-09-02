@@ -54,7 +54,7 @@ class TestPkmCliHelperFunctions:
                 mock_exit.assert_called_with(1)
     
     def test_handle_capture_command_validates_content(self):
-        """Test capture command validates content"""
+        """Test capture command validates None content"""
         with patch('builtins.print') as mock_print:
             with patch('sys.exit') as mock_exit:
                 _handle_capture_command(None)
@@ -62,14 +62,19 @@ class TestPkmCliHelperFunctions:
                 mock_print.assert_called_with("Error: capture command requires content")
                 mock_exit.assert_called_with(1)
     
-    def test_handle_capture_command_validates_empty_content(self):
-        """Test capture command validates empty content"""
-        with patch('builtins.print') as mock_print:
-            with patch('sys.exit') as mock_exit:
-                _handle_capture_command("")
-                
-                mock_print.assert_called_with("Error: capture command requires content")
-                mock_exit.assert_called_with(1)
+    def test_handle_capture_command_handles_empty_content(self):
+        """Test capture command handles empty content (creates placeholder)"""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            with patch('src.pkm.cli.Path.cwd', return_value=Path(tmpdir)):
+                with patch('builtins.print') as mock_print:
+                    with patch('sys.exit') as mock_exit:
+                        _handle_capture_command("")
+                        
+                        # Should succeed (empty content gets placeholder)
+                        mock_exit.assert_called_with(0)
+                        # Should print success message
+                        args = mock_print.call_args[0] 
+                        assert "Content captured successfully" in args[0]
 
 
 class TestTddCompliance:
