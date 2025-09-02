@@ -33,70 +33,33 @@ class FrontmatterData(NamedTuple):
 
 
 def pkm_capture(content: str, vault_path: Optional[Path] = None) -> CaptureResult:
-    """
-    Capture content to PKM inbox
-    
-    TDD GREEN Phase: Minimal implementation to pass tests
-    Following KISS: Simple file creation with basic frontmatter
-    """
-    # Handle None content (error case)
+    """Capture content to PKM inbox - KISS refactored version"""
+    # Handle input validation
     if content is None:
-        return CaptureResult(
-            filename="",
-            filepath=Path(),
-            frontmatter={},
-            content="",
-            success=False,
-            error="Content cannot be None"
-        )
+        return _create_error_result("Content cannot be None")
     
-    # Handle empty content (placeholder case)
     if content.strip() == "":
         content = "<!-- Empty capture - add content here -->"
     
-    # Default vault path
-    if vault_path is None:
-        vault_path = Path.cwd() / "vault"
+    # Setup paths
+    vault_path = vault_path or Path.cwd() / "vault"
+    filepath = _prepare_capture_file(vault_path)
     
-    # Create inbox directory if missing
-    inbox_path = vault_path / "00-inbox"
-    inbox_path.mkdir(parents=True, exist_ok=True)
-    
-    # Generate timestamp-based filename
-    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-    filename = f"{timestamp}.md"
-    filepath = inbox_path / filename
-    
-    # Create basic frontmatter
-    frontmatter = {
-        "date": datetime.now().strftime("%Y-%m-%d"),
-        "type": "capture",
-        "tags": [],
-        "status": "draft", 
-        "source": "capture_command"
-    }
-    
-    # Create markdown file with frontmatter
-    file_content = "---\n" + yaml.dump(frontmatter) + "---\n" + content
+    # Create content and save
+    frontmatter = _create_capture_frontmatter()
+    file_content = _format_markdown_file(frontmatter, content)
     
     try:
         filepath.write_text(file_content)
         return CaptureResult(
-            filename=filename,
+            filename=filepath.name,
             filepath=filepath,
             frontmatter=frontmatter,
             content=content,
             success=True
         )
     except Exception as e:
-        return CaptureResult(
-            filename="",
-            filepath=Path(),
-            frontmatter={},
-            content="",
-            success=False,
-            error=str(e)
-        )
+        return _create_error_result(str(e))
 
 
 # Following SRP: Separate frontmatter creation
