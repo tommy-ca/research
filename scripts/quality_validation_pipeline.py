@@ -150,10 +150,23 @@ class TddComplianceChecker:
         """Check if implementation file has corresponding tests"""
         # Convert implementation path to test path
         rel_path = impl_file.relative_to(self.src_dir)
-        test_file = self.test_dir / "unit" / f"test_{rel_path.stem}.py"
-        functional_test_file = self.test_dir / "unit" / f"test_{rel_path.stem}_functional.py"
         
-        if not test_file.exists() and not functional_test_file.exists():
+        # Check multiple test naming patterns
+        test_patterns = [
+            f"test_{rel_path.stem}.py",
+            f"test_{rel_path.stem}_functional.py", 
+            f"test_pkm_{rel_path.stem}.py",
+            f"test_pkm_{rel_path.stem}_functional.py"
+        ]
+        
+        test_found = False
+        for pattern in test_patterns:
+            test_file = self.test_dir / "unit" / pattern
+            if test_file.exists():
+                test_found = True
+                break
+        
+        if not test_found:
             result.fail(f"No tests found for {impl_file}")
         else:
             result.add_metric(f"tests_found_for_{rel_path.stem}", True)
