@@ -24,6 +24,8 @@ def run(cmd, cwd=None, env=None):
 def test_gist_ingestion_pipeline_end_to_end(tmp_path):
     vault = tmp_path / 'vault'
     vault.mkdir()
+    # Create inbox directory for capture function
+    (vault / '00-inbox').mkdir()
 
     # Create a sample markdown file simulating gist content
     md = """# Cross-Sectional Alpha Factors in Crypto
