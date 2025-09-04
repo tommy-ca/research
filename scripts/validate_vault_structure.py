@@ -23,14 +23,10 @@ VAULT = REPO_ROOT / "vault"
 
 REQUIRED_TOP_LEVEL = {
     "00-inbox",
-    "02-projects",
+    "02-projects", 
     "03-areas",
     "04-resources",
     "05-archives",
-    "06-synthesis",
-    "07-journal",
-    "08-media",
-    "09-data",
     "daily",
     "permanent",
     "templates",
