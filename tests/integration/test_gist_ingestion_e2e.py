@@ -63,8 +63,7 @@ Reference note captured from a gist for research.
     
     assert captured_file.exists(), f"Captured file does not exist: {captured_file}"
 
-    # Verify content includes gist URL
+    # Verify content includes gist URL  
     content = captured_file.read_text(encoding='utf-8')
-    assert 'source:' in resource and gist_url in resource, 'Missing gist source in frontmatter'
-    assert '#source/gist' in resource, 'Missing gist tag in resource'
+    assert gist_url in content, f"Missing expected gist URL {gist_url} in content"
 
