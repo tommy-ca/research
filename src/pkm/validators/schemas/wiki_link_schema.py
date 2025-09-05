@@ -106,8 +106,13 @@ class WikiLinkValidationRules:
     Following DRY principle: Single source of truth for rules
     """
     
-    def __init__(self):
+    def __init__(self, vault_structure: VaultStructureRules = None):
         """Initialize validation rules with comprehensive error templates"""
+        
+        # Backward compatibility: Include search paths and extensions for tests
+        self._vault_structure = vault_structure or VaultStructureRules()
+        self.SEARCH_PATHS = self._vault_structure.search_paths
+        self.FILE_EXTENSIONS = self._vault_structure.file_extensions
         
         # Enhanced error message templates with actionable suggestions
         self.ERROR_MESSAGES = {
