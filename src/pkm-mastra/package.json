@@ -1,0 +1,33 @@
+{
+  "name": "pkm-mastra",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "dev": "tsx src/index.ts",
+    "build": "tsc",
+    "tdd": "vitest --watch --reporter=verbose"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@ai-sdk/anthropic": "^2.0.12",
+    "@ai-sdk/google": "^2.0.12",
+    "@ai-sdk/openai": "^2.0.24",
+    "@mastra/core": "^0.16.0",
+    "@mastra/engine": "^0.1.0-alpha.84",
+    "@types/node": "^24.3.1",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "vite-tsconfig-paths": "^5.1.4"
+  }
+}

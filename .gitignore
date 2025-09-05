@@ -79,3 +79,4 @@ htmlcov/
 tests/reports/
 tmp/
 .code
+node_modules/
