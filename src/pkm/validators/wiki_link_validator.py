@@ -117,7 +117,7 @@ class WikiLinkValidationRules:
         # Error message templates
         self.ERROR_MESSAGES = {
             'broken_wiki_link': "Wiki-link '{link_text}' not found in vault. Check spelling or create the referenced note.",
-            'ambiguous_wiki_link': "Wiki-link '{link_text}' matches multiple files: {matches}. Use more specific link text.",
+            'ambiguous_wiki_link': "Wiki-link '{link_text}' has multiple matches: {matches}. Use more specific link text.",
             'empty_wiki_link': "Empty wiki-link found. Remove empty [[]] or add link text.",
         }
     
