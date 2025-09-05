@@ -235,6 +235,48 @@ quality_gates:
 ### Phase 3: Quality & Polish (NFRs)
 **Only after user adoption and feedback**
 
+## Agent Enhancement Strategy
+
+### Current Agents: Refactor for Principles Compliance
+
+#### PKM Ingestion Agent - Refactor Plan
+```yaml
+current_issues:
+  - 200+ lines violates KISS
+  - Complex features before simple ones
+  - No TDD test specification
+
+refactor_plan:
+  phase_1_simple:
+    - Basic file reading (20 lines)
+    - Simple text capture (10 lines) 
+    - Minimal frontmatter (15 lines)
+  
+  phase_2_enhanced:
+    - Format detection (after phase 1 proven)
+    - Batch processing (after single file works)
+    - Quality validation (after basic capture works)
+```
+
+#### PKM Processor Agent - Refactor Plan
+```yaml
+current_issues:
+  - NLP complexity before basic text processing
+  - Performance features before functional features
+  - Violates FR-First principle
+
+refactor_plan:
+  phase_1_simple:
+    - Keyword extraction (basic regex)
+    - Simple tag generation (word frequency)
+    - Basic categorization (keyword matching)
+  
+  phase_2_enhanced:
+    - NLP processing (after basic version works)
+    - Graph integration (after simple linking works)
+    - Advanced analysis (after user adoption)
+```
+
 ## Testing Strategy (TDD Compliance)
 
 ### Test-First Development Process

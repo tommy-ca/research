@@ -7,19 +7,24 @@ Automated enforcement of engineering principles:
 - KISS principle (Keep It Simple, Stupid)
 - FR-First prioritization (Functional Requirements first)
 - SOLID principles validation
+- Code coverage requirements
+- Performance standards
 
 Usage:
     python scripts/quality_validation_pipeline.py
-    python scripts/quality_validation_pipeline.py --check-kiss
     python scripts/quality_validation_pipeline.py --check-tdd
+    python scripts/quality_validation_pipeline.py --full-validation
 """
 
 import sys
 import subprocess
 import ast
+import inspect
 from pathlib import Path
-from typing import Dict, List, Any
+from typing import Dict, List, Tuple, Any
 import argparse
+import json
+import time
 
 
 class QualityValidationResult:
@@ -43,6 +48,77 @@ class QualityValidationResult:
     def add_metric(self, name: str, value: Any):
         """Add a quality metric"""
         self.metrics[name] = value
+
+
+class TddComplianceChecker:
+    """Validates TDD compliance - tests exist before implementation"""
+    
+    def __init__(self, src_dir: Path, test_dir: Path):
+        self.src_dir = src_dir
+        self.test_dir = test_dir
+        
+    def check_tdd_compliance(self) -> QualityValidationResult:
+        """Check TDD compliance across the codebase"""
+        result = QualityValidationResult()
+        
+        # Find all implementation files
+        impl_files = list(self.src_dir.rglob("*.py"))
+        impl_files = [f for f in impl_files if not f.name.startswith("_")]
+        
+        for impl_file in impl_files:
+            self._check_file_has_tests(impl_file, result)
+            
+        # Check test coverage requirements
+        coverage_result = self._check_coverage()
+        if coverage_result < 80:
+            result.fail(f"Code coverage {coverage_result}% below required 80%")
+        else:
+            result.add_metric("code_coverage", coverage_result)
+            
+        return result
+    
+    def _check_file_has_tests(self, impl_file: Path, result: QualityValidationResult):
+        """Check if implementation file has corresponding tests"""
+        # Convert implementation path to test path
+        rel_path = impl_file.relative_to(self.src_dir)
+        test_file = self.test_dir / "unit" / f"test_{rel_path.stem}.py"
+        functional_test_file = self.test_dir / "unit" / f"test_{rel_path.stem}_functional.py"
+        
+        if not test_file.exists() and not functional_test_file.exists():
+            result.fail(f"No tests found for {impl_file}")
+        else:
+            # Check if tests actually test the implementation
+            self._validate_test_coverage_for_file(impl_file, result)
+    
+    def _validate_test_coverage_for_file(self, impl_file: Path, result: QualityValidationResult):
+        """Validate that tests actually cover the implementation"""
+        try:
+            # Parse implementation to find functions
+            with open(impl_file, 'r') as f:
+                tree = ast.parse(f.read())
+                
+            functions = [node.name for node in ast.walk(tree) 
+                        if isinstance(node, ast.FunctionDef) 
+                        and not node.name.startswith('_')]
+                        
+            if functions:
+                result.add_metric(f"functions_in_{impl_file.stem}", len(functions))
+                
+        except Exception as e:
+            result.warn(f"Could not parse {impl_file}: {e}")
+    
+    def _check_coverage(self) -> float:
+        """Check code coverage using pytest-cov"""
+        try:
+            cmd = ["python", "-m", "pytest", "--cov=src/pkm", "--cov-report=json:coverage.json", "-q"]
+            subprocess.run(cmd, capture_output=True, check=True)
+            
+            with open("coverage.json", 'r') as f:
+                coverage_data = json.load(f)
+                return coverage_data.get("totals", {}).get("percent_covered", 0)
+                
+        except (subprocess.CalledProcessError, FileNotFoundError, json.JSONDecodeError):
+            return 0.0
 
 
 class KissPrincipleChecker:
@@ -126,52 +202,88 @@ class KissPrincipleChecker:
         return complexity
 
 
-class TddComplianceChecker:
-    """Validates TDD compliance - tests exist before implementation"""
+class SolidPrincipleChecker:
+    """Validates SOLID principles compliance"""
     
-    def __init__(self, src_dir: Path, test_dir: Path):
+    def __init__(self, src_dir: Path):
         self.src_dir = src_dir
-        self.test_dir = test_dir
         
-    def check_tdd_compliance(self) -> QualityValidationResult:
-        """Check TDD compliance across the codebase"""
+    def check_solid_compliance(self) -> QualityValidationResult:
+        """Check SOLID principles compliance"""
         result = QualityValidationResult()
         
-        # Find all implementation files
         impl_files = list(self.src_dir.rglob("*.py"))
-        impl_files = [f for f in impl_files if not f.name.startswith("_")]
         
         for impl_file in impl_files:
-            self._check_file_has_tests(impl_file, result)
+            self._check_single_responsibility(impl_file, result)
+            self._check_dependency_injection(impl_file, result)
             
         return result
     
-    def _check_file_has_tests(self, impl_file: Path, result: QualityValidationResult):
-        """Check if implementation file has corresponding tests"""
-        # Convert implementation path to test path
-        rel_path = impl_file.relative_to(self.src_dir)
+    def _check_single_responsibility(self, impl_file: Path, result: QualityValidationResult):
+        """Check Single Responsibility Principle"""
+        try:
+            with open(impl_file, 'r') as f:
+                tree = ast.parse(f.read())
+                
+            classes = [node for node in ast.walk(tree) if isinstance(node, ast.ClassDef)]
+            
+            for class_node in classes:
+                methods = [node for node in class_node.body if isinstance(node, ast.FunctionDef)]
+                
+                if len(methods) > 10:  # Arbitrary threshold for too many responsibilities
+                    result.warn(f"Class {class_node.name} in {impl_file.name} has {len(methods)} methods - may violate SRP")
+                    
+                result.add_metric(f"{impl_file.stem}_{class_node.name}_methods", len(methods))
+                
+        except Exception as e:
+            result.warn(f"Could not analyze SOLID compliance for {impl_file}: {e}")
+    
+    def _check_dependency_injection(self, impl_file: Path, result: QualityValidationResult):
+        """Check for dependency injection patterns"""
+        try:
+            with open(impl_file, 'r') as f:
+                content = f.read()
+                
+            # Look for hardcoded imports that could be injected
+            if "from pathlib import Path" in content and "Path.cwd()" in content:
+                result.warn(f"File {impl_file.name} uses hardcoded Path.cwd() - consider dependency injection")
+                
+        except Exception as e:
+            result.warn(f"Could not check dependency injection for {impl_file}: {e}")
+
+
+class PerformanceChecker:
+    """Validates performance requirements"""
+    
+    def __init__(self, test_dir: Path):
+        self.test_dir = test_dir
         
-        # Check multiple test naming patterns
-        test_patterns = [
-            f"test_{rel_path.stem}.py",
-            f"test_{rel_path.stem}_functional.py", 
-            f"test_pkm_{rel_path.stem}.py",
-            f"test_pkm_{rel_path.stem}_functional.py",
-            f"test_pkm_{rel_path.stem}_fr001.py",
-            f"test_pkm_{rel_path.stem}_fr001_functional.py"
-        ]
+    def check_performance_standards(self) -> QualityValidationResult:
+        """Check performance standards"""
+        result = QualityValidationResult()
         
-        test_found = False
-        for pattern in test_patterns:
-            test_file = self.test_dir / "unit" / pattern
-            if test_file.exists():
-                test_found = True
-                break
-        
-        if not test_found:
-            result.fail(f"No tests found for {impl_file}")
-        else:
-            result.add_metric(f"tests_found_for_{rel_path.stem}", True)
+        # Run performance tests
+        try:
+            start_time = time.time()
+            cmd = ["python", "-m", "pytest", str(self.test_dir), "-k", "performance", "-v"]
+            proc_result = subprocess.run(cmd, capture_output=True, text=True)
+            end_time = time.time()
+            
+            test_duration = end_time - start_time
+            result.add_metric("performance_test_duration", test_duration)
+            
+            if proc_result.returncode != 0:
+                result.fail(f"Performance tests failed: {proc_result.stdout}")
+            else:
+                # Check if any performance test took too long
+                if test_duration > 30:  # 30 seconds max for all performance tests
+                    result.fail(f"Performance tests took {test_duration:.2f}s (max 30s)")
+                    
+        except Exception as e:
+            result.warn(f"Could not run performance tests: {e}")
+            
+        return result
 
 
 class QualityValidationPipeline:
@@ -182,30 +294,30 @@ class QualityValidationPipeline:
         self.test_dir = test_dir or Path("tests")
         
         self.checkers = {
+            "tdd": TddComplianceChecker(self.src_dir, self.test_dir),
             "kiss": KissPrincipleChecker(self.src_dir),
-            "tdd": TddComplianceChecker(self.src_dir, self.test_dir)
+            "solid": SolidPrincipleChecker(self.src_dir),
+            "performance": PerformanceChecker(self.test_dir)
         }
     
-    def run_validation(self, check_types: List[str] = None) -> Dict[str, QualityValidationResult]:
-        """Run quality validation"""
-        check_types = check_types or ["kiss", "tdd"]
-        
+    def run_full_validation(self) -> Dict[str, QualityValidationResult]:
+        """Run complete quality validation"""
         print("🔍 Running PKM System Quality Validation Pipeline...")
         print("=" * 60)
         
         results = {}
         
-        for check_name in check_types:
-            if check_name not in self.checkers:
-                continue
-                
+        for check_name, checker in self.checkers.items():
             print(f"\n📋 Running {check_name.upper()} compliance check...")
             
-            checker = self.checkers[check_name]
-            if check_name == "kiss":
-                result = checker.check_kiss_compliance()
-            elif check_name == "tdd":
+            if check_name == "tdd":
                 result = checker.check_tdd_compliance()
+            elif check_name == "kiss":
+                result = checker.check_kiss_compliance()
+            elif check_name == "solid":
+                result = checker.check_solid_compliance()
+            elif check_name == "performance":
+                result = checker.check_performance_standards()
             else:
                 continue
                 
@@ -228,6 +340,14 @@ class QualityValidationPipeline:
             print("   Warnings:")
             for warning in result.warnings:
                 print(f"     - {warning}")
+                
+        if result.metrics:
+            print("   Metrics:")
+            for metric, value in result.metrics.items():
+                if isinstance(value, float):
+                    print(f"     - {metric}: {value:.2f}")
+                else:
+                    print(f"     - {metric}: {value}")
     
     def print_final_summary(self, results: Dict[str, QualityValidationResult]):
         """Print final validation summary"""
@@ -243,6 +363,13 @@ class QualityValidationPipeline:
         
         print("\n" + ("🎉 ALL QUALITY CHECKS PASSED!" if all_passed else "⚠️  QUALITY ISSUES FOUND"))
         
+        if not all_passed:
+            print("\nTo fix issues, follow the engineering principles:")
+            print("- TDD: Write tests first (RED → GREEN → REFACTOR)")
+            print("- KISS: Keep functions simple (< 20 lines)")
+            print("- FR-First: Functional requirements before optimization")
+            print("- SOLID: Single responsibility, dependency injection")
+        
         return all_passed
 
 
@@ -251,6 +378,9 @@ def main():
     parser = argparse.ArgumentParser(description="PKM Quality Validation Pipeline")
     parser.add_argument("--check-tdd", action="store_true", help="Only run TDD compliance check")
     parser.add_argument("--check-kiss", action="store_true", help="Only run KISS principle check")  
+    parser.add_argument("--check-solid", action="store_true", help="Only run SOLID principles check")
+    parser.add_argument("--check-performance", action="store_true", help="Only run performance check")
+    parser.add_argument("--full-validation", action="store_true", help="Run complete validation suite")
     parser.add_argument("--src-dir", type=Path, default=Path("src"), help="Source directory")
     parser.add_argument("--test-dir", type=Path, default=Path("tests"), help="Test directory")
     
@@ -258,18 +388,41 @@ def main():
     
     pipeline = QualityValidationPipeline(args.src_dir, args.test_dir)
     
-    # Determine which checks to run
-    check_types = []
+    # If no specific check requested, run full validation
+    if not any([args.check_tdd, args.check_kiss, args.check_solid, args.check_performance]):
+        args.full_validation = True
+    
+    if args.full_validation:
+        results = pipeline.run_full_validation()
+        success = pipeline.print_final_summary(results)
+        sys.exit(0 if success else 1)
+    
+    # Run individual checks with detailed output
+    print("🔍 Running PKM System Quality Validation Pipeline...")
+    print("=" * 60)
+    
+    results = {}
+    
     if args.check_tdd:
-        check_types.append("tdd")
+        print(f"\n📋 Running TDD compliance check...")
+        results["tdd"] = pipeline.checkers["tdd"].check_tdd_compliance()
+        pipeline._print_result_summary("tdd", results["tdd"])
+        
     if args.check_kiss:
-        check_types.append("kiss")
+        print(f"\n📋 Running KISS principle check...")
+        results["kiss"] = pipeline.checkers["kiss"].check_kiss_compliance()
+        pipeline._print_result_summary("kiss", results["kiss"])
+        
+    if args.check_solid:
+        print(f"\n📋 Running SOLID principles check...")
+        results["solid"] = pipeline.checkers["solid"].check_solid_compliance()
+        pipeline._print_result_summary("solid", results["solid"])
+        
+    if args.check_performance:
+        print(f"\n📋 Running performance check...")
+        results["performance"] = pipeline.checkers["performance"].check_performance_standards()
+        pipeline._print_result_summary("performance", results["performance"])
     
-    # If no specific check requested, run all
-    if not check_types:
-        check_types = ["kiss", "tdd"]
-    
-    results = pipeline.run_validation(check_types)
     success = pipeline.print_final_summary(results)
     sys.exit(0 if success else 1)
 

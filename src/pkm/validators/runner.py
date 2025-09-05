@@ -21,6 +21,20 @@ class PKMValidationRunner:
         """Add validator to runner - simple addition"""
         self.validators.append(validator)
     
+    def validate_file(self, file_path: Path) -> List[ValidationResult]:
+        """Validate single file with all validators"""
+        results = []
+        
+        for validator in self.validators:
+            try:
+                file_results = validator.validate(file_path)
+                results.extend(file_results)
+            except Exception:
+                # Handle individual validator errors gracefully
+                continue
+                
+        return results
+    
     def validate_vault(self) -> List[ValidationResult]:
         """Validate entire vault and return all results"""
         results = []
@@ -33,14 +47,8 @@ class PKMValidationRunner:
             # Find all markdown files recursively
             for file_path in self.vault_path.rglob("*.md"):
                 # Run all validators on each file
-                for validator in self.validators:
-                    try:
-                        file_results = validator.validate(file_path)
-                        results.extend(file_results)
-                    except Exception:
-                        # Handle individual validator errors gracefully
-                        # Don't crash entire validation for one file/validator
-                        continue
+                file_results = self.validate_file(file_path)
+                results.extend(file_results)
                         
         except (OSError, PermissionError):
             # Handle permission errors gracefully
