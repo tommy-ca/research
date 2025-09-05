@@ -24,8 +24,9 @@ class WikiLinkExtractor:
     
     def __init__(self):
         """Initialize with basic wiki-link pattern"""
-        # KISS: Simple regex for [[Link]] and [[Target|Alias]] patterns
-        self.wiki_link_pattern = re.compile(r'\[\[([^\]]+)\]\]')
+        # KISS: Simple regex for [[Link]] and [[Target|Alias]] patterns  
+        # Handle nested brackets by using non-greedy match until ]]
+        self.wiki_link_pattern = re.compile(r'\[\[(.*?)\]\]')
     
     def extract_links(self, content: str) -> List[str]:
         """Extract wiki-links from content - minimal implementation"""
