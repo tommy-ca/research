@@ -160,8 +160,18 @@ class WikiLinkValidator(BaseValidator):
             # KISS: Performance optimization - check unique links only
             unique_links = list(set(links))
             
+            # Also check for empty patterns that weren't caught by extraction
+            empty_pattern = re.compile(r'\[\[\s*\]\]')
+            if empty_pattern.search(content):
+                results.append(ValidationResult(
+                    file_path=file_path,
+                    rule="empty-wiki-link", 
+                    severity="error",
+                    message=self.rules.format_error_message('empty_wiki_link')
+                ))
+
             for link in unique_links:
-                # Handle empty links specially
+                # Handle empty links specially  
                 if not link or link.isspace():
                     results.append(ValidationResult(
                         file_path=file_path,
