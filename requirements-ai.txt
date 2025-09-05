@@ -1,0 +1,41 @@
+# PKM AI Agent System Dependencies
+
+# LLM API Integrations
+anthropic>=0.8.0                    # Claude Code SDK integration
+openai>=1.0.0                       # OpenAI GPT models
+google-generativeai>=0.3.0          # Google Gemini models
+
+# Token Management and Optimization
+tiktoken>=0.5.0                     # OpenAI token counting
+transformers>=4.30.0                # HuggingFace tokenizers
+
+# Embeddings and Semantic Search
+sentence-transformers>=2.2.0        # Semantic embeddings
+faiss-cpu>=1.7.0                    # Vector similarity search
+numpy>=1.24.0                       # Numerical operations
+
+# Prompt Engineering and Templates
+jinja2>=3.1.0                       # Template engine
+pydantic>=2.0.0                     # Data validation
+
+# Context Management
+sqlalchemy>=2.0.0                   # Conversation persistence
+redis>=4.5.0                        # Context caching (optional)
+
+# Quality and Safety
+textstat>=0.7.0                     # Text quality metrics
+profanity-check>=1.0.3              # Content safety
+langdetect>=1.0.9                   # Language detection
+
+# Monitoring and Analytics
+prometheus-client>=0.16.0           # Metrics collection
+structlog>=23.0.0                   # Structured logging
+
+# Development and Testing
+pytest-asyncio>=0.21.0              # Async testing support
+respx>=0.20.0                       # HTTP mocking for tests
+pytest-mock>=3.10.0                 # Enhanced mocking capabilities
+
+# Security
+cryptography>=41.0.0                # Encryption for sensitive data
+python-jose>=3.3.0                  # JWT token handling
