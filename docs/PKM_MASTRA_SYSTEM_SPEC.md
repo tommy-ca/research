@@ -2,32 +2,64 @@
 
 ## Document Information
 - **Document Type**: Mastra.ai-Based PKM Pipeline System Specification
-- **Version**: 4.0.0 - 2025 Mastra Framework Integration
+- **Version**: 5.0.0 - Specs-Driven TDD with Claude Sonnet/Opus Integration
 - **Created**: 2024-09-05
-- **Updated**: 2025-09-06 (Ultra-Thinking Analysis + Latest Mastra Research)
+- **Updated**: 2025-09-06 (Specs-Driven TDD + Claude Sonnet/Opus + Consistent Naming)
 - **Framework**: Mastra.ai 2025 TypeScript AI Agent Framework (v0.16.0+)
-- **API Compatibility**: AI SDK v5 Support, Enhanced Orchestration, Dynamic Memory
-- **Engineering Standards**: SOLID, KISS, DRY, Enhanced TDD with Quality Gates
-- **Focus**: Production-ready PKM automation with cutting-edge Mastra capabilities
+- **API Compatibility**: AI SDK v5 Support, Claude Code Provider, Workflow Orchestration
+- **LLM Integration**: Claude Code with Sonnet/Opus Model Selection + Multi-Provider Fallbacks
+- **Engineering Standards**: SOLID, KISS, DRY, Specs-Driven TDD Methodology
+- **Naming Convention**: Consistent naming without Enhanced/Advanced prefixes
+- **Focus**: Production-ready PKM automation with intelligent Claude model selection
 
 ## Executive Summary
 
-This specification defines a PKM (Personal Knowledge Management) system built on mastra.ai framework, leveraging its agent orchestration, workflow management, memory systems, and evaluation capabilities to create intelligent PKM pipeline automation. **Enhanced with systematic engineering principles integration**, this system maintains strict compliance with established methodologies (PARA, Zettelkasten, GTD) while enforcing SOLID architecture, KISS simplicity, DRY maintainability, and comprehensive TDD methodology.
+This specification defines a PKM (Personal Knowledge Management) system built on mastra.ai framework, leveraging its agent orchestration, workflow management, memory systems, and evaluation capabilities to create intelligent PKM pipeline automation. **Built with systematic engineering principles integration**, this system maintains strict compliance with established methodologies (PARA, Zettelkasten, GTD) while enforcing SOLID architecture, KISS simplicity, DRY maintainability, and comprehensive specs-driven TDD methodology.
 
 ## Engineering Principles Foundation
 
 ### Core Engineering Standards
-- **TDD-First Development**: Enhanced RED-GREEN-REFACTOR-VALIDATE-EVALUATE methodology
+- **Specs-Driven TDD**: Specification-first RED-GREEN-REFACTOR-VALIDATE-EVALUATE methodology
 - **SOLID Architecture**: Systematic application across all agents and components  
 - **KISS Principle**: Simplicity-first design with complexity metrics enforcement
 - **DRY Compliance**: Zero duplication tolerance with automated detection
 - **Performance Engineering**: <100ms response time requirements with continuous monitoring
 - **Quality Gates**: Automated engineering compliance validation at every stage
+- **Consistent Naming**: No Enhanced/Advanced prefixes, clear descriptive names
 
-### Enhanced TDD Methodology Integration
+## Claude Model Selection Strategy
+
+### Intelligent Model Selection Architecture
+
+**Sonnet vs Opus Selection Criteria**:
+```typescript
+interface ModelSelectionStrategy {
+  // High-performance tasks: Research, complex analysis, synthesis
+  opus: ['research-analysis', 'complex-synthesis', 'deep-reasoning'];
+  
+  // Standard tasks: Capture, organization, basic processing
+  sonnet: ['content-capture', 'organization', 'basic-processing'];
+  
+  // Automatic selection based on task complexity and content length
+  autoSelect: (task: TaskType, contentLength: number) => 'opus' | 'sonnet';
+}
+```
+
+**Model Configuration**:
+- **Claude 3.5 Sonnet**: Fast, efficient for standard PKM operations
+- **Claude 3 Opus**: High-quality for complex research and analysis tasks
+- **Automatic Selection**: Based on task complexity, content length, and performance requirements
+- **Cost Optimization**: Intelligent routing to minimize subscription usage
+
+### Specs-Driven TDD Methodology Integration
 
 ```typescript
-interface EnhancedTDDCycle {
+interface SpecsDrivenTDDCycle {
+  SPECS: {
+    writeSpecifications: SpecificationDocument[];
+    defineAcceptanceCriteria: AcceptanceCriteria[];
+    establishSuccessMetrics: SuccessMetrics;
+  };
   RED: {
     writeFailingTests: Test[];
     validateTestQuality: QualityMetrics;
@@ -56,6 +88,40 @@ interface EnhancedTDDCycle {
 }
 ```
 
+## Naming Convention Standards
+
+### Consistent Naming Architecture
+
+**File Naming Convention**:
+- `capture-agent.ts` (not `enhanced-capture-agent.ts`)
+- `capture-workflow.ts` (not `enhanced-capture-workflow.ts`)
+- `metadata-generator.ts` (not `enhanced-metadata-generator.ts`)
+
+**Class Naming Convention**:
+```typescript
+// ✅ Correct: Clear, descriptive names
+class CaptureAgent { }
+class CaptureWorkflow { }
+class MetadataGenerator { }
+
+// ❌ Incorrect: Unnecessary prefixes
+class EnhancedCaptureAgent { }
+class AdvancedCaptureWorkflow { }
+class SuperMetadataGenerator { }
+```
+
+**Function Naming Convention**:
+```typescript
+// ✅ Correct: Action-based naming
+function captureContent(content: string): CaptureResult;
+function processWorkflow(workflow: Workflow): ProcessResult;
+function generateMetadata(input: Input): Metadata;
+
+// ❌ Incorrect: Enhanced/Advanced prefixes
+function enhancedCaptureContent(content: string): CaptureResult;
+function advancedProcessWorkflow(workflow: Workflow): ProcessResult;
+```
+
 ### SOLID Principles Application
 
 **Single Responsibility Principle (SRP)**
@@ -81,9 +147,10 @@ interface LLMProvider {
   process(content: string): Promise<ProcessedContent>;
 }
 
-class OpenAIProvider implements LLMProvider { }
-class AnthropicProvider implements LLMProvider { }
-class GoogleProvider implements LLMProvider { }
+class ClaudeCodeProvider implements LLMProvider { } // Subscription-based, no API keys
+class OpenAIProvider implements LLMProvider { }     // API key fallback
+class AnthropicProvider implements LLMProvider { }  // API key fallback  
+class GoogleProvider implements LLMProvider { }     // API key fallback
 // New providers can be added without modifying existing code
 ```
 
@@ -195,7 +262,9 @@ interface PerformanceRequirements {
 
 **Mastra.ai Foundation**:
 - **Agent Orchestration**: Production-ready agent lifecycle management
-- **Multi-LLM Support**: Unified interface for Claude, OpenAI, Gemini via Vercel AI SDK
+- **Multi-LLM Support**: Priority-based provider system with Claude Code (subscription), OpenAI, Anthropic, Gemini fallbacks
+- **Subscription Model**: Claude Code provider leverages Claude Pro/Max subscriptions without API keys
+- **Cost Optimization**: Automatic provider selection based on availability and subscription status
 - **Workflow Graphs**: State machines for complex PKM pipeline transitions
 - **Memory Management**: Long-term and short-term context with vault awareness
 - **Built-in Evaluation**: Automated quality assessment and compliance validation
@@ -367,6 +436,258 @@ async function executePkmPipeline(input: { content: string; source: string; meta
   } else {
     // Handle failure with detailed error information
     console.error('Workflow failed:', result.error);
+  }
+}
+```
+
+## 1.4 Claude Code Provider Integration Architecture
+
+### 1.4.1 Provider Integration Strategy
+
+**Subscription-First Architecture**: The system prioritizes Claude Code provider to leverage Claude Pro/Max subscriptions, reducing API costs while providing intelligent model selection between Claude 3.5 Sonnet and Claude 3 Opus based on task complexity.
+
+**Intelligent Multi-Model System**:
+```typescript
+interface ProviderConfig {
+  primary: 'claude-code';
+  fallbacks: ['openai', 'anthropic'];
+  models: {
+    'claude-code-sonnet': 'claude-3-5-sonnet-20241022';
+    'claude-code-opus': 'claude-3-opus-20240229';
+    'openai': 'gpt-4o-mini';
+    'anthropic': 'claude-3-haiku-20240307';
+  };
+  modelSelection: {
+    default: 'claude-code-sonnet';
+    complexTasks: 'claude-code-opus';
+    selectionStrategy: ModelSelectionStrategy;
+  };
+  subscriptionBased: boolean;
+  costOptimization: boolean;
+}
+```
+
+**Model Selection Strategy**:
+```typescript
+interface ModelSelectionStrategy {
+  selectModel(task: TaskType, content: string, context: TaskContext): 'sonnet' | 'opus';
+  
+  // Sonnet: Fast, efficient for standard operations
+  sonnetTasks: [
+    'content-capture',
+    'basic-organization', 
+    'metadata-generation',
+    'simple-processing'
+  ];
+  
+  // Opus: High-quality for complex operations  
+  opusTasks: [
+    'research-analysis',
+    'complex-synthesis',
+    'deep-reasoning',
+    'quality-assessment'
+  ];
+  
+  // Auto-selection criteria
+  criteria: {
+    contentLength: number;    // >5000 chars → Opus
+    complexity: number;       // >0.7 score → Opus  
+    processingTime: number;   // <100ms required → Sonnet
+    qualityRequired: number;  // >0.9 required → Opus
+  };
+}
+```
+
+### 1.4.2 Provider Factory Implementation
+
+**SOLID-Compliant Provider Factory with Intelligent Model Selection**:
+```typescript
+// Single Responsibility: Provider creation and management
+class ProviderFactory {
+  private config: ProviderConfig;
+  private modelSelector: ModelSelectionStrategy;
+  
+  constructor(config: ProviderConfig) {
+    this.config = config;
+    this.modelSelector = new ModelSelectionStrategy(config);
+  }
+  
+  // Open/Closed: Extensible for new providers and models
+  async createModel(
+    task?: TaskType, 
+    content?: string, 
+    context?: TaskContext
+  ): Promise<MastraCompatibleModel> {
+    
+    // Intelligent model selection for Claude Code
+    if (this.config.primary === 'claude-code') {
+      const selectedModel = this.modelSelector.selectModel(task, content, context);
+      return await this.createClaudeCodeProvider(selectedModel);
+    }
+    
+    // Fallback providers
+    return await this.createFallbackProvider();
+  }
+  
+  private async createClaudeCodeProvider(model: 'sonnet' | 'opus'): Promise<MastraCompatibleModel> {
+    const { claudeCode } = await import('ai-sdk-provider-claude-code');
+    
+    const modelId = model === 'opus' 
+      ? this.config.models['claude-code-opus']
+      : this.config.models['claude-code-sonnet'];
+    
+    return claudeCode(modelId, {
+      // Subscription-based configuration - no API key required
+      useSubscription: true,
+      fallbackOnError: true,
+      // Performance optimization based on model
+      temperature: model === 'opus' ? 0.1 : 0.3,
+      maxTokens: model === 'opus' ? 4000 : 2000,
+    });
+  }
+  
+  // KISS: Simple fallback mechanism
+  private async createFallbackProvider(): Promise<MastraCompatibleModel> {
+    for (const fallback of this.config.fallbacks) {
+      try {
+        switch (fallback) {
+          case 'openai':
+            return openai(this.config.models.openai);
+          case 'anthropic':
+            return anthropic(this.config.models.anthropic);
+        }
+      } catch (error) {
+        continue; // Try next fallback
+      }
+    }
+    throw new Error('All providers failed');
+  }
+  
+  private async createFallbackProvider(failedProvider: string): Promise<MastraCompatibleModel> {
+    const fallbacks = this.config.fallbacks.filter(p => p !== failedProvider);
+    for (const fallback of fallbacks) {
+      try {
+        return await this.createModel(fallback);
+      } catch (error) {
+        continue; // Try next fallback
+      }
+    }
+    throw new Error('All providers failed');
+  }
+}
+```
+
+### 1.4.3 Enhanced Agent Integration
+
+**Updated Enhanced Capture Agent**:
+```typescript
+import { claudeCode } from 'ai-sdk-provider-claude-code';
+import { openai } from '@ai-sdk/openai';
+import { anthropic } from '@ai-sdk/anthropic';
+
+export class EnhancedCaptureAgent {
+  private providerFactory: ProviderFactory;
+  private agent: Agent;
+  
+  constructor(config: ProviderConfig) {
+    this.providerFactory = new ProviderFactory(config);
+    this.initializeAgent();
+  }
+  
+  private async initializeAgent() {
+    const model = await this.providerFactory.createModel();
+    
+    this.agent = new Agent({
+      name: 'Enhanced Multi-Source Capture Agent',
+      instructions: `/* PKM-specialized instructions */`,
+      model, // Claude Code provider with fallbacks
+      memory: [captureContextMemory, gtdComplianceMemory],
+      tools: [/* existing tools */],
+    });
+  }
+  
+  // Maintain existing API compatibility
+  async generateResponse(messages: MessageArray) {
+    try {
+      return await this.agent.generateVNext({ messages });
+    } catch (error) {
+      // Provider fallback handled internally by factory
+      throw new Error(`Enhanced capture failed: ${error.message}`);
+    }
+  }
+}
+```
+
+### 1.4.4 Cost Optimization Strategy
+
+**Subscription vs API Key Economics**:
+- **Claude Pro ($20/month)**: Unlimited usage for standard PKM operations
+- **Claude Max ($100-200/month)**: High-volume research and synthesis workflows  
+- **API Fallbacks**: Pay-per-token only when subscriptions unavailable
+- **Intelligent Routing**: Automatic provider selection based on cost and availability
+
+**Usage Optimization**:
+```typescript
+interface ProviderMetrics {
+  subscriptionUsage: {
+    remaining: number;
+    resetDate: Date;
+    provider: 'claude-pro' | 'claude-max';
+  };
+  fallbackCosts: {
+    openai: number;
+    anthropic: number;
+  };
+  routingDecisions: Array<{
+    timestamp: Date;
+    provider: string;
+    reason: 'subscription' | 'fallback' | 'error';
+    cost: number;
+  }>;
+}
+```
+
+### 1.4.5 Error Handling and Resilience
+
+**Graceful Degradation**:
+1. **Primary**: Claude Code (subscription-based)
+2. **Secondary**: OpenAI API (pay-per-token)
+3. **Tertiary**: Anthropic API (pay-per-token)
+4. **Emergency**: Local processing with reduced features
+
+**Error Recovery Patterns**:
+```typescript
+interface ProviderErrorHandler {
+  handleSubscriptionError(error: SubscriptionError): Promise<MastraModel>;
+  handleRateLimitError(error: RateLimitError): Promise<MastraModel>;
+  handleNetworkError(error: NetworkError): Promise<MastraModel>;
+  logProviderMetrics(metrics: ProviderMetrics): void;
+}
+```
+
+### 1.4.6 Configuration Management
+
+**Environment-Based Provider Selection**:
+```typescript
+// .env configuration
+CLAUDE_CODE_ENABLED=true
+CLAUDE_CODE_MODEL=claude-3-5-sonnet-20241022
+OPENAI_FALLBACK_ENABLED=true
+ANTHROPIC_FALLBACK_ENABLED=true
+PROVIDER_METRICS_ENABLED=true
+
+// Dynamic configuration
+interface ProviderEnvironment {
+  development: {
+    primary: 'claude-code',
+    fallbacks: ['openai'],
+    metricsEnabled: true,
+  },
+  production: {
+    primary: 'claude-code',
+    fallbacks: ['openai', 'anthropic'],
+    metricsEnabled: true,
+    costMonitoring: true,
   }
 }
 ```
@@ -927,6 +1248,7 @@ const pkmEvaluations = {
     "@mastra/core": "^0.1.43",
     "@ai-sdk/openai": "^0.0.66",
     "@ai-sdk/anthropic": "^0.0.54",
+    "ai-sdk-provider-claude-code": "^1.0.0",
     "@ai-sdk/google": "^0.0.52",
     "zod": "^3.23.8",
     "typescript": "^5.6.3"

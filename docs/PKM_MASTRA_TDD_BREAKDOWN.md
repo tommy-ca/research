@@ -1,1101 +1,528 @@
-# PKM Mastra.ai System - TDD Task Breakdown
+# PKM-Mastra System TDD Task Breakdown v5.0.0
 
-## Document Information
-- **Document Type**: Mastra.ai 2025 PKM System TDD Implementation Plan
-- **Version**: 4.0.0 - Production-Ready Framework Integration
-- **Created**: 2024-09-05  
-- **Updated**: 2025-09-06 (Ultra-Thinking Analysis + Latest Mastra Research)
-- **Framework**: Mastra.ai 2025 TypeScript AI Agent Framework (v0.16.0+)
-- **API Integration**: createWorkflow, createStep, Agent, Evaluation patterns
-- **Methodology**: Production-Grade TDD with Mastra-Native Quality Gates
-- **Standards**: SOLID, KISS, DRY, Enhanced TDD with Real-World Deployment Validation
+## Overview
 
-## Enhanced TDD Methodology with Engineering Principles
+**Version**: 5.0.0  
+**Focus**: Specs-Driven TDD Methodology with Claude Code Integration  
+**Target**: Claude 3.5 Sonnet + Claude 3 Opus Intelligent Model Selection  
+**Principles**: TDD, SOLID, KISS, DRY with Consistent Naming Conventions
 
-### Production-Grade TDD Cycle (Mastra 2025)
-```
-Production-Ready TDD Cycle with Mastra Integration:
-1. RED: Write failing tests + Mastra evaluation setup + SOLID design validation
-2. GREEN: Implement with createStep/createWorkflow + KISS + DRY compliance
-3. REFACTOR: Optimize with Mastra tools + SOLID architecture + performance
-4. VALIDATE: Integration testing + PKM methodology compliance + type safety
-5. EVALUATE: Mastra evaluation system + production metrics + deployment readiness
-6. DEPLOY: Production validation + monitoring setup + observability integration
+This document provides comprehensive TDD task breakdown for PKM-Mastra system implementation following specs-driven development methodology. All "Enhanced" and "Advanced" prefixes have been removed for consistent, clean naming conventions.
 
-Each phase includes Mastra-native quality gates and production deployment checks.
-```
+## Specs-Driven TDD Methodology
 
-### Mastra 2025 Integration Standards
+### Core Workflow: SPECS → RED → GREEN → REFACTOR → VALIDATE → EVALUATE
 
-#### **Mastra-Native Development Requirements**
-- **createWorkflow Pattern**: All workflows must use Mastra 2025 typed workflow patterns
-- **createStep Composition**: Typed step definitions with schema validation
-- **Agent Integration**: Modern agent patterns with memory, tools, evaluations
-- **Evaluation Framework**: Built-in Mastra evaluation system integration
-- **TypeScript Excellence**: 100% type safety with Zod schema validation
-- **Production Monitoring**: OpenTelemetry tracing and observability integration
+1. **SPECS Phase**: Write complete specifications and acceptance criteria first
+2. **RED Phase**: Write failing tests based on specifications  
+3. **GREEN Phase**: Implement minimal code with SOLID/KISS/DRY compliance
+4. **REFACTOR Phase**: Optimize code while maintaining passing tests
+5. **VALIDATE Phase**: Verify implementation against original specifications
+6. **EVALUATE Phase**: Assess quality, performance, and architecture compliance
 
-### Engineering Compliance Integration
+### Development Principles Integration
 
-#### **Phase-by-Phase Engineering Validation**
+#### TDD (Test-Driven Development) - MANDATORY
+- **NEVER write code without tests first**
+- **Tests define the specification**
+- **Each feature starts with expected behavior**
+- **Validation before implementation**
 
-**RED Phase (Enhanced)**
-- Write failing tests with comprehensive edge cases
-- **SOLID Validation**: Test design follows interface segregation and dependency inversion
-- **Quality Gates**: Test quality score ≥ 0.9, coverage plan 100%
-- **Blocking Conditions**: No GREEN phase without high-quality failing tests
+#### SOLID Principles - ARCHITECTURAL FOUNDATION
+- **Single Responsibility**: Each class has one reason to change
+- **Open/Closed**: Open for extension, closed for modification
+- **Liskov Substitution**: Derived classes substitutable for base classes
+- **Interface Segregation**: Clients depend only on needed interfaces
+- **Dependency Inversion**: Depend on abstractions, not concretions
 
-**GREEN Phase (Enhanced)**  
-- Implement minimal solution to pass tests
-- **KISS Validation**: Cyclomatic complexity ≤ 10 per function
-- **DRY Validation**: Zero code duplication tolerance
-- **Quality Gates**: All tests pass + complexity compliance + no duplication
-- **Blocking Conditions**: No REFACTOR without clean GREEN implementation
+#### KISS Principle - SIMPLICITY FIRST
+- **Simple over clever**: Write maintainable, understandable code
+- **Minimal viable features**: Start with simplest working implementation
+- **Clear function names**: Descriptive names over comments
+- **Single-purpose functions**: Each function does one thing well
 
-**REFACTOR Phase (Enhanced)**
-- Improve code quality while maintaining functionality
-- **SOLID Validation**: Full SOLID principles compliance (score ≥ 0.85)
-- **Performance**: Response time benchmarks established and met
-- **Quality Gates**: Code quality improves + SOLID compliance + performance targets
-- **Blocking Conditions**: No VALIDATE without proven refactoring improvements
+#### DRY Principle - ELIMINATE DUPLICATION
+- **Extract common logic**: Identify patterns, create reusable functions
+- **Configuration over code**: Use data structures for repeated patterns
+- **Shared constants**: Define values once, reference everywhere
+- **Template patterns**: Create templates for similar structures
 
-**VALIDATE Phase (NEW)**
-- Functional correctness verification against requirements
-- Non-functional requirements (performance, security, usability) validation  
-- Integration testing with existing PKM components
-- **Quality Gates**: All functional tests pass + NFR compliance + integration success
-- **Blocking Conditions**: No EVALUATE without comprehensive validation
+#### FR-First Prioritization - USER VALUE FIRST
+- **Functional Requirements before Non-Functional Requirements**
+- **User-facing features prioritized over optimization**
+- **Defer performance tuning until functionality complete**
+- **Business logic before scalability concerns**
 
-**EVALUATE Phase (NEW)**
-- Quality assessment against established engineering standards
-- Performance baseline establishment and trending
-- Maintainability index calculation and optimization recommendations
-- **Quality Gates**: Overall quality score ≥ 0.85 + performance benchmarks met
-- **Blocking Conditions**: No cycle completion without evaluation approval
+## Claude Code Provider Integration
 
-### Automated Quality Gates for Each TDD Cycle
+### Intelligent Model Selection Strategy
+
+#### Model Selection Criteria
+
+**Claude 3.5 Sonnet (Fast, Efficient)**
+- Content capture and basic organization
+- Metadata generation and tagging
+- Simple text processing and formatting
+- Quick categorization and filing
+- Standard PKM operations
+- Response time priority (<2s)
+
+**Claude 3 Opus (High-Quality Analysis)**
+- Research analysis and synthesis
+- Complex reasoning and inference  
+- Deep content understanding
+- Quality assessment and validation
+- Advanced knowledge extraction
+- Accuracy priority (>95% correctness)
+
+#### Implementation Requirements
 
 ```typescript
-interface TDDPhaseValidation {
-  phase: 'RED' | 'GREEN' | 'REFACTOR' | 'VALIDATE' | 'EVALUATE';
-  validations: {
-    engineeringCompliance: EngineeringQualityGate[];
-    performanceRequirements: PerformanceGate[];
-    functionalRequirements: FunctionalGate[];
+interface ModelSelectionStrategy {
+  selectModel(
+    task: TaskType, 
+    content: string, 
+    context: TaskContext
+  ): 'sonnet' | 'opus';
+  
+  // Auto-selection criteria
+  criteria: {
+    contentLength: number;    // >5000 chars → Opus
+    complexity: number;       // >0.7 score → Opus  
+    processingTime: number;   // <100ms required → Sonnet
+    qualityRequired: number;  // >0.9 required → Opus
+    taskType: TaskTypeEnum;   // Research/Analysis → Opus
   };
-  blockingThreshold: number; // Minimum score to proceed
-  mandatoryChecks: string[];
 }
-
-const redPhaseValidation: TDDPhaseValidation = {
-  phase: 'RED',
-  validations: {
-    engineeringCompliance: [
-      { name: 'Test Quality', validator: validateTestQuality, threshold: 0.9, blocking: true },
-      { name: 'Test Design SOLID', validator: validateTestDesignSOLID, threshold: 0.8, blocking: true },
-    ],
-    performanceRequirements: [],
-    functionalRequirements: [
-      { name: 'Comprehensive Coverage', validator: validateCoveragePlan, threshold: 1.0, blocking: true },
-    ]
-  },
-  blockingThreshold: 0.85,
-  mandatoryChecks: ['failing_tests_exist', 'tests_fail_for_correct_reasons', 'edge_cases_covered']
-};
-
-const greenPhaseValidation: TDDPhaseValidation = {
-  phase: 'GREEN',
-  validations: {
-    engineeringCompliance: [
-      { name: 'KISS Compliance', validator: validateComplexity, threshold: 0.8, blocking: true },
-      { name: 'DRY Compliance', validator: validateDuplication, threshold: 0.99, blocking: true },
-      { name: 'Minimal Implementation', validator: validateMinimalSolution, threshold: 0.9, blocking: true },
-    ],
-    performanceRequirements: [],
-    functionalRequirements: [
-      { name: 'All Tests Pass', validator: validateTestExecution, threshold: 1.0, blocking: true },
-    ]
-  },
-  blockingThreshold: 0.9,
-  mandatoryChecks: ['all_tests_passing', 'no_over_engineering', 'zero_duplication']
-};
-
-const refactorPhaseValidation: TDDPhaseValidation = {
-  phase: 'REFACTOR',
-  validations: {
-    engineeringCompliance: [
-      { name: 'SOLID Principles', validator: validateSOLIDCompliance, threshold: 0.85, blocking: true },
-      { name: 'Code Quality', validator: validateCodeQuality, threshold: 0.85, blocking: true },
-      { name: 'Maintainability', validator: validateMaintainability, threshold: 0.8, blocking: true },
-    ],
-    performanceRequirements: [
-      { name: 'Response Time', validator: validateResponseTime, threshold: 0.95, blocking: false },
-    ],
-    functionalRequirements: [
-      { name: 'Functionality Preserved', validator: validateFunctionality, threshold: 1.0, blocking: true },
-    ]
-  },
-  blockingThreshold: 0.85,
-  mandatoryChecks: ['tests_still_pass', 'quality_improved', 'solid_compliant']
-};
 ```
 
-### Engineering-Enhanced Testing Categories
+## TDD Cycle Task Groups
 
-- **Agent Integration Tests + SOLID Validation**: TypeScript agent configuration with dependency injection validation
-- **Workflow Orchestration Tests + DRY Compliance**: State management with duplication detection
-- **Memory System Tests + Performance**: Context persistence with response time validation
-- **Tool Function Tests + KISS Simplicity**: Type-safe execution with complexity analysis
-- **Evaluation System Tests + Quality Metrics**: Assessment with engineering compliance scoring
-- **Observability Tests + Monitoring**: Tracing with performance and quality trend analysis
+### Task Group 1: Claude Code Provider Foundation (TDD Cycle 1)
 
-## Task Group Overview - Mastra.ai Implementation
+#### SPECS Phase: Model Selection Provider Specification
 
-### Development Environment Setup (Week 0)
-**Focus**: Mastra.ai development environment and tooling setup
-**Duration**: 3 days | **Tests**: 15 | **Priority**: Critical
+**Specification Document**: `specs/claude-model-selection-provider.md`
 
-#### Setup 0.1: Mastra.ai Project Initialization (1 day)
-**Framework Focus**: TypeScript project setup with mastra.ai framework
+**Requirements**:
+- FR-001: Support both Claude 3.5 Sonnet and Claude 3 Opus models
+- FR-002: Intelligent model selection based on task complexity
+- FR-003: Fallback mechanism for model unavailability
+- FR-004: Configuration-driven model preferences
+- NFR-001: <2s response time for Sonnet tasks (DEFER)
+- NFR-002: >95% accuracy for Opus tasks (DEFER)
 
-**0.1.1 RED**: Write tests for project configuration
-- `test_mastra_config_validation()`
-- `test_typescript_configuration_strict_mode()`
-- `test_environment_variables_loading()`
-- `test_mastra_cli_commands_available()`
-- `test_project_structure_compliance()`
+**Acceptance Criteria**:
+- [ ] Given simple task, When selecting model, Then returns 'sonnet'
+- [ ] Given complex task, When selecting model, Then returns 'opus'  
+- [ ] Given Opus unavailable, When fallback triggered, Then uses Sonnet
+- [ ] Given invalid configuration, When initializing, Then throws validation error
 
-**0.1.2 GREEN**: Initialize mastra.ai project
-```bash
-npm create mastra@latest pkm-mastra-system
-cd pkm-mastra-system
-npm install
-```
+#### RED Phase Tasks
 
-**0.1.3 REFACTOR**: Configure TypeScript and development environment
+**Task 1.1**: Write test for Sonnet model selection
 ```typescript
-// mastra.config.ts
-export const config = {
-  name: 'pkm-mastra-system',
-  environment: process.env.NODE_ENV || 'development',
-  telemetry: {
-    instructionId: process.env.MASTRA_INSTRUCTION_ID,
-  },
-  logger: createLogger({
-    type: 'CONSOLE',
-    level: 'INFO',
-  }),
-};
-```
-
-**0.1.4 VALIDATE**: Verify mastra.ai integration and PKM system foundation
-
-#### Setup 0.2: Multi-LLM Provider Configuration (1 day)
-**Framework Focus**: Configure Claude, OpenAI, Gemini providers via Vercel AI SDK
-
-**0.2.1 RED**: Write tests for multi-LLM provider setup
-- `test_claude_provider_initialization()`
-- `test_openai_provider_initialization()`
-- `test_gemini_provider_initialization()`
-- `test_provider_switching_functionality()`
-- `test_model_selection_validation()`
-
-**0.2.2 GREEN**: Configure LLM providers
-```typescript
-import { openai } from '@ai-sdk/openai';
-import { anthropic } from '@ai-sdk/anthropic';
-import { google } from '@ai-sdk/google';
-
-const modelConfig = {
-  claude: anthropic('claude-3.5-sonnet'),
-  gpt4: openai('gpt-4o'),
-  gemini: google('gemini-pro'),
-};
-```
-
-**0.2.3 REFACTOR**: Optimize provider configuration with fallbacks and cost optimization
-
-**0.2.4 VALIDATE**: Verify multi-LLM functionality and response consistency
-
-#### Setup 0.3: Memory and Vector Store Setup (1 day)
-**Framework Focus**: Configure mastra.ai memory and vector store for vault context
-
-**0.3.1 RED**: Write tests for memory and vector store configuration
-- `test_memory_provider_initialization()`
-- `test_vector_store_configuration()`
-- `test_embedding_generation_and_storage()`
-- `test_context_retrieval_accuracy()`
-- `test_memory_persistence_across_sessions()`
-
-**0.3.2 GREEN**: Configure memory and vector store
-```typescript
-const memoryConfig = {
-  provider: 'upstash-redis',
-  config: {
-    connectionString: process.env.UPSTASH_REDIS_URL,
-  },
-};
-
-const vectorStoreConfig = {
-  provider: 'pinecone',
-  config: {
-    apiKey: process.env.PINECONE_API_KEY,
-    environment: process.env.PINECONE_ENVIRONMENT,
-  },
-};
-```
-
-**0.3.3 REFACTOR**: Optimize memory usage and vector search performance
-
-**0.3.4 VALIDATE**: Verify memory persistence and vector search accuracy
-
-## Current State Analysis (2025-09-06)
-
-### ✅ Completed Implementation (TDD Cycle 1.3)
-- **Capture Agent**: Basic implementation with quality assessment tools
-- **Quality Assessment Tool**: SOLID/KISS/DRY compliant with comprehensive scoring
-- **TypeScript Structure**: Type-safe implementations with Zod validation
-- **Engineering Principles**: SOLID, KISS, DRY integration in existing codebase
-- **Package Setup**: Mastra.ai v0.16.0 with dependencies configured
-
-### 🔄 Current Gaps (Requiring Immediate Attention)
-- **Mastra 2025 API Patterns**: Upgrade to createWorkflow/createStep patterns
-- **Complete Workflow Integration**: Missing typed workflow orchestration
-- **Agent-Tool Integration**: Partial integration requiring full mastra.ai patterns
-- **Evaluation System**: Missing Mastra evaluation framework integration
-- **Production Deployment**: No deployment pipeline or monitoring setup
-
-## Updated Task Group 1: Modernize Capture Pipeline (Mastra 2025) - 2 Weeks
-**Focus**: Upgrade existing implementation to Mastra 2025 production patterns
-**Tests**: 35 | **Priority**: Critical | **Framework**: createWorkflow + createStep + Agent + Evaluation
-
-### Cycle 1.4: Mastra 2025 Pattern Migration (4 days)
-**Mastra.ai Focus**: Convert existing implementation to modern createWorkflow/createStep patterns
-
-**1.1.1 RED**: Write failing tests for capture agent foundation
-- `test_capture_agent_configuration_schema()`
-- `test_capture_agent_initialization_success()`
-- `test_capture_agent_instruction_validation()`
-- `test_capture_agent_model_selection()`
-- `test_capture_agent_memory_integration()`
-- `test_capture_agent_tool_registration()`
-- `test_capture_agent_evaluation_setup()`
-- `test_capture_agent_error_handling()`
-
-**1.1.2 GREEN**: Implement basic capture agent with mastra.ai
-```typescript
-import { Agent } from '@mastra/core';
-import { z } from 'zod';
-
-const captureAgentSchema = z.object({
-  content: z.string().min(1),
-  source: z.string(),
-  metadata: z.record(z.any()).optional(),
-});
-
-const captureAgent = new Agent({
-  name: 'Multi-Source Capture Agent',
-  instructions: `
-    You are a comprehensive content capture specialist following GTD principles.
-    
-    Your responsibility is to ensure complete, accurate capture of information
-    from multiple sources while preserving all context and metadata necessary
-    for future processing.
-    
-    Key principles:
-    - 100% fidelity to source content
-    - Complete source attribution
-    - Quality assessment and scoring
-    - Duplicate detection
-    - Minimal processing decisions (defer to processing agent)
-  `,
-  model: openai('gpt-4o-mini'), // Fast model for capture speed
-  memory: captureMemory,
-  tools: [
-    webContentExtractorTool,
-    documentProcessorTool,
-    metadataEnrichmentTool,
-    duplicateDetectionTool,
-  ],
+describe('ModelSelector', () => {
+  test('selects sonnet for simple capture task', () => {
+    const selector = new ModelSelector(defaultConfig);
+    const result = selector.selectModel('capture', 'Simple note', {});
+    expect(result).toBe('sonnet');
+  });
 });
 ```
 
-**1.1.3 REFACTOR**: Optimize agent configuration with proper error handling and observability
+**Task 1.2**: Write test for Opus model selection
 ```typescript
-const captureAgentWithObservability = new Agent({
-  name: 'Multi-Source Capture Agent',
-  instructions: getCaptureInstructions(),
-  model: openai('gpt-4o-mini'),
-  memory: captureMemory,
-  tools: captureTools,
-  middleware: [
-    trace('capture-agent'),
-    metrics('capture-agent', {
-      responseTime: true,
-      successRate: true,
-      tokenUsage: true,
-    }),
-    errorBoundary('capture-agent-errors'),
-  ],
+test('selects opus for research analysis task', () => {
+  const selector = new ModelSelector(defaultConfig);
+  const result = selector.selectModel('research', longContent, {});
+  expect(result).toBe('opus');
 });
 ```
 
-**1.1.4 VALIDATE**: Verify agent meets PKM methodology requirements and mastra.ai standards
-
-**1.1.5 EVALUATE**: Run mastra.ai evaluation system for capture agent quality
-
-### Cycle 1.2: Multi-Source Content Tools (4 days)
-**Mastra.ai Focus**: Type-safe tool development for content extraction and processing
-
-**1.2.1 RED**: Write failing tests for content extraction tools
-- `test_web_content_extractor_tool_schema()`
-- `test_web_content_extraction_accuracy()`
-- `test_document_processor_tool_functionality()`
-- `test_metadata_enrichment_completeness()`
-- `test_tool_error_handling_robustness()`
-- `test_tool_performance_benchmarks()`
-
-**1.2.2 GREEN**: Implement basic content extraction tools
+**Task 1.3**: Write test for provider factory integration
 ```typescript
-import { Tool } from '@mastra/core';
-
-const webContentExtractorTool = new Tool({
-  id: 'web-content-extractor',
-  description: 'Extracts content and metadata from web URLs',
-  inputSchema: z.object({
-    url: z.string().url(),
-    extractOptions: z.object({
-      includeImages: z.boolean().default(false),
-      includeMetadata: z.boolean().default(true),
-    }).optional(),
-  }),
-  outputSchema: z.object({
-    content: z.string(),
-    title: z.string(),
-    metadata: z.record(z.any()),
-    extractedAt: z.string(),
-  }),
-  execute: async ({ url, extractOptions = {} }) => {
-    // Implementation for web content extraction
-    const extracted = await extractWebContent(url, extractOptions);
-    return {
-      content: extracted.content,
-      title: extracted.title,
-      metadata: extracted.metadata,
-      extractedAt: new Date().toISOString(),
-    };
-  },
+test('creates correct provider based on selection', async () => {
+  const factory = new ProviderFactory();
+  const model = await factory.createModel('claude-code', 'opus');
+  expect(model.model).toContain('opus');
 });
 ```
 
-**1.2.3 REFACTOR**: Enhance tools with advanced extraction capabilities and error recovery
+**Task 1.4**: Write test for fallback mechanism
 ```typescript
-const enhancedWebExtractorTool = new Tool({
-  id: 'web-content-extractor',
-  description: 'Advanced web content extraction with quality assessment',
-  inputSchema: webContentSchema,
-  outputSchema: webContentOutputSchema,
-  execute: async (input) => {
-    try {
-      const result = await extractWithRetry(input.url, {
-        maxRetries: 3,
-        backoffMultiplier: 2,
-        qualityThreshold: 0.8,
-      });
-      
-      // Quality assessment
-      const qualityScore = await assessContentQuality(result.content);
-      
-      return {
-        ...result,
-        qualityScore,
-        extractionMetrics: {
-          duration: result.extractionTime,
-          contentLength: result.content.length,
-          confidence: qualityScore,
-        },
-      };
-    } catch (error) {
-      throw new ToolExecutionError('Web extraction failed', error);
+test('falls back to sonnet when opus unavailable', () => {
+  // Mock Opus unavailability
+  // Test fallback behavior
+});
+```
+
+#### GREEN Phase Tasks
+
+**Task 1.5**: Implement `ModelSelector` class (SOLID/KISS/DRY)
+```typescript
+class ModelSelector {
+  constructor(private config: ModelSelectionConfig) {}
+  
+  selectModel(task: TaskType, content: string, context: TaskContext): ModelType {
+    // Simple implementation to make tests pass
+    if (this.isComplexTask(task, content)) {
+      return 'opus';
     }
-  },
-});
+    return 'sonnet';
+  }
+  
+  private isComplexTask(task: TaskType, content: string): boolean {
+    // Minimal complexity detection
+    return task === 'research' || content.length > 5000;
+  }
+}
 ```
 
-**1.2.4 VALIDATE**: Ensure tools meet capture completeness and accuracy requirements
-
-### Cycle 1.3: Duplicate Detection and Quality Assessment (3 days)
-**Mastra.ai Focus**: Advanced tools for content deduplication and quality scoring
-
-**1.3.1 RED**: Write failing tests for duplicate detection and quality assessment
-- `test_duplicate_detection_accuracy_exact_matches()`
-- `test_semantic_duplicate_identification()`
-- `test_content_quality_scoring_consistency()`
-- `test_quality_assessment_correlation_with_human_judgment()`
-- `test_duplicate_merge_recommendation_quality()`
-
-**1.3.2 GREEN**: Implement basic duplicate detection and quality assessment
+**Task 1.6**: Update `ProviderFactory` with model selection
 ```typescript
-const duplicateDetectionTool = new Tool({
-  id: 'duplicate-detector',
-  description: 'Detects and analyzes content duplicates using semantic similarity',
-  inputSchema: z.object({
-    content: z.string(),
-    existingContent: z.array(z.string()),
-    similarityThreshold: z.number().min(0).max(1).default(0.85),
-  }),
-  outputSchema: z.object({
-    isDuplicate: z.boolean(),
-    similarityScore: z.number(),
-    duplicateIndex: z.number().optional(),
-    consolidationRecommendation: z.string().optional(),
-  }),
-  execute: async ({ content, existingContent, similarityThreshold }) => {
-    const similarities = await calculateSemanticSimilarities(content, existingContent);
-    const maxSimilarity = Math.max(...similarities);
-    const isDuplicate = maxSimilarity >= similarityThreshold;
-    
-    return {
-      isDuplicate,
-      similarityScore: maxSimilarity,
-      duplicateIndex: isDuplicate ? similarities.indexOf(maxSimilarity) : undefined,
-      consolidationRecommendation: isDuplicate 
-        ? await generateConsolidationRecommendation(content, existingContent)
-        : undefined,
-    };
-  },
-});
+// Update provider-factory.ts to support model parameter
+async createModel(providerType?: string, model?: ModelType): Promise<any> {
+  const provider = providerType || this.config.primary;
+  const selectedModel = model || this.selectDefaultModel(provider);
+  return this.createProviderModel(provider, selectedModel);
+}
 ```
 
-**1.3.3 REFACTOR**: Advanced duplicate detection with vector similarity and quality-based ranking
+#### REFACTOR Phase Tasks
 
-**1.3.4 VALIDATE**: Verify duplicate detection accuracy and quality assessment reliability
-
-### Cycle 1.4: Capture Workflow Integration (3 days)
-**Mastra.ai Focus**: Workflow orchestration for capture-to-processing pipeline
-
-**1.4.1 RED**: Write failing tests for capture workflow
-- `test_capture_workflow_schema_validation()`
-- `test_capture_workflow_execution_success()`
-- `test_capture_workflow_error_recovery()`
-- `test_capture_to_processing_handoff()`
-- `test_workflow_state_persistence()`
-- `test_workflow_performance_metrics()`
-
-**1.4.2 GREEN**: Implement basic capture workflow
+**Task 1.7**: Extract model selection rules to configuration
 ```typescript
-import { Workflow } from '@mastra/core';
-
-const captureWorkflow = new Workflow({
-  name: 'capture-to-processing',
-  description: 'Complete capture pipeline with quality gates',
-  triggerSchema: z.object({
-    content: z.string(),
-    source: z.string(),
-    metadata: z.record(z.any()).optional(),
-  }),
-  steps: {
-    capture: {
-      stepType: 'agent' as const,
-      agent: 'captureAgent',
-    },
-    assess_quality: {
-      stepType: 'tool' as const,
-      tool: 'qualityAssessmentTool',
-      dependsOn: ['capture'],
-    },
-    detect_duplicates: {
-      stepType: 'tool' as const,
-      tool: 'duplicateDetectionTool',
-      dependsOn: ['capture'],
-    },
-    validate_capture: {
-      stepType: 'evaluation' as const,
-      evaluation: 'captureCompletenessEval',
-      dependsOn: ['capture', 'assess_quality'],
-    },
-    handoff_to_processing: {
-      stepType: 'workflow' as const,
-      workflow: 'processingWorkflow',
-      dependsOn: ['validate_capture'],
-      condition: (context) => context.validate_capture.score >= 0.95,
-    },
-  },
-});
+interface ModelSelectionRules {
+  complexity: {
+    contentLengthThreshold: number;
+    taskTypeWeights: Record<TaskType, number>;
+    contextFactors: string[];
+  };
+  performance: {
+    maxResponseTime: Record<ModelType, number>;
+    accuracyThreshold: Record<ModelType, number>;
+  };
+}
 ```
 
-**1.4.3 REFACTOR**: Enhanced workflow with rollback, monitoring, and error recovery
+**Task 1.8**: Add comprehensive task complexity analysis
 ```typescript
-const enhancedCaptureWorkflow = new Workflow({
-  name: 'capture-to-processing',
-  description: 'Production-ready capture pipeline with comprehensive error handling',
-  triggerSchema: captureWorkflowSchema,
-  steps: captureWorkflowSteps,
-  errorHandling: {
-    strategy: 'rollback_and_retry',
-    maxRetries: 3,
-    backoffMultiplier: 2,
-    rollbackSteps: ['capture', 'assess_quality'],
-  },
-  monitoring: {
-    trackMetrics: ['step_duration', 'success_rate', 'quality_score'],
-    alertThresholds: {
-      step_duration: 10000,
-      success_rate: 0.95,
-      quality_score: 0.8,
-    },
-  },
-  rollback: {
-    enabled: true,
-    preservePartialState: true,
-    notificationRequired: true,
-  },
-});
+class TaskComplexityAnalyzer {
+  analyze(task: TaskType, content: string, context: TaskContext): number {
+    // DRY: Reusable complexity calculation
+    // KISS: Clear, simple scoring algorithm
+    // SOLID: Single responsibility for complexity analysis
+  }
+}
 ```
 
-**1.4.4 VALIDATE**: Ensure workflow meets GTD capture principles and mastra.ai performance standards
+#### VALIDATE Phase Tasks
 
-### Cycle 1.5: Evaluation and Quality Metrics (3 days)
-**Mastra.ai Focus**: Built-in evaluation system for capture quality assessment
+**Task 1.9**: Verify implementation against specification
+- [ ] All acceptance criteria met
+- [ ] Requirements FR-001 through FR-004 implemented
+- [ ] Error handling comprehensive
+- [ ] Configuration validation working
 
-**1.5.1 RED**: Write failing tests for capture evaluations
-- `test_capture_completeness_evaluation_accuracy()`
-- `test_quality_assessment_evaluation_consistency()`
-- `test_evaluation_performance_benchmarks()`
-- `test_evaluation_human_agreement_validation()`
-- `test_evaluation_real_time_execution()`
-
-**1.5.2 GREEN**: Implement basic capture evaluations
-```typescript
-import { Evaluation } from '@mastra/core';
-
-const captureCompletenessEvaluation = new Evaluation({
-  name: 'capture-completeness-assessment',
-  description: 'Validates capture completeness following GTD principles',
-  inputSchema: z.object({
-    originalContent: z.string(),
-    capturedContent: z.string(),
-    sourceMetadata: z.record(z.any()),
-  }),
-  outputSchema: z.object({
-    completenessScore: z.number().min(0).max(1),
-    informationLoss: z.number().min(0).max(1),
-    metadataCompleteness: z.number().min(0).max(1),
-    gtdCompliance: z.boolean(),
-  }),
-  evaluator: async ({ originalContent, capturedContent, sourceMetadata }) => {
-    const completeness = await assessCaptureCompleteness(originalContent, capturedContent);
-    const metadataScore = await assessMetadataCompleteness(sourceMetadata);
-    const gtdCompliance = completeness.score >= 0.995; // GTD requires near-perfect capture
-    
-    return {
-      completenessScore: completeness.score,
-      informationLoss: 1 - completeness.score,
-      metadataCompleteness: metadataScore,
-      gtdCompliance,
-    };
-  },
-});
-```
-
-**1.5.3 REFACTOR**: Advanced evaluation with statistical analysis and trend tracking
-
-**1.5.4 VALIDATE**: Ensure evaluations meet PKM quality standards and provide actionable feedback
-
-## Task Group 2: Processing Pipeline Agent (P1) - 4 Weeks
-**Focus**: Atomic note creation and structuring using mastra.ai agent system
-**Tests**: 60 | **Priority**: Critical | **Framework**: Agent + Tools + Workflow + Evaluation
-
-### Cycle 2.1: Zettelkasten Processing Agent (6 days)
-**Mastra.ai Focus**: Agent specialized in atomic note creation following Zettelkasten principles
-
-**2.1.1 RED**: Write failing tests for processing agent foundation
-- `test_processing_agent_zettelkasten_compliance()`
-- `test_atomic_note_creation_validation()`
-- `test_conceptual_boundary_detection()`
-- `test_note_splitting_recommendations()`
-- `test_zettelkasten_evaluation_integration()`
-- `test_processing_agent_memory_utilization()`
-
-**2.1.2 GREEN**: Implement basic Zettelkasten processing agent
-```typescript
-const processingAgent = new Agent({
-  name: 'Atomic Note Processing Agent',
-  instructions: `
-    You are an expert in Niklas Luhmann's Zettelkasten methodology specializing in atomic note creation.
-    
-    Core Principles:
-    
-    ATOMICITY: One concept per note
-    - Each note contains exactly one main idea or concept
-    - Clear conceptual boundaries with no mixing of unrelated ideas
-    - Self-contained and independently meaningful
-    - Can be understood without requiring other notes
-    
-    CONNECTIVITY: Meaningful relationships
-    - Identify 2-5 relevant connections to existing notes
-    - Provide clear reasoning for each connection
-    - Consider both direct and indirect relationships
-    - Suggest bidirectional linking where appropriate
-    
-    PERMANENCE: Long-term value and reusability
-    - Structure notes for future discovery and reuse
-    - Use clear, precise language accessible months later
-    - Include sufficient context for standalone understanding
-    - Apply consistent formatting and metadata standards
-    
-    Always validate atomicity before finalizing any note creation.
-  `,
-  model: claude('claude-3.5-sonnet'),
-  memory: [processingMemory, zettelkastenMemory, vaultContextMemory],
-  tools: [
-    atomicityValidatorTool,
-    conceptBoundaryAnalyzerTool,
-    entityExtractionTool,
-    linkSuggestionTool,
-    templateApplicationTool,
-  ],
-});
-```
-
-**2.1.3 REFACTOR**: Enhanced processing agent with advanced Zettelkasten intelligence
-```typescript
-const enhancedProcessingAgent = new Agent({
-  name: 'Advanced Zettelkasten Processing Agent',
-  instructions: getZettelkastenInstructions(), // Externalized detailed instructions
-  model: claude('claude-3.5-sonnet'),
-  memory: [
-    processingMemory,
-    zettelkastenMemory,
-    vaultContextMemory,
-    linkPatternMemory,
-  ],
-  tools: [
-    ...basicProcessingTools,
-    conceptHierarchyAnalyzer,
-    emergentPatternDetector,
-    linkQualityAssessor,
-    atomicityOptimizer,
-  ],
-  middleware: [
-    trace('processing-agent'),
-    metrics('processing-agent', {
-      atomicityScore: true,
-      linkQuality: true,
-      processingTime: true,
-    }),
-    zettelkastenComplianceValidator,
-  ],
-});
-```
-
-**2.1.4 VALIDATE**: Verify Zettelkasten principle compliance and note quality standards
-
-**2.1.5 EVALUATE**: Run atomicity evaluation and quality assessment
-
-### Cycle 2.2: Atomicity Validation Tools (4 days)
-**Mastra.ai Focus**: Advanced tools for validating and ensuring note atomicity
-
-**2.2.1 RED**: Write failing tests for atomicity validation tools
-- `test_concept_counting_accuracy()`
-- `test_conceptual_coherence_analysis()`
-- `test_boundary_clarity_assessment()`
-- `test_atomicity_scoring_consistency()`
-- `test_splitting_recommendation_quality()`
-
-**2.2.2 GREEN**: Implement basic atomicity validation tools
-```typescript
-const atomicityValidatorTool = new Tool({
-  id: 'atomicity-validator',
-  description: 'Validates note atomicity according to Zettelkasten principles',
-  inputSchema: z.object({
-    content: z.string(),
-    title: z.string().optional(),
-    existingNotes: z.array(z.string()).optional(),
-  }),
-  outputSchema: z.object({
-    atomicityScore: z.number().min(0).max(1),
-    conceptCount: z.number(),
-    conceptualCoherence: z.number().min(0).max(1),
-    boundaryClarity: z.number().min(0).max(1),
-    independenceScore: z.number().min(0).max(1),
-    passesAtomicity: z.boolean(),
-    improvementSuggestions: z.array(z.string()),
-    splittingSuggestions: z.array(z.object({
-      conceptBoundary: z.string(),
-      suggestedSplit: z.string(),
-    })).optional(),
-  }),
-  execute: async ({ content, title, existingNotes = [] }) => {
-    // Analyze conceptual structure
-    const conceptAnalysis = await analyzeConcepts(content);
-    const coherenceScore = await analyzeConceptualCoherence(content);
-    const boundaryScore = await analyzeBoundaryClarity(content, title);
-    const independenceScore = await analyzeIndependence(content, existingNotes);
-    
-    // Calculate overall atomicity score
-    const atomicityScore = (
-      (conceptAnalysis.singleConceptScore * 0.4) +
-      (coherenceScore * 0.3) +
-      (boundaryScore * 0.2) +
-      (independenceScore * 0.1)
-    );
-    
-    const passesAtomicity = atomicityScore >= 0.8;
-    
-    return {
-      atomicityScore,
-      conceptCount: conceptAnalysis.conceptCount,
-      conceptualCoherence: coherenceScore,
-      boundaryClarity: boundaryScore,
-      independenceScore,
-      passesAtomicity,
-      improvementSuggestions: await generateImprovementSuggestions(conceptAnalysis),
-      splittingSuggestions: conceptAnalysis.conceptCount > 1 
-        ? await generateSplittingSuggestions(content, conceptAnalysis)
-        : undefined,
-    };
-  },
-});
-```
-
-**2.2.3 REFACTOR**: Advanced atomicity validation with machine learning and pattern recognition
-
-**2.2.4 VALIDATE**: Ensure atomicity validation accuracy and reliability
-
-### Cycle 2.3: Entity Extraction and Linking (4 days)
-**Mastra.ai Focus**: Advanced entity recognition and intelligent link suggestion
-
-**2.3.1 RED**: Write failing tests for entity extraction and linking
-- `test_entity_extraction_accuracy_precision_recall()`
-- `test_relationship_mapping_quality()`
-- `test_link_suggestion_relevance()`
-- `test_bidirectional_linking_logic()`
-- `test_link_quality_scoring()`
-
-**2.3.2 GREEN**: Implement basic entity extraction and linking
-```typescript
-const entityExtractionTool = new Tool({
-  id: 'entity-extractor',
-  description: 'Extracts entities and relationships for knowledge graph construction',
-  inputSchema: z.object({
-    content: z.string(),
-    context: z.object({
-      existingEntities: z.array(z.string()).optional(),
-      domainHints: z.array(z.string()).optional(),
-    }).optional(),
-  }),
-  outputSchema: z.object({
-    entities: z.array(z.object({
-      text: z.string(),
-      type: z.enum(['person', 'concept', 'location', 'organization', 'temporal', 'other']),
-      confidence: z.number().min(0).max(1),
-      startIndex: z.number(),
-      endIndex: z.number(),
-    })),
-    relationships: z.array(z.object({
-      subject: z.string(),
-      predicate: z.string(),
-      object: z.string(),
-      confidence: z.number().min(0).max(1),
-    })),
-    concepts: z.array(z.object({
-      concept: z.string(),
-      importance: z.number().min(0).max(1),
-      abstractionLevel: z.enum(['concrete', 'intermediate', 'abstract']),
-    })),
-  }),
-  execute: async ({ content, context = {} }) => {
-    const entities = await extractEntities(content, context);
-    const relationships = await identifyRelationships(entities, content);
-    const concepts = await extractConcepts(content, entities);
-    
-    return {
-      entities: entities.map(entity => ({
-        ...entity,
-        confidence: Math.max(0, Math.min(1, entity.confidence)),
-      })),
-      relationships: relationships.filter(rel => rel.confidence >= 0.6),
-      concepts: concepts.sort((a, b) => b.importance - a.importance),
-    };
-  },
-});
-```
-
-**2.3.3 REFACTOR**: Enhanced entity extraction with domain-specific models and context awareness
-
-**2.3.4 VALIDATE**: Verify entity extraction accuracy and link quality
-
-### Cycle 2.4: Processing Workflow Integration (3 days)
-**Mastra.ai Focus**: Workflow orchestration for processing pipeline with quality gates
-
-**2.4.1 RED**: Write failing tests for processing workflow
-- `test_processing_workflow_atomicity_gates()`
-- `test_processing_workflow_quality_validation()`
-- `test_processing_to_organization_handoff()`
-- `test_workflow_rollback_on_atomicity_failure()`
-- `test_processing_workflow_performance_metrics()`
-
-**2.4.2 GREEN**: Implement basic processing workflow
-```typescript
-const processingWorkflow = new Workflow({
-  name: 'processing-pipeline',
-  description: 'Atomic note creation with Zettelkasten compliance validation',
-  triggerSchema: z.object({
-    capturedContent: z.string(),
-    sourceMetadata: z.record(z.any()),
-    captureQuality: z.number().min(0).max(1),
-  }),
-  steps: {
-    initial_processing: {
-      stepType: 'agent' as const,
-      agent: 'processingAgent',
-      timeout: 10000, // 10 seconds
-    },
-    validate_atomicity: {
-      stepType: 'tool' as const,
-      tool: 'atomicityValidatorTool',
-      dependsOn: ['initial_processing'],
-    },
-    atomicity_gate: {
-      stepType: 'evaluation' as const,
-      evaluation: 'atomicityComplianceEval',
-      dependsOn: ['validate_atomicity'],
-    },
-    extract_entities: {
-      stepType: 'tool' as const,
-      tool: 'entityExtractionTool',
-      dependsOn: ['atomicity_gate'],
-      condition: (context) => context.atomicity_gate.passesAtomicity,
-    },
-    suggest_links: {
-      stepType: 'tool' as const,
-      tool: 'linkSuggestionTool',
-      dependsOn: ['extract_entities'],
-    },
-    final_validation: {
-      stepType: 'evaluation' as const,
-      evaluation: 'processingQualityEval',
-      dependsOn: ['suggest_links'],
-    },
-    handoff_to_organization: {
-      stepType: 'workflow' as const,
-      workflow: 'organizationWorkflow',
-      dependsOn: ['final_validation'],
-      condition: (context) => 
-        context.atomicity_gate.passesAtomicity && 
-        context.final_validation.score >= 0.85,
-    },
-  },
-});
-```
-
-**2.4.3 REFACTOR**: Enhanced processing workflow with intelligent routing and optimization
-
-**2.4.4 VALIDATE**: Ensure processing workflow maintains Zettelkasten compliance and quality
-
-### Cycle 2.5: Processing Evaluation System (3 days)
-**Mastra.ai Focus**: Comprehensive evaluation system for processing quality assessment
-
-**2.5.1 RED**: Write failing tests for processing evaluations
-- `test_atomicity_evaluation_human_agreement()`
-- `test_processing_quality_evaluation_consistency()`
-- `test_link_quality_evaluation_accuracy()`
-- `test_evaluation_performance_real_time()`
-- `test_evaluation_feedback_loop_effectiveness()`
-
-**2.5.2 GREEN**: Implement basic processing evaluations
-```typescript
-const processingQualityEvaluation = new Evaluation({
-  name: 'processing-quality-assessment',
-  description: 'Comprehensive quality assessment for processed notes',
-  inputSchema: z.object({
-    originalContent: z.string(),
-    processedNote: z.object({
-      title: z.string(),
-      content: z.string(),
-      metadata: z.record(z.any()),
-      suggestedLinks: z.array(z.string()),
-    }),
-    atomicityResults: z.object({
-      atomicityScore: z.number(),
-      passesAtomicity: z.boolean(),
-    }),
-  }),
-  outputSchema: z.object({
-    overallQualityScore: z.number().min(0).max(1),
-    contentQuality: z.number().min(0).max(1),
-    structuralQuality: z.number().min(0).max(1),
-    linkQuality: z.number().min(0).max(1),
-    zettelkastenCompliance: z.boolean(),
-    improvementSuggestions: z.array(z.string()),
-  }),
-  evaluator: async ({ originalContent, processedNote, atomicityResults }) => {
-    const contentQuality = await assessContentQuality(
-      originalContent, 
-      processedNote.content
-    );
-    
-    const structuralQuality = await assessNoteStructure(processedNote);
-    
-    const linkQuality = await assessLinkQuality(
-      processedNote.suggestedLinks,
-      processedNote.content
-    );
-    
-    const overallScore = (
-      (contentQuality * 0.4) +
-      (structuralQuality * 0.3) +
-      (linkQuality * 0.2) +
-      (atomicityResults.atomicityScore * 0.1)
-    );
-    
-    return {
-      overallQualityScore: overallScore,
-      contentQuality,
-      structuralQuality,
-      linkQuality,
-      zettelkastenCompliance: atomicityResults.passesAtomicity && overallScore >= 0.8,
-      improvementSuggestions: await generateProcessingImprovements({
-        contentQuality,
-        structuralQuality,
-        linkQuality,
-        atomicity: atomicityResults,
-      }),
-    };
-  },
-});
-```
-
-**2.5.3 REFACTOR**: Advanced evaluation with machine learning quality models
-
-**2.5.4 VALIDATE**: Ensure evaluation accuracy and actionable feedback quality
-
-## Task Groups 3-6: Summary Structure
-
-### Task Group 3: Organization Pipeline Agent (O1) - 3 Weeks
-**Focus**: PARA method classification using mastra.ai agent system
-**Tests**: 40 | **Framework**: Agent + Tools + Memory + Evaluation
-
-#### Key Cycles:
-- **Cycle 3.1**: PARA Classification Agent (5 days)
-- **Cycle 3.2**: Hierarchical Organization Tools (4 days)  
-- **Cycle 3.3**: Metadata Standardization Workflow (3 days)
-- **Cycle 3.4**: Organization Evaluation System (3 days)
-
-### Task Group 4: Retrieval Pipeline Agent (R1) - 3 Weeks
-**Focus**: Semantic search and discovery using mastra.ai RAG capabilities
-**Tests**: 35 | **Framework**: Agent + RAG + Vector Store + Tools
-
-#### Key Cycles:
-- **Cycle 4.1**: Semantic Search Agent with RAG (5 days)
-- **Cycle 4.2**: Context-Aware Recommendation System (4 days)
-- **Cycle 4.3**: Natural Language Query Processing (4 days)
-- **Cycle 4.4**: Knowledge Discovery Evaluation (3 days)
-
-### Task Group 5: Review Pipeline Agent (V1) - 2 Weeks  
-**Focus**: Knowledge maintenance using mastra.ai scheduled workflows
-**Tests**: 25 | **Framework**: Agent + Scheduled Workflows + Tools
-
-#### Key Cycles:
-- **Cycle 5.1**: Maintenance Agent with Scheduling (4 days)
-- **Cycle 5.2**: Link Validation and Repair Tools (3 days)
-- **Cycle 5.3**: Archive Decision Support System (3 days)
-- **Cycle 5.4**: Review Efficiency Evaluation (4 days)
-
-### Task Group 6: Synthesis Pipeline Agent (S1) - 3 Weeks
-**Focus**: Pattern recognition and insight generation using advanced reasoning
-**Tests**: 30 | **Framework**: Agent + Advanced Memory + Evaluation
-
-#### Key Cycles:
-- **Cycle 6.1**: Pattern Recognition Agent (5 days)
-- **Cycle 6.2**: Insight Generation System (5 days) 
-- **Cycle 6.3**: Creative Connection Discovery (4 days)
-- **Cycle 6.4**: Synthesis Quality Evaluation (4 days)
-
-## Implementation Statistics
-
-### Total Mastra.ai Implementation Metrics
-- **Total Task Groups**: 6 + Setup
-- **Total TDD Cycles**: 27 
-- **Total Tests**: 235
-- **Estimated Duration**: 16 weeks (including 1-week setup)
-- **Framework Components**: 24 Agents, 15 Workflows, 40+ Tools, 25+ Evaluations
-
-### Mastra.ai Component Distribution
-- **Agents**: 6 specialized pipeline agents + utility agents
-- **Workflows**: 15+ workflows for pipeline orchestration and transitions
-- **Tools**: 40+ type-safe tools for PKM operations
-- **Evaluations**: 25+ quality assessments and compliance validations
-- **Memory Systems**: 10+ specialized memory configurations
-- **Integrations**: Vector store, external APIs, filesystem operations
-
-### Quality Standards
-- **TypeScript Compliance**: 100% type safety with strict mode
-- **Test Coverage**: Minimum 95% line coverage with mastra.ai testing
-- **PKM Methodology Compliance**: 100% validation against PARA, Zettelkasten, GTD
-- **Performance Standards**: <2s response time, >99% workflow completion
-- **Evaluation Coverage**: 100% agent and workflow evaluation coverage
-
-## Development Workflow
-
-### Daily Development Cycle
+**Task 1.10**: Test with real Claude Code provider
 ```bash
-# 1. TDD Cycle Implementation
-npm run test:watch              # RED: Watch failing tests
-npm run dev                     # GREEN: Develop with mastra.ai hot reload  
-npm run test                    # REFACTOR: Ensure tests pass
-npm run eval                    # VALIDATE: Run evaluations
-npm run build                   # BUILD: TypeScript compilation check
-
-# 2. Quality Validation
-npm run lint                    # Code quality and consistency
-npm run type-check             # TypeScript strict mode validation  
-npm run test:coverage          # Test coverage validation
-npm run eval:full              # Complete evaluation suite
+# Integration test with actual Claude Code CLI
+npm test -- --integration --real-providers
 ```
 
-### Weekly Integration Cycle
+#### EVALUATE Phase Tasks
+
+**Task 1.11**: Architecture quality assessment
+- [ ] SOLID principles compliance verified
+- [ ] KISS principles enforced (functions <20 lines)
+- [ ] DRY principles applied (no code duplication)
+- [ ] Performance benchmarks met
+
+**Task 1.12**: Code quality metrics
+- [ ] Test coverage >95%
+- [ ] Cyclomatic complexity <5
+- [ ] No code smells detected
+- [ ] Documentation complete
+
+### Task Group 2: Consistent Naming Convention Migration (TDD Cycle 2)
+
+#### SPECS Phase: Naming Convention Specification
+
+**Specification Document**: `specs/consistent-naming-conventions.md`
+
+**Requirements**:
+- FR-005: Remove all "Enhanced" and "Advanced" prefixes from class names
+- FR-006: Update all file names to use consistent naming patterns
+- FR-007: Maintain backward compatibility during transition
+- FR-008: Update all imports and references consistently
+
+**Files Requiring Renaming**:
+```
+enhanced-capture-agent.ts → capture-agent.ts
+enhanced-capture-workflow.ts → capture-workflow.ts  
+enhanced-metadata-generator.ts → metadata-generator.ts
+mock-enhanced-workflow.ts → mock-workflow.ts
+EnhancedCaptureAgent → CaptureAgent
+EnhancedCaptureWorkflow → CaptureWorkflow
+EnhancedMetadataGenerator → MetadataGenerator
+```
+
+#### RED Phase Tasks
+
+**Task 2.1**: Write test for renamed class imports
+```typescript
+describe('Naming Convention Migration', () => {
+  test('imports use clean naming conventions', () => {
+    // Test that CaptureAgent is importable
+    const CaptureAgent = require('./capture-agent');
+    expect(CaptureAgent).toBeDefined();
+  });
+});
+```
+
+**Task 2.2**: Write test for backward compatibility
+```typescript
+test('legacy enhanced imports still work during transition', () => {
+  // Test backward compatibility wrapper
+  const LegacyEnhancedAgent = require('./enhanced-capture-agent');
+  expect(LegacyEnhancedAgent).toBeDefined();
+});
+```
+
+**Task 2.3**: Write test for consistent API interfaces
+```typescript
+test('renamed classes maintain same API interface', () => {
+  const agent = new CaptureAgent(mockConfig);
+  expect(typeof agent.capture).toBe('function');
+  expect(typeof agent.process).toBe('function');
+});
+```
+
+#### GREEN Phase Tasks
+
+**Task 2.4**: Rename files using consistent patterns
 ```bash
-# 1. Integration Testing
-npm run test:integration       # Full integration test suite
-npm run eval:performance       # Performance evaluation and benchmarks
-npm run test:e2e              # End-to-end workflow testing
-
-# 2. Quality Assessment  
-npm run eval:methodology      # PKM methodology compliance validation
-npm run eval:quality          # Quality metrics assessment
-npm run monitor:metrics       # System performance monitoring
+# Systematic file renaming
+mv src/agents/enhanced-capture-agent.ts src/agents/capture-agent.ts
+mv src/workflows/enhanced-capture-workflow.ts src/workflows/capture-workflow.ts
+mv src/tools/enhanced-metadata-generator.ts src/tools/metadata-generator.ts
 ```
+
+**Task 2.5**: Update class names and exports
+```typescript
+// Before: enhanced-capture-agent.ts
+export class EnhancedCaptureAgent { ... }
+
+// After: capture-agent.ts  
+export class CaptureAgent { ... }
+
+// Backward compatibility
+export { CaptureAgent as EnhancedCaptureAgent };
+```
+
+**Task 2.6**: Update all import statements
+```typescript
+// Update all files importing renamed classes
+import { CaptureAgent } from './agents/capture-agent';
+import { CaptureWorkflow } from './workflows/capture-workflow';
+import { MetadataGenerator } from './tools/metadata-generator';
+```
+
+#### REFACTOR Phase Tasks
+
+**Task 2.7**: Create migration utility for systematic updates
+```typescript
+class NamingConventionMigrator {
+  migrateFile(filePath: string): void {
+    // KISS: Simple find-and-replace patterns
+    // DRY: Reusable migration rules
+  }
+  
+  validateMigration(filePath: string): boolean {
+    // SOLID: Single responsibility for validation
+  }
+}
+```
+
+**Task 2.8**: Extract naming convention rules to configuration
+```typescript
+interface NamingConventionRules {
+  classNaming: {
+    removePrefix: string[];
+    addPrefix: string[];
+    caseConvention: 'PascalCase' | 'camelCase';
+  };
+  fileNaming: {
+    pattern: string;
+    extensionHandling: string;
+  };
+}
+```
+
+#### VALIDATE Phase Tasks
+
+**Task 2.9**: Verify all references updated
+```bash
+# Search for remaining "Enhanced" references
+grep -r "Enhanced" src/ --include="*.ts" --include="*.js"
+```
+
+**Task 2.10**: Test suite validation
+```bash
+# Ensure all tests pass after renaming
+npm test -- --coverage --verbose
+```
+
+#### EVALUATE Phase Tasks
+
+**Task 2.11**: Documentation consistency check
+- [ ] README.md updated with new class names
+- [ ] API documentation reflects naming changes
+- [ ] Examples use consistent naming
+- [ ] Migration guide provided
+
+### Task Group 3: PKM Agent System Integration (TDD Cycle 3)
+
+#### SPECS Phase: PKM Agent Integration Specification
+
+**Specification Document**: `specs/pkm-agent-system-integration.md`
+
+**Requirements**:
+- FR-009: Integrate capture, processing, and synthesis agents
+- FR-010: Implement workflow orchestration with Mastra.ai
+- FR-011: Add intelligent routing based on content type
+- FR-012: Provide unified PKM command interface
+
+#### RED Phase Tasks
+
+**Task 3.1**: Write test for agent orchestration
+```typescript
+describe('PKM Agent System', () => {
+  test('orchestrates capture to processing workflow', async () => {
+    const orchestrator = new PkmOrchestrator();
+    const result = await orchestrator.processContent('Test content', 'capture');
+    expect(result.processed).toBe(true);
+    expect(result.agents).toContain('CaptureAgent');
+  });
+});
+```
+
+**Task 3.2**: Write test for intelligent routing
+```typescript
+test('routes research content to synthesis agent', async () => {
+  const router = new ContentRouter();
+  const route = router.determineRoute('research paper content');
+  expect(route.primaryAgent).toBe('SynthesisAgent');
+  expect(route.model).toBe('opus');
+});
+```
+
+#### GREEN Phase Tasks
+
+**Task 3.3**: Implement PKM orchestrator with SOLID principles
+```typescript
+class PkmOrchestrator {
+  constructor(
+    private captureAgent: CaptureAgent,
+    private processingAgent: ProcessingAgent,
+    private synthesisAgent: SynthesisAgent
+  ) {}
+  
+  async processContent(content: string, type: ContentType): Promise<ProcessingResult> {
+    // KISS: Simple workflow orchestration
+    // SOLID: Dependency injection for agents
+    const route = this.router.determineRoute(content, type);
+    return this.executeWorkflow(route, content);
+  }
+}
+```
+
+#### REFACTOR Phase Tasks
+
+**Task 3.4**: Extract workflow definitions to configuration
+```typescript
+interface WorkflowDefinition {
+  steps: WorkflowStep[];
+  routing: RoutingRules;
+  errorHandling: ErrorHandlingStrategy;
+}
+```
+
+### Task Group 4: Quality Assessment Integration (TDD Cycle 4)
+
+#### SPECS Phase: Quality Assessment Specification
+
+**Specification Document**: `specs/quality-assessment-integration.md`
+
+**Requirements**:
+- FR-013: Integrate quality assessment with Claude Opus model
+- FR-014: Implement automated quality metrics collection
+- FR-015: Provide quality feedback and suggestions
+- FR-016: Support configurable quality thresholds
+
+#### Implementation continues with same SPECS → RED → GREEN → REFACTOR → VALIDATE → EVALUATE pattern...
+
+## Quality Gates and Standards
+
+### Code Quality Requirements
+- **Test Coverage**: ≥95% line coverage for all new code
+- **Function Complexity**: Max cyclomatic complexity 5
+- **Function Length**: ≤20 lines per function (KISS principle)
+- **Class Size**: ≤200 lines per class (SOLID principle)
+- **Duplication**: Zero duplicated code blocks (DRY principle)
+
+### Performance Requirements
+- **Sonnet Model Response**: <2s for standard operations
+- **Opus Model Response**: <10s for complex analysis
+- **Memory Usage**: <100MB base consumption
+- **File Processing**: <500ms for files <100KB
+
+### Architecture Quality Requirements
+- **SOLID Compliance**: All classes follow SOLID principles
+- **Dependency Injection**: Constructor-based DI throughout
+- **Interface Segregation**: Small, focused interfaces
+- **Testability**: 100% unit testable components
+
+## Implementation Priority Order
+
+### Phase 1: Foundation (Cycles 1-2)
+1. Claude Code provider integration with model selection
+2. Consistent naming convention migration
+3. Core agent class implementations
+
+### Phase 2: Integration (Cycles 3-4)  
+1. PKM agent system orchestration
+2. Quality assessment integration
+3. Workflow automation
+
+### Phase 3: Optimization (Cycles 5-6)
+1. Performance tuning and caching
+2. Advanced error handling
+3. Monitoring and metrics
 
 ## Success Criteria
 
-### Mastra.ai Framework Success
-- **Agent Performance**: All agents respond within 2s for 95% of operations
-- **Workflow Reliability**: >99% successful workflow completion rate
-- **Type Safety**: Zero runtime type errors in production
-- **Evaluation Accuracy**: >90% agreement with human assessment
-- **Memory Efficiency**: Context retrieval within 100ms for 95% of operations
+### Technical Success
+- [ ] All TDD cycles complete with >95% test coverage
+- [ ] SOLID, KISS, DRY principles validated
+- [ ] Claude Sonnet/Opus integration working
+- [ ] Consistent naming conventions applied
+- [ ] Zero breaking changes for existing functionality
 
-### PKM Methodology Success
-- **PARA Compliance**: 85% correct classification accuracy
-- **Zettelkasten Compliance**: 95% atomicity validation pass rate  
-- **GTD Compliance**: 99.5% capture completeness success rate
-- **User Experience**: 80% adoption rate and 35% productivity improvement
-- **Quality Improvement**: 25% improvement in note quality and connections
+### Business Success  
+- [ ] PKM workflow automation functional
+- [ ] Quality assessment providing actionable feedback
+- [ ] User experience improved with intelligent model selection
+- [ ] Performance targets met for all operations
 
-### Development Process Success
-- **TDD Compliance**: 100% test-first development with comprehensive coverage
-- **Deployment Speed**: <5 minutes from commit to production deployment
-- **Debugging Efficiency**: 50% reduction in issue resolution time via observability
-- **Code Quality**: Consistent TypeScript standards with <10 cyclomatic complexity
+### Documentation Success
+- [ ] Complete API documentation
+- [ ] Migration guides for naming changes
+- [ ] Quality assessment configuration guide
+- [ ] Performance optimization recommendations
 
 ---
 
-**Next Steps**: 
-1. Initialize mastra.ai development environment and project structure
-2. Begin Task Group 1 (Capture Agent) implementation following TDD methodology
-3. Establish continuous integration with mastra.ai testing and evaluation systems
-4. Set up monitoring and observability for production deployment
-
-**Document Status**: Ready for mastra.ai-based TDD implementation with comprehensive PKM methodology integration.**
+*PKM-Mastra System TDD Breakdown v5.0.0 - Specs-Driven Development with Claude Code Integration*
+*Following TDD, SOLID, KISS, DRY principles with consistent naming conventions*

@@ -2,13 +2,15 @@
 
 ## Document Information
 - **Document Type**: Mastra.ai 2025 PKM System Governance & Strategic Steering
-- **Version**: 4.0.0 - Production-Ready Framework Integration
+- **Version**: 5.0.0 - Specs-Driven TDD with Claude Sonnet/Opus Integration Governance
 - **Created**: 2024-09-05
-- **Updated**: 2025-09-06 (Ultra-Thinking Analysis + Latest Mastra Research)
+- **Updated**: 2025-09-06 (Specs-Driven TDD + Claude Sonnet/Opus + Consistent Naming Governance)
 - **Authority**: PKM System Architecture Board + Engineering Standards Committee
 - **Framework**: Mastra.ai 2025 TypeScript AI Agent Framework (v0.16.0+)
-- **API Evolution**: AI SDK v5 Support, Enhanced Orchestration, Dynamic Memory Systems
-- **Engineering Standards**: SOLID, KISS, DRY, Enhanced TDD with Production Quality Gates
+- **LLM Integration**: Claude Code with Intelligent Sonnet/Opus Selection + Multi-Provider Fallbacks
+- **API Evolution**: AI SDK v5 Support, Claude Code Provider, Workflow Orchestration
+- **Engineering Standards**: SOLID, KISS, DRY, Specs-Driven TDD Methodology
+- **Naming Convention**: Consistent naming standards without Enhanced/Advanced prefixes
 
 ## Governance Philosophy
 
@@ -24,11 +26,204 @@ Ensure that Mastra.ai-powered PKM agents deliver transformative personal knowled
 - **User Empowerment**: Transparent, controllable, privacy-respecting automation
 
 ### Strategic Imperatives (2025)
-1. **Mastra-Native Development**: Leverage createStep, createWorkflow, Agent patterns exclusively
-2. **AI SDK v5 Integration**: Utilize enhanced orchestration and streaming capabilities  
-3. **Dynamic Memory Systems**: Implement context-aware, adaptive learning patterns
-4. **Production Deployment**: Target real-world usage at SoftBank/Fireworks AI scale
-5. **TypeScript Excellence**: Maintain 100% type safety with advanced Zod validation
+1. **Specs-Driven TDD**: Specification-first development with comprehensive acceptance criteria
+2. **Mastra-Native Development**: Leverage createStep, createWorkflow, Agent patterns exclusively
+3. **Claude Sonnet/Opus Integration**: Intelligent model selection based on task complexity
+4. **AI SDK v5 Integration**: Utilize advanced orchestration and streaming capabilities  
+5. **Consistent Naming**: Remove Enhanced/Advanced prefixes, standardize naming conventions
+6. **Dynamic Memory Systems**: Implement context-aware, adaptive learning patterns
+7. **Production Deployment**: Target real-world usage at SoftBank/Fireworks AI scale
+8. **TypeScript Excellence**: Maintain 100% type safety with advanced Zod validation
+
+## Specs-Driven TDD Methodology Governance
+
+### Specification-First Development Mandates
+
+#### **SPECS Phase Requirements (Critical - Blocking)**
+**All development MUST begin with comprehensive specifications before any code**
+
+- **Specification Documentation**:
+  - Complete functional requirements with acceptance criteria
+  - Non-functional requirements clearly defined and prioritized
+  - Success metrics and validation criteria established
+  - *Quality Gate*: 100% specification coverage before RED phase
+  - *Blocking*: No test writing without approved specifications
+
+- **Acceptance Criteria Standards**:
+  - Given-When-Then format for all functional requirements
+  - Measurable success criteria with quantitative metrics
+  - Edge case identification and handling specifications
+  - *Quality Gate*: All acceptance criteria must be testable
+  - *Mandatory*: Stakeholder approval of specifications
+
+#### **Enhanced TDD Cycle Integration (Critical - Process)**
+**Specification-first approach with systematic engineering validation**
+
+**SPECS → RED → GREEN → REFACTOR → VALIDATE → EVALUATE**
+
+- **SPECS Phase**: Write complete specifications and acceptance criteria
+- **RED Phase**: Write failing tests based on specifications
+- **GREEN Phase**: Implement minimal code with SOLID/KISS/DRY compliance
+- **REFACTOR Phase**: Optimize with systematic engineering principles
+- **VALIDATE Phase**: Comprehensive integration and acceptance testing
+- **EVALUATE Phase**: Performance, quality, and maintainability assessment
+
+## Claude Sonnet/Opus Integration Governance
+
+### Intelligent Model Selection Mandates
+
+#### **Sonnet/Opus Selection Strategy (Critical - Mandatory)**
+**All agent implementations MUST use intelligent model selection based on task complexity and performance requirements**
+
+- **Model Selection Criteria**:
+  - **Sonnet Tasks**: Content capture, basic organization, metadata generation, simple processing
+  - **Opus Tasks**: Research analysis, complex synthesis, deep reasoning, quality assessment
+  - **Automatic Selection**: Based on content length, complexity score, and quality requirements
+  - *Quality Gate*: >90% optimal model selection accuracy
+  - *Blocking*: Manual model selection without intelligence layer
+
+- **Performance Optimization Requirements**:
+  - **Sonnet Configuration**: Temperature 0.3, MaxTokens 2000, <100ms response time
+  - **Opus Configuration**: Temperature 0.1, MaxTokens 4000, <500ms response time  
+  - **Cost Optimization**: Minimize Opus usage while maintaining quality requirements
+  - *Quality Gate*: Cost per operation stays within subscription limits
+  - *Mandatory*: Performance monitoring and cost tracking
+
+#### **Model Integration Architecture (Critical - System Design)**
+**Provider factory MUST support both Sonnet and Opus with seamless switching**
+
+- **Technical Requirements**:
+  - Single provider factory supporting both models
+  - Intelligent model selection based on task analysis
+  - Graceful fallback from Opus to Sonnet under load
+  - *Quality Gate*: Zero-downtime model switching
+  - *Blocking*: Hardcoded model selection
+
+### Subscription-First Architecture Mandates
+
+#### **Provider Priority Strategy (Critical - Mandatory)**
+**All agent implementations MUST prioritize Claude Code provider to maximize subscription value**
+
+- **Primary Provider Requirements**:
+  - Claude Code provider as default for all PKM operations
+  - Leverage Claude Pro/Max subscriptions without API keys
+  - CLI-based authentication for seamless integration
+  - *Quality Gate*: No additional API costs for standard PKM operations
+  - *Blocking*: Any implementation that bypasses subscription usage
+
+- **Multi-Provider Fallback Architecture (Required)**:
+  - OpenAI API as secondary fallback provider
+  - Anthropic API as tertiary fallback provider
+  - Graceful degradation with performance monitoring
+  - *Quality Gate*: 100% uptime through provider diversity
+  - *Blocking*: Single points of failure in provider architecture
+
+#### **Cost Optimization Governance (Critical - Business Impact)**
+**Provider selection MUST optimize for operational cost efficiency**
+
+- **Subscription Economics Validation**:
+  - Claude Pro ($20/month) for standard PKM workflows
+  - Claude Max ($100-200/month) for high-volume research operations
+  - API fallbacks only when subscription limits exceeded
+  - *Quality Gate*: Monthly cost tracking and optimization reports
+  - *Mandatory*: Provider usage metrics and cost analysis
+
+- **Intelligent Routing Requirements**:
+  - Real-time provider availability assessment
+  - Automatic failover with <100ms latency penalty
+  - Usage pattern analysis for subscription tier optimization
+  - *Quality Gate*: Provider performance SLA compliance
+  - *Blocking*: Provider routing that increases operational costs
+
+#### **Engineering Compliance for Provider Integration**
+
+**SOLID Principles Application**:
+- **Provider Factory Pattern**: Single responsibility for provider creation and management
+- **Open/Closed Principle**: Extensible architecture for future provider additions
+- **Dependency Inversion**: Abstract provider interfaces for testability and flexibility
+
+**Configuration Management Standards**:
+- Environment-based provider selection (development/test/production)
+- Zod schema validation for all provider configurations
+- Error handling and resilience patterns for provider failures
+
+**Quality Assurance Requirements**:
+- 93% minimum test coverage for provider integration
+- Comprehensive error handling with meaningful error messages
+- Provider metrics and monitoring for operational observability
+
+### Provider Integration Success Metrics
+
+#### **Technical Performance Standards**
+- Provider fallback latency: <100ms additional overhead
+- Subscription utilization: >90% of requests via Claude Code
+- System uptime: 99.9% availability through multi-provider architecture
+- Error rate: <0.1% provider-related failures
+
+#### **Business Value Indicators**
+- Monthly cost reduction vs. pure API usage model
+- Subscription ROI through high-quality Claude 3.5 Sonnet usage
+- Reduced API spend on fallback providers
+- Operational efficiency gains through subscription-based access
+
+#### **User Experience Metrics**
+- Transparent provider switching (user unaware of backend changes)
+- Consistent response quality across all providers
+- No degradation in PKM workflow performance
+- Seamless authentication experience
+
+## Naming Convention Standards Governance
+
+### Consistent Naming Architecture Mandates
+
+#### **No Enhanced/Advanced Prefixes (Critical - Mandatory)**
+**All code components MUST use clear, descriptive names without unnecessary prefixes**
+
+- **File Naming Standards**:
+  - `capture-agent.ts` (not `enhanced-capture-agent.ts`)
+  - `capture-workflow.ts` (not `enhanced-capture-workflow.ts`)  
+  - `metadata-generator.ts` (not `enhanced-metadata-generator.ts`)
+  - *Quality Gate*: Zero Enhanced/Advanced prefixes in codebase
+  - *Blocking*: Any file with non-compliant naming
+
+- **Class Naming Standards**:
+  - `CaptureAgent` (not `EnhancedCaptureAgent`)
+  - `CaptureWorkflow` (not `AdvancedCaptureWorkflow`)
+  - `MetadataGenerator` (not `SuperMetadataGenerator`)
+  - *Quality Gate*: 100% compliant class naming
+  - *Mandatory*: Automated naming convention validation
+
+#### **Function and Variable Naming (Critical - Consistency)**
+**All functions and variables MUST follow action-based descriptive naming**
+
+- **Function Naming Pattern**:
+  ```typescript
+  // ✅ Correct: Action-based naming
+  function captureContent(content: string): CaptureResult;
+  function processWorkflow(workflow: Workflow): ProcessResult;
+  
+  // ❌ Incorrect: Enhanced/Advanced prefixes
+  function enhancedCaptureContent(content: string): CaptureResult;
+  function advancedProcessWorkflow(workflow: Workflow): ProcessResult;
+  ```
+
+- **Variable Naming Pattern**:
+  ```typescript
+  // ✅ Correct: Clear, descriptive names
+  const captureAgent = new CaptureAgent();
+  const workflowResult = await processWorkflow(workflow);
+  
+  // ❌ Incorrect: Enhanced/Advanced prefixes
+  const enhancedCaptureAgent = new CaptureAgent();
+  const advancedWorkflowResult = await processWorkflow(workflow);
+  ```
+
+#### **Naming Convention Success Metrics**
+
+- **Compliance Tracking**: 100% naming convention adherence
+- **Codebase Consistency**: Zero Enhanced/Advanced prefixes
+- **Maintainability Index**: >0.8 code readability score
+- **Documentation Alignment**: Naming consistency across docs and code
 
 ## Engineering Standards Governance
 
