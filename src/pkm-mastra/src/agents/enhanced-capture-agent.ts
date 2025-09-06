@@ -1,6 +1,7 @@
 import { Agent } from '@mastra/core';
 import { openai } from '@ai-sdk/openai';
 import { z } from 'zod';
+import { ProviderFactory, defaultProviderConfig, type ProviderConfig } from '../providers/provider-factory.js';
 
 // Memory configurations for the enhanced capture agent (simplified for GREEN phase)
 const captureContextMemory = {
@@ -17,10 +18,20 @@ const gtdComplianceMemory = {
   retrievalMethod: 'recent',
 };
 
-// Enhanced Capture Agent with Mastra 2025 patterns
-export const enhancedCaptureAgent = new Agent({
-  name: 'Enhanced Multi-Source Capture Agent',
-  instructions: `
+// Provider factory for intelligent model selection
+const providerFactory = new ProviderFactory(defaultProviderConfig);
+
+// Enhanced Capture Agent Factory Function
+export async function createEnhancedCaptureAgent(providerConfig?: Partial<ProviderConfig>) {
+  // Create or update provider factory with custom config
+  const factory = providerConfig ? new ProviderFactory(providerConfig) : providerFactory;
+  
+  // Get the optimal model based on provider strategy
+  const model = await factory.createModel();
+  
+  return new Agent({
+    name: 'Enhanced Multi-Source Capture Agent',
+    instructions: `
 You are a comprehensive content capture specialist following GTD (Getting Things Done) principles and PKM best practices.
 
 Your primary responsibility is complete, accurate content capture with:
@@ -55,56 +66,63 @@ Your primary responsibility is complete, accurate content capture with:
 - Suggest improvements when content appears incomplete or low-quality
 
 Remember: Your role is CAPTURE, not processing. Defer processing decisions to specialized processing agents while ensuring nothing valuable is lost.
-  `,
-  model: openai('gpt-4o-mini'), // Fast model appropriate for capture tasks
-  memory: [captureContextMemory, gtdComplianceMemory],
-  tools: [
-    // Tools will be properly integrated in the next phase
-    // For now, define placeholder tool references
-    {
-      id: 'webContentExtractor',
-      description: 'Extracts content and metadata from web URLs',
-      execute: async (params: any) => {
-        return { extracted: true, content: `Extracted from ${params.url}` };
+    `,
+    model, // Dynamic model selection via provider factory (Claude Code preferred, OpenAI fallback)
+    memory: [captureContextMemory, gtdComplianceMemory],
+    tools: [
+      // Tools will be properly integrated in the next phase
+      // For now, define placeholder tool references
+      {
+        id: 'webContentExtractor',
+        description: 'Extracts content and metadata from web URLs',
+        execute: async (params: any) => {
+          return { extracted: true, content: `Extracted from ${params.url}` };
+        },
       },
-    },
-    {
-      id: 'qualityAssessment',
-      description: 'Assesses content quality using multiple dimensions',
-      execute: async (params: any) => {
-        return { qualityScore: 0.8, assessment: 'Good quality content' };
+      {
+        id: 'qualityAssessment',
+        description: 'Assesses content quality using multiple dimensions',
+        execute: async (params: any) => {
+          return { qualityScore: 0.8, assessment: 'Good quality content' };
+        },
       },
-    },
-    {
-      id: 'duplicateDetection',
-      description: 'Detects duplicate content using semantic similarity',
-      execute: async (params: any) => {
-        return { isDuplicate: false, similarityScore: 0.1 };
+      {
+        id: 'duplicateDetection',
+        description: 'Detects duplicate content using semantic similarity',
+        execute: async (params: any) => {
+          return { isDuplicate: false, similarityScore: 0.1 };
+        },
       },
-    },
-  ],
-});
+    ],
+  });
+}
+
+// Create default agent instance promise for backward compatibility
+export const enhancedCaptureAgent = createEnhancedCaptureAgent();
 
 // Enhanced capture agent with structured output capability
 export class EnhancedCaptureAgentService {
-  private agent: Agent;
+  private agentPromise: Promise<Agent>;
+  private providerFactory: ProviderFactory;
 
-  constructor() {
-    this.agent = enhancedCaptureAgent;
+  constructor(providerConfig?: Partial<ProviderConfig>) {
+    this.providerFactory = new ProviderFactory(providerConfig || defaultProviderConfig);
+    this.agentPromise = createEnhancedCaptureAgent(providerConfig);
   }
 
   /**
    * Generate standard text responses for content capture (AI SDK v5 compatible)
    */
   async generateResponse(messages: Array<{ role: string; content: string | any[] }>) {
+    const agent = await this.agentPromise;
     try {
       // Use generateVNext for AI SDK v5 compatibility
-      const result = await this.agent.generateVNext({ messages });
+      const result = await agent.generateVNext({ messages });
       return result;
     } catch (error) {
       // Fallback to generate if generateVNext is not available
       try {
-        return await this.agent.generate({ messages });
+        return await agent.generate({ messages });
       } catch (fallbackError) {
         throw new Error(`Enhanced capture agent failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
       }
@@ -118,20 +136,21 @@ export class EnhancedCaptureAgentService {
     messages: Array<{ role: string; content: string | any[] }>,
     schema: Record<string, string>
   ) {
+    const agent = await this.agentPromise;
     try {
       // Convert simple schema to Zod for structured output
       const zodSchema = this.convertToZodSchema(schema);
       
       // Try generateVNext first for AI SDK v5
       try {
-        const result = await this.agent.generateVNext({
+        const result = await agent.generateVNext({
           messages,
           schema: zodSchema,
         });
         return result;
       } catch (vNextError) {
         // Fallback to generate for compatibility
-        const result = await this.agent.generate({
+        const result = await agent.generate({
           messages,
           schema: zodSchema,
         });
@@ -146,13 +165,14 @@ export class EnhancedCaptureAgentService {
    * Stream responses for long content processing (AI SDK v5 compatible)
    */
   async streamResponse(messages: Array<{ role: string; content: string | any[] }>) {
+    const agent = await this.agentPromise;
     try {
       // Use streamVNext for AI SDK v5 compatibility
       try {
-        return await this.agent.streamVNext({ messages });
+        return await agent.streamVNext({ messages });
       } catch (vNextError) {
         // Fallback to stream for compatibility
-        return await this.agent.stream({ messages });
+        return await agent.stream({ messages });
       }
     } catch (error) {
       throw new Error(`Streaming capture failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -165,6 +185,7 @@ export class EnhancedCaptureAgentService {
   async processMultimodalContent(
     messages: Array<{ role: string; content: string | any[] }>
   ) {
+    const agent = await this.agentPromise;
     try {
       // Enhanced handling for image content
       const processedMessages = messages.map(msg => {
@@ -188,9 +209,9 @@ export class EnhancedCaptureAgentService {
 
       // Use generateVNext for AI SDK v5 compatibility
       try {
-        return await this.agent.generateVNext({ messages: processedMessages });
+        return await agent.generateVNext({ messages: processedMessages });
       } catch (vNextError) {
-        return await this.agent.generate({ messages: processedMessages });
+        return await agent.generate({ messages: processedMessages });
       }
     } catch (error) {
       throw new Error(`Multimodal capture failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -201,8 +222,9 @@ export class EnhancedCaptureAgentService {
    * Execute specific tools for specialized capture operations
    */
   async executeTool(toolId: string, params: any) {
+    const agent = await this.agentPromise;
     try {
-      const tool = this.agent.tools?.find(t => t.id === toolId);
+      const tool = agent.tools?.find(t => t.id === toolId);
       if (!tool) {
         throw new Error(`Tool ${toolId} not found`);
       }
@@ -223,13 +245,14 @@ export class EnhancedCaptureAgentService {
   async processConcurrentRequests(
     requests: Array<{ messages: Array<{ role: string; content: string | any[] }> }>
   ) {
+    const agent = await this.agentPromise;
     try {
       const results = await Promise.all(
         requests.map(async (request) => {
           try {
-            return await this.agent.generateVNext(request);
+            return await agent.generateVNext(request);
           } catch (vNextError) {
-            return await this.agent.generate(request);
+            return await agent.generate(request);
           }
         })
       );
@@ -268,6 +291,50 @@ export class EnhancedCaptureAgentService {
     });
 
     return z.object(zodFields);
+  }
+
+  /**
+   * Get provider factory metrics for monitoring
+   */
+  getProviderMetrics() {
+    return this.providerFactory.getMetrics();
+  }
+
+  /**
+   * Update provider configuration
+   */
+  updateProviderConfig(newConfig: Partial<ProviderConfig>) {
+    this.providerFactory.updateConfig(newConfig);
+    // Recreate agent with new configuration
+    this.agentPromise = createEnhancedCaptureAgent(newConfig);
+  }
+
+  /**
+   * Get current provider configuration
+   */
+  getProviderConfig() {
+    return this.providerFactory.getConfig();
+  }
+
+  /**
+   * Test provider availability
+   */
+  async testProvider(provider: string): Promise<boolean> {
+    return this.providerFactory.testProvider(provider);
+  }
+
+  /**
+   * Get available providers in priority order
+   */
+  getAvailableProviders(): string[] {
+    return this.providerFactory.getAvailableProviders();
+  }
+
+  /**
+   * Get agent instance for direct access (await the promise)
+   */
+  async getAgent(): Promise<Agent> {
+    return this.agentPromise;
   }
 }
 
