@@ -1,5 +1,7 @@
 ---
 name: pkm-feynman
+description: Feynman technique simplification and teaching agent for PKM system
+tools: ["Read", "Write", "Edit", "Task", "WebSearch"]
 ---
 
 # PKM Feynman Agent

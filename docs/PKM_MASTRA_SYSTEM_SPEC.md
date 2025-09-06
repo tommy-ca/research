@@ -2,14 +2,192 @@
 
 ## Document Information
 - **Document Type**: Mastra.ai-Based PKM Pipeline System Specification
-- **Version**: 2.0.0
+- **Version**: 4.0.0 - 2025 Mastra Framework Integration
 - **Created**: 2024-09-05
-- **Framework**: Mastra.ai TypeScript AI Agent Framework
-- **Focus**: PKM methodology-compliant AI enhancement using production-ready infrastructure
+- **Updated**: 2025-09-06 (Ultra-Thinking Analysis + Latest Mastra Research)
+- **Framework**: Mastra.ai 2025 TypeScript AI Agent Framework (v0.16.0+)
+- **API Compatibility**: AI SDK v5 Support, Enhanced Orchestration, Dynamic Memory
+- **Engineering Standards**: SOLID, KISS, DRY, Enhanced TDD with Quality Gates
+- **Focus**: Production-ready PKM automation with cutting-edge Mastra capabilities
 
 ## Executive Summary
 
-This specification defines a PKM (Personal Knowledge Management) system built on mastra.ai framework, leveraging its agent orchestration, workflow management, memory systems, and evaluation capabilities to create intelligent PKM pipeline automation while maintaining strict compliance with established methodologies (PARA, Zettelkasten, GTD).
+This specification defines a PKM (Personal Knowledge Management) system built on mastra.ai framework, leveraging its agent orchestration, workflow management, memory systems, and evaluation capabilities to create intelligent PKM pipeline automation. **Enhanced with systematic engineering principles integration**, this system maintains strict compliance with established methodologies (PARA, Zettelkasten, GTD) while enforcing SOLID architecture, KISS simplicity, DRY maintainability, and comprehensive TDD methodology.
+
+## Engineering Principles Foundation
+
+### Core Engineering Standards
+- **TDD-First Development**: Enhanced RED-GREEN-REFACTOR-VALIDATE-EVALUATE methodology
+- **SOLID Architecture**: Systematic application across all agents and components  
+- **KISS Principle**: Simplicity-first design with complexity metrics enforcement
+- **DRY Compliance**: Zero duplication tolerance with automated detection
+- **Performance Engineering**: <100ms response time requirements with continuous monitoring
+- **Quality Gates**: Automated engineering compliance validation at every stage
+
+### Enhanced TDD Methodology Integration
+
+```typescript
+interface EnhancedTDDCycle {
+  RED: {
+    writeFailingTests: Test[];
+    validateTestQuality: QualityMetrics;
+    ensureSOLIDCompliance: SOLIDValidation;
+  };
+  GREEN: {
+    implementMinimalCode: Implementation;
+    validateKISSPrinciple: ComplexityMetrics;
+    enforceDRYPrinciple: DuplicationAnalysis;
+  };
+  REFACTOR: {
+    improveCodeQuality: RefactorActions[];
+    validateSOLIDPrinciples: ArchitectureValidation;
+    optimizePerformance: PerformanceMetrics;
+  };
+  VALIDATE: {
+    functionalCorrectness: ValidationResults;
+    nonFunctionalRequirements: NFRValidation;
+    integrationTesting: IntegrationResults;
+  };
+  EVALUATE: {
+    qualityAssessment: QualityScore;
+    performanceBaseline: PerformanceBenchmarks;
+    maintainabilityIndex: MaintainabilityMetrics;
+  };
+}
+```
+
+### SOLID Principles Application
+
+**Single Responsibility Principle (SRP)**
+```typescript
+// Each agent has a single, well-defined responsibility
+interface CaptureAgent {
+  capture(input: CaptureInput): Promise<CaptureOutput>;
+}
+
+interface ProcessingAgent {
+  process(input: ProcessingInput): Promise<ProcessingOutput>;
+}
+
+interface OrganizationAgent {
+  organize(input: OrganizationInput): Promise<OrganizationOutput>;
+}
+```
+
+**Open/Closed Principle (OCP)**
+```typescript
+// Extensible LLM provider system without modification
+interface LLMProvider {
+  process(content: string): Promise<ProcessedContent>;
+}
+
+class OpenAIProvider implements LLMProvider { }
+class AnthropicProvider implements LLMProvider { }
+class GoogleProvider implements LLMProvider { }
+// New providers can be added without modifying existing code
+```
+
+**Liskov Substitution Principle (LSP)**
+```typescript
+// All processing agents must be substitutable
+interface ProcessingAgent {
+  process(input: ProcessingInput): Promise<ProcessingOutput>;
+}
+// Any implementation must work with the same interface contract
+```
+
+**Interface Segregation Principle (ISP)**  
+```typescript
+// Separate interfaces for different capabilities
+interface Capturable { capture(): CaptureResult; }
+interface Processable { process(): ProcessingResult; }
+interface Storable { store(): StorageResult; }
+interface Retrievable { retrieve(): RetrievalResult; }
+```
+
+**Dependency Inversion Principle (DIP)**
+```typescript
+// Depend on abstractions, not concretions
+class PKMSystem {
+  constructor(
+    private captureService: CaptureInterface,
+    private processingService: ProcessingInterface,
+    private storageService: StorageInterface
+  ) {}
+}
+```
+
+### Quality Gates Framework
+
+```typescript
+interface QualityGate {
+  name: string;
+  validator: (code: string, tests: Test[]) => Promise<QualityResult>;
+  threshold: number; // Minimum score to pass (0.0-1.0)
+  blocking: boolean; // Whether failure blocks progression
+}
+
+const engineeringQualityGates: QualityGate[] = [
+  {
+    name: 'SOLID Compliance',
+    validator: validateSOLIDPrinciples,
+    threshold: 0.85,
+    blocking: true
+  },
+  {
+    name: 'KISS Principle',
+    validator: validateComplexity,
+    threshold: 0.8,
+    blocking: true
+  },
+  {
+    name: 'DRY Principle',
+    validator: validateDuplication,
+    threshold: 0.9,
+    blocking: true
+  },
+  {
+    name: 'Test Coverage',
+    validator: validateTestCoverage,
+    threshold: 1.0, // 100% coverage required
+    blocking: true
+  },
+  {
+    name: 'Performance Compliance',
+    validator: validatePerformance,
+    threshold: 0.95,
+    blocking: false // Warning initially, blocking in production
+  },
+  {
+    name: 'Type Safety',
+    validator: validateTypeScript,
+    threshold: 1.0, // Zero TypeScript errors
+    blocking: true
+  }
+];
+```
+
+### Performance Engineering Standards
+
+```typescript
+interface PerformanceRequirements {
+  responseTime: {
+    capture: number;      // <50ms
+    processing: number;   // <100ms  
+    organization: number; // <75ms
+    retrieval: number;    // <25ms
+    synthesis: number;    // <200ms
+  };
+  throughput: {
+    minOperationsPerSecond: 100;
+    maxConcurrentUsers: 50;
+  };
+  resources: {
+    maxMemoryUsage: 50; // MB
+    maxCPUUsage: 70;    // %
+  };
+}
+```
 
 ## 1. Mastra.ai Architecture Integration
 
@@ -23,10 +201,10 @@ This specification defines a PKM (Personal Knowledge Management) system built on
 - **Built-in Evaluation**: Automated quality assessment and compliance validation
 - **OpenTelemetry Tracing**: Complete observability for debugging and optimization
 
-### 1.2 PKM System Architecture on Mastra.ai
+### 1.2 PKM System Architecture on Mastra.ai 2025
 
 ```typescript
-// PKM System Architecture
+// PKM System Architecture - Updated for Mastra 2025
 export interface PkmMastraSystem {
   agents: {
     captureAgent: Agent;     // C1: Multi-source content ingestion
@@ -37,56 +215,160 @@ export interface PkmMastraSystem {
     synthesisAgent: Agent;   // S1: Pattern recognition and insights
   };
   workflows: {
-    pkmPipeline: Workflow;   // Master PKM pipeline orchestration
-    captureWorkflow: Workflow; // Capture → Processing transition
-    organizationWorkflow: Workflow; // Processing → Organization transition
-    // ... additional pipeline workflows
+    pkmPipeline: ReturnType<typeof createWorkflow>;   // Master PKM pipeline
+    captureWorkflow: ReturnType<typeof createWorkflow>; // Capture → Processing
+    organizationWorkflow: ReturnType<typeof createWorkflow>; // Processing → Organization
+    maintenanceWorkflow: ReturnType<typeof createWorkflow>; // Scheduled maintenance
+  };
+  steps: {
+    captureStep: ReturnType<typeof createStep>;      // Typed capture step
+    processStep: ReturnType<typeof createStep>;      // Atomic processing step
+    organizationStep: ReturnType<typeof createStep>; // PARA classification step
+    validationStep: ReturnType<typeof createStep>;   // Quality validation step
   };
   memory: {
-    vaultContext: Memory;    // Vault structure and content awareness
-    userPreferences: Memory; // User PKM preferences and patterns
-    conversationHistory: Memory; // Session context and continuity
+    vaultContext: Memory;    // Dynamic vault context with semantic retrieval
+    userPreferences: Memory; // Adaptive PKM preferences learning
+    conversationHistory: Memory; // Thread-aware conversation context
+    methodologyPatterns: Memory; // PARA/Zettelkasten pattern recognition
   };
   tools: {
-    vaultOperations: Tool[];  // File I/O, validation, metadata
-    methodologyValidation: Tool[]; // PARA, Zettelkasten, GTD compliance
-    qualityAssessment: Tool[];     // Content quality and completeness
+    vaultOperations: Tool[];  // Enhanced file operations with type safety
+    qualityAssessment: Tool[]; // Comprehensive content quality scoring
+    duplicateDetection: Tool[]; // Vector-based semantic duplicate detection
+    linkSuggestion: Tool[];   // Intelligent bi-directional link discovery
+    metadataExtraction: Tool[]; // Advanced metadata enrichment
+  };
+  evaluations: {
+    atomicityEval: Evaluation;    // Zettelkasten atomicity compliance
+    paraClassificationEval: Evaluation; // PARA method accuracy assessment
+    captureCompletenessEval: Evaluation; // GTD capture fidelity validation
+    linkQualityEval: Evaluation;  // Connection relevance and quality
+    overallSystemEval: Evaluation; // Comprehensive system performance
   };
 }
 ```
 
-### 1.3 Agent-Workflow Integration Pattern
+### 1.3 Enhanced Workflow Integration Pattern (2025)
 
 ```typescript
-// PKM Pipeline Workflow with Agent Coordination
-const pkmPipelineWorkflow = {
-  name: 'pkm-pipeline',
+// Modern Mastra 2025 Workflow Pattern with createStep and createWorkflow
+import { createStep, createWorkflow } from '@mastra/core';
+import { z } from 'zod';
+
+// Define typed steps for better composition
+const captureStep = createStep({
+  id: 'capture',
+  inputSchema: z.object({
+    content: z.string(),
+    source: z.string(),
+    metadata: z.record(z.any()).optional(),
+  }),
+  outputSchema: z.object({
+    id: z.string(),
+    capturedContent: z.string(),
+    extractedMetadata: z.record(z.any()),
+    qualityScore: z.number().min(0).max(1),
+    processed: z.boolean(),
+  }),
+  execute: async ({ input, context }) => {
+    // Use agent within step execution
+    const result = await context.agents.captureAgent.generate({
+      messages: [{ 
+        role: 'user', 
+        content: `Process this content: ${input.content} from source: ${input.source}` 
+      }],
+    });
+    
+    return {
+      id: `capture_${Date.now()}`,
+      capturedContent: result.text,
+      extractedMetadata: input.metadata || {},
+      qualityScore: 0.8, // From quality assessment tool
+      processed: true,
+    };
+  },
+});
+
+const processingStep = createStep({
+  id: 'processing',
+  inputSchema: z.object({
+    capturedContent: z.string(),
+    extractedMetadata: z.record(z.any()),
+    qualityScore: z.number(),
+  }),
+  outputSchema: z.object({
+    atomicNotes: z.array(z.object({
+      id: z.string(),
+      title: z.string(),
+      content: z.string(),
+      atomicityScore: z.number(),
+      suggestedLinks: z.array(z.string()),
+    })),
+    atomicityValidated: z.boolean(),
+  }),
+  execute: async ({ input, context }) => {
+    // Advanced processing with atomicity validation
+    const result = await context.agents.processingAgent.generate({
+      messages: [{
+        role: 'user',
+        content: `Create atomic notes from: ${input.capturedContent}`
+      }],
+    });
+    
+    return {
+      atomicNotes: [
+        {
+          id: `note_${Date.now()}`,
+          title: "Generated Note",
+          content: result.text,
+          atomicityScore: 0.9,
+          suggestedLinks: [],
+        }
+      ],
+      atomicityValidated: true,
+    };
+  },
+});
+
+// Enhanced PKM Pipeline with modern Mastra patterns
+const pkmPipelineWorkflow = createWorkflow({
+  name: 'pkm-pipeline-2025',
   triggerSchema: z.object({
     content: z.string(),
     source: z.string(),
     metadata: z.record(z.any()).optional(),
   }),
-  steps: {
-    capture: {
-      stepType: 'agent' as const,
-      agent: 'captureAgent',
-      condition: (context) => !!context.triggerData.content,
-    },
-    process: {
-      stepType: 'agent' as const,
-      agent: 'processingAgent',
-      dependsOn: ['capture'],
-      condition: (context) => context.capture?.success,
-    },
-    organize: {
-      stepType: 'agent' as const,
-      agent: 'organizationAgent',
-      dependsOn: ['process'],
-      condition: (context) => context.process?.atomicityValidated,
-    },
-    // ... additional pipeline steps
-  },
-};
+  outputSchema: z.object({
+    success: z.boolean(),
+    capturedId: z.string(),
+    processedNotes: z.array(z.string()),
+    organizationResult: z.object({
+      paraCategory: z.string(),
+      confidence: z.number(),
+    }),
+  }),
+})
+.then(captureStep) 
+.then(processingStep)
+.then(organizationStep)  // To be defined
+.commit(); // Complete workflow definition
+
+// Execution with full type safety and streaming support
+async function executePkmPipeline(input: { content: string; source: string; metadata?: any }) {
+  const result = await pkmPipelineWorkflow.execute(input);
+  
+  // Full type safety and error handling
+  if (result.status === 'success') {
+    return result.output;
+  } else if (result.status === 'suspended') {
+    // Handle suspension for human input
+    console.log('Workflow suspended for human review');
+  } else {
+    // Handle failure with detailed error information
+    console.error('Workflow failed:', result.error);
+  }
+}
 ```
 
 ## 2. PKM Methodology Compliance Framework
@@ -161,28 +443,80 @@ const processingAgent = new Agent({
 **Priority**: Critical
 **Mastra.ai Components**: Agent + Tools + Workflow + Memory
 
-#### Implementation Architecture:
+#### Implementation Architecture (Mastra 2025):
 ```typescript
+import { Agent } from '@mastra/core';
+import { openai } from '@ai-sdk/openai';
+import { z } from 'zod';
+
+// Enhanced Capture Agent with 2025 Features
 const captureAgent = new Agent({
   name: 'Multi-Source Capture Agent',
-  instructions: 'Comprehensive content ingestion with quality assessment',
+  instructions: `
+    You are a comprehensive content capture specialist following GTD principles and PKM best practices.
+    
+    Your primary responsibility is complete, accurate content capture with:
+    - 100% fidelity to source material
+    - Comprehensive metadata extraction
+    - Quality assessment and scoring
+    - Semantic duplicate detection
+    - Source attribution and provenance tracking
+    
+    Always prioritize capture completeness over processing decisions.
+  `,
   model: openai('gpt-4o-mini'),
-  memory: captureContextMemory,
+  memory: [captureContextMemory, gtdComplianceMemory],
   tools: [
     webContentExtractorTool,
-    documentProcessorTool, 
+    documentProcessorTool,
     duplicateDetectionTool,
     qualityAssessmentTool,
+    metadataEnrichmentTool,
   ],
 });
 
-const captureWorkflow = {
-  name: 'capture-to-processing',
-  steps: {
-    ingest: { agent: 'captureAgent' },
-    validate: { tool: 'qualityAssessmentTool' },
-    deduplicate: { tool: 'duplicateDetectionTool' },
-    handoff: { workflow: 'processingWorkflow' },
+// Modern Workflow with createStep pattern
+const captureWorkflow = createWorkflow({
+  name: 'enhanced-capture-pipeline',
+  triggerSchema: z.object({
+    content: z.string(),
+    source: z.string(),
+    type: z.enum(['text', 'url', 'file', 'clipboard']),
+    metadata: z.record(z.any()).optional(),
+  }),
+  outputSchema: z.object({
+    captureId: z.string(),
+    processedContent: z.string(),
+    qualityScore: z.number(),
+    duplicateStatus: z.object({
+      isDuplicate: z.boolean(),
+      similarityScore: z.number().optional(),
+    }),
+    gtdCompliance: z.boolean(),
+    handoffReady: z.boolean(),
+  }),
+})
+.then(captureStep)
+.then(qualityAssessmentStep)
+.then(duplicateDetectionStep)
+.then(complianceValidationStep)
+.commit();
+
+// Enhanced evaluation with Mastra's evaluation system
+const captureCompletenessEval = {
+  name: 'gtd-capture-completeness',
+  evaluator: async ({ input, output }) => {
+    const completeness = await assessCaptureCompleteness(
+      input.content, 
+      output.processedContent
+    );
+    
+    return {
+      score: completeness.fidelityScore,
+      gtdCompliant: completeness.fidelityScore >= 0.995, // GTD standard
+      informationLoss: 1 - completeness.fidelityScore,
+      improvementSuggestions: completeness.suggestions,
+    };
   },
 };
 ```

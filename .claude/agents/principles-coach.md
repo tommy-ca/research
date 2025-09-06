@@ -1,3 +1,9 @@
+---
+name: principles-coach
+description: Ray Dalio principles-based decision making and daily automation coach
+tools: ["Read", "Write", "Edit", "Grep", "Task"]
+---
+
 # Principles Coach Agent
 
 ## Role

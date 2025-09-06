@@ -1,26 +1,212 @@
 # PKM Mastra.ai System - Steering Document
 
 ## Document Information
-- **Document Type**: Mastra.ai-Based PKM System Governance & Quality Steering
-- **Version**: 2.0.0
+- **Document Type**: Mastra.ai 2025 PKM System Governance & Strategic Steering
+- **Version**: 4.0.0 - Production-Ready Framework Integration
 - **Created**: 2024-09-05
-- **Authority**: PKM System Architecture Board
-- **Framework**: Mastra.ai TypeScript AI Agent Framework
+- **Updated**: 2025-09-06 (Ultra-Thinking Analysis + Latest Mastra Research)
+- **Authority**: PKM System Architecture Board + Engineering Standards Committee
+- **Framework**: Mastra.ai 2025 TypeScript AI Agent Framework (v0.16.0+)
+- **API Evolution**: AI SDK v5 Support, Enhanced Orchestration, Dynamic Memory Systems
+- **Engineering Standards**: SOLID, KISS, DRY, Enhanced TDD with Production Quality Gates
 
 ## Governance Philosophy
 
-### Core Principle: PKM-First Development on Production Infrastructure
-**Mastra.ai provides the infrastructure, PKM methodology provides the intelligence.** All development must leverage mastra.ai's production-ready capabilities while ensuring strict compliance with PKM principles and user-centered design.
+### Core Principle: Production-Scale PKM Intelligence (2025)
+**Mastra.ai 2025 provides production-grade infrastructure, PKM methodology provides domain intelligence, Engineering principles provide systematic quality foundation.** All development must leverage Mastra's cutting-edge capabilities—AI SDK v5 orchestration, dynamic memory systems, typed workflow composition, and comprehensive evaluation frameworks—while ensuring strict compliance with PKM methodologies, user-centered design, and systematic engineering excellence.
 
-### Steering Mandate
-Ensure that mastra.ai-powered PKM agents enhance personal knowledge management workflows through robust, type-safe, observable, and evaluable systems while maintaining methodological integrity and user agency.
+### 2025 Enhanced Steering Mandate
+Ensure that Mastra.ai-powered PKM agents deliver transformative personal knowledge management automation through:
+- **Production-Grade Performance**: Type-safe, observable, evaluable systems at enterprise scale
+- **Advanced Intelligence**: Dynamic memory, semantic retrieval, context-aware processing
+- **Methodology Integrity**: Strict PARA, Zettelkasten, GTD compliance validation
+- **Engineering Excellence**: SOLID architecture, KISS simplicity, DRY maintainability, Enhanced TDD
+- **User Empowerment**: Transparent, controllable, privacy-respecting automation
 
-## 1. Mastra.ai Framework Governance
+### Strategic Imperatives (2025)
+1. **Mastra-Native Development**: Leverage createStep, createWorkflow, Agent patterns exclusively
+2. **AI SDK v5 Integration**: Utilize enhanced orchestration and streaming capabilities  
+3. **Dynamic Memory Systems**: Implement context-aware, adaptive learning patterns
+4. **Production Deployment**: Target real-world usage at SoftBank/Fireworks AI scale
+5. **TypeScript Excellence**: Maintain 100% type safety with advanced Zod validation
 
-### 1.1 Framework Compliance Standards
+## Engineering Standards Governance
 
-#### TypeScript-First Development (Critical)
-**Enforcement**: All PKM system code must be type-safe and leverage mastra.ai's TypeScript foundation
+### Mandatory Engineering Principles
+
+#### **TDD-First Development (Critical - Blocking)**
+**Enhanced RED-GREEN-REFACTOR-VALIDATE-EVALUATE Methodology**
+
+- **RED Phase Requirements**:
+  - Write failing tests BEFORE any implementation code
+  - Validate test quality and SOLID compliance in test design  
+  - Ensure comprehensive edge case coverage
+  - *Quality Gate*: Tests must fail for the right reasons
+  - *Blocking*: No implementation proceeds without failing tests
+
+- **GREEN Phase Requirements**: 
+  - Implement minimal code to pass tests only
+  - Validate KISS principle - reject over-engineered solutions
+  - Enforce DRY principle - eliminate any code duplication
+  - *Quality Gate*: All tests must pass with minimal implementation
+  - *Blocking*: No REFACTOR phase without GREEN phase completion
+
+- **REFACTOR Phase Requirements**:
+  - Improve code quality while maintaining test pass rate
+  - Validate SOLID principles compliance in refactored code
+  - Optimize performance to meet established benchmarks
+  - *Quality Gate*: Code quality metrics must improve or maintain
+  - *Blocking*: No progression without refactoring quality validation
+
+- **VALIDATE Phase Requirements** (NEW):
+  - Functional correctness verification
+  - Non-functional requirements validation
+  - Integration testing with existing components
+  - *Quality Gate*: All validation checks must pass
+  - *Blocking*: No EVALUATE phase without comprehensive validation
+
+- **EVALUATE Phase Requirements** (NEW):
+  - Quality assessment against engineering standards
+  - Performance baseline establishment and comparison
+  - Maintainability index calculation and trend analysis
+  - *Quality Gate*: Must meet or exceed quality thresholds
+  - *Blocking*: No cycle completion without evaluation approval
+
+#### **SOLID Principles Enforcement (Critical - Blocking)**
+
+**Single Responsibility Principle (SRP)**
+- *Requirement*: Each class/function has exactly one reason to change
+- *Quality Gate*: SRP compliance score ≥ 0.85
+- *Validation*: Automated SRP analysis in CI/CD
+- *Blocking*: Code with SRP violations cannot be merged
+
+**Open/Closed Principle (OCP)**  
+- *Requirement*: Open for extension, closed for modification
+- *Quality Gate*: New features added without modifying existing code
+- *Validation*: Extension pattern compliance testing
+- *Blocking*: Modifications to existing stable code require architecture review
+
+**Liskov Substitution Principle (LSP)**
+- *Requirement*: Derived classes substitutable for base classes
+- *Quality Gate*: All interface implementations are substitutable
+- *Validation*: Interface contract compliance testing
+- *Blocking*: Interface violations prevent deployment
+
+**Interface Segregation Principle (ISP)**
+- *Requirement*: Clients depend only on methods they use  
+- *Quality Gate*: No forced dependencies on unused interfaces
+- *Validation*: Interface usage analysis and optimization
+- *Blocking*: Bloated interfaces must be segregated before merge
+
+**Dependency Inversion Principle (DIP)**
+- *Requirement*: Depend on abstractions, not concretions
+- *Quality Gate*: All dependencies injected through abstractions
+- *Validation*: Dependency graph analysis and validation
+- *Blocking*: Hard-coded dependencies prevent merge
+
+#### **KISS Principle Enforcement (Critical - Blocking)**
+- *Requirement*: Simple solutions preferred over complex ones
+- *Quality Gate*: Cyclomatic complexity ≤ 10 per function
+- *Validation*: Automated complexity analysis
+- *Blocking*: Complex solutions require simplification or justification
+
+#### **DRY Principle Enforcement (Critical - Blocking)** 
+- *Requirement*: Zero tolerance for code duplication
+- *Quality Gate*: Code duplication percentage < 1%
+- *Validation*: Automated duplication detection
+- *Blocking*: Duplicated code must be extracted before merge
+
+### Automated Quality Gates Framework
+
+```typescript
+interface EngineeringQualityGate {
+  name: string;
+  category: 'TDD' | 'SOLID' | 'KISS' | 'DRY' | 'Performance' | 'Type Safety';
+  validator: (code: string, tests: Test[]) => Promise<QualityResult>;
+  threshold: number; // 0.0-1.0
+  blocking: boolean;
+  priority: 'Critical' | 'High' | 'Medium' | 'Low';
+}
+
+const mandatoryQualityGates: EngineeringQualityGate[] = [
+  {
+    name: 'TDD Compliance',
+    category: 'TDD',
+    validator: validateTDDMethodology,
+    threshold: 1.0, // 100% TDD compliance required
+    blocking: true,
+    priority: 'Critical'
+  },
+  {
+    name: 'SOLID Principles',
+    category: 'SOLID', 
+    validator: validateSOLIDCompliance,
+    threshold: 0.85, // 85% SOLID compliance required
+    blocking: true,
+    priority: 'Critical'
+  },
+  {
+    name: 'KISS Simplicity',
+    category: 'KISS',
+    validator: validateComplexity,
+    threshold: 0.8, // 80% simplicity score required
+    blocking: true,
+    priority: 'Critical'
+  },
+  {
+    name: 'DRY Compliance',
+    category: 'DRY',
+    validator: validateDuplication,
+    threshold: 0.99, // <1% duplication allowed
+    blocking: true,
+    priority: 'Critical'
+  },
+  {
+    name: 'Performance Standards',
+    category: 'Performance',
+    validator: validatePerformance,
+    threshold: 0.95, // 95% performance compliance
+    blocking: false, // Warning initially
+    priority: 'High'
+  },
+  {
+    name: 'Type Safety',
+    category: 'Type Safety',
+    validator: validateTypeScript,
+    threshold: 1.0, // Zero TypeScript errors
+    blocking: true,
+    priority: 'Critical'
+  }
+];
+```
+
+## 1. Mastra.ai 2025 Framework Governance
+
+### 1.1 Production-Grade Framework Standards
+
+#### Mastra 2025 API Compliance (Critical - Blocking)
+**Enforcement**: All PKM system code must utilize Mastra 2025 native patterns exclusively
+
+- **createWorkflow Pattern**: All workflows must use `createWorkflow()` with typed schemas
+  - *Requirement*: Workflows defined with `triggerSchema`, `outputSchema`, and `.commit()`
+  - *Quality Gate*: 100% type safety with Zod validation schemas
+  - *Validation*: No legacy workflow patterns allowed - Mastra-native only
+  - *Blocking*: Non-compliant workflow patterns prevent deployment
+
+- **createStep Composition**: All workflow steps must use `createStep()` with proper typing
+  - *Requirement*: Steps defined with `inputSchema`, `outputSchema`, and `execute` function
+  - *Quality Gate*: Type-safe step composition with proper data flow validation
+  - *Validation*: Automated step composition testing and schema validation
+  - *Blocking*: Type-unsafe steps cannot be integrated into workflows
+
+- **Agent Integration**: Modern agent patterns with enhanced orchestration
+  - *Requirement*: Agents configured with instructions, model, memory, tools, evaluations
+  - *Quality Gate*: AI SDK v5 compatibility with streaming and structured output support
+  - *Validation*: Agent configuration compliance testing and integration validation
+  - *Blocking*: Legacy agent patterns prohibited in production
+
+#### TypeScript Excellence (Critical - Blocking)
+**Enforcement**: Advanced TypeScript patterns with Mastra 2025 integration
 
 - **Type Safety**: 100% TypeScript coverage with strict mode enabled
   - *Requirement*: All agent instructions, workflow schemas, tool definitions type-checked

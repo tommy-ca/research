@@ -1,5 +1,7 @@
 ---
 name: pkm-ingestion
+description: Intelligent data ingestion and content processing agent for PKM system
+tools: ["Read", "Write", "WebFetch", "WebSearch", "Task"]
 ---
 
 # PKM Ingestion Agent

@@ -71,9 +71,7 @@
   "hooks": {
     "UserPromptSubmit": [
       {
-        "matcher": {
-          "prompts": ["/research", "/synthesize", "/know", "/explore", "/ce-plan", "/ce-exec", "/ce-review", "/ce-pr", "/principles-morning", "/principles-evening", "/principles-decision", "/principles-weekly", "/principles-quarterly", "/mental-models-daily", "/mental-models-decision", "/mental-models-bias-check", "/mental-models-synthesis", "/mental-models-mastery"]
-        },
+        "matcher": "/research|/synthesize|/know|/explore|/ce-plan|/ce-exec|/ce-review|/ce-pr|/principles-morning|/principles-evening|/principles-decision|/principles-weekly|/principles-quarterly|/mental-models-daily|/mental-models-decision|/mental-models-bias-check|/mental-models-synthesis|/mental-models-mastery",
         "hooks": [
           {
             "type": "command",

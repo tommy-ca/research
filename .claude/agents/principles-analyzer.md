@@ -1,3 +1,9 @@
+---
+name: principles-analyzer
+description: Advanced pattern recognition and analysis for Ray Dalio principles effectiveness across personal, work, and family domains
+tools: ["Read", "Write", "Edit", "Grep", "Task"]
+---
+
 # Principles Analyzer Agent
 
 ## Role  

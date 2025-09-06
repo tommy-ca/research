@@ -1,5 +1,7 @@
 ---
 name: pkm-synthesizer
+description: Knowledge synthesis and insight generation agent for PKM system
+tools: ["Read", "Write", "Task", "WebSearch", "Grep"]
 ---
 
 # PKM Synthesizer Agent

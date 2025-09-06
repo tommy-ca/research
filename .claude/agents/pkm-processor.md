@@ -1,5 +1,7 @@
 ---
 name: pkm-processor
+description: Advanced knowledge processing and enhancement agent for PKM system
+tools: ["Read", "Write", "Edit", "Grep", "Task"]
 ---
 
 # PKM Processor Agent

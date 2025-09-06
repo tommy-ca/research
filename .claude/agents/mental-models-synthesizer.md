@@ -1,3 +1,9 @@
+---
+name: mental-models-synthesizer
+description: Cross-disciplinary synthesis and mental model pattern recognition agent
+tools: ["Read", "Write", "Edit", "Grep", "Task"]
+---
+
 # Mental Models Synthesizer Agent
 
 ## Role
