@@ -412,7 +412,7 @@ describe('PKM Ingestion Pipeline - Knowledge-Driven TDD (RED PHASE)', () => {
         const timeLimit = testCase.content.length > 1000 ? 60000 : 30000; // 60s for long, 30s for short
         
         expect(processingTime).toBeLessThan(timeLimit);
-        expect(result.processingMetrics.totalTime).toBeCloseTo(processingTime, 2000); // Within 2s accuracy
+        expect(Math.abs(result.processingMetrics.totalTime - processingTime)).toBeLessThan(2000); // Within 2s accuracy
       }
     });
 
@@ -475,16 +475,22 @@ describe('PKM Ingestion Pipeline - Knowledge-Driven TDD (RED PHASE)', () => {
       
       // Step 3: Atomic Note Generation
       const atomicResult = await atomicNoteGenerationStep.execute({
-        processedContent: processingResult.processedContent,
-        extractedMetadata: processingResult.extractedMetadata,
-        selectedModel: modelResult.selectedModel,
+        input: {
+          processedContent: processingResult.processedContent,
+          extractedMetadata: processingResult.extractedMetadata,
+          selectedModel: modelResult.selectedModel,
+        },
+        context: {},
       });
       expect(atomicResult.atomicNotes.length).toBeGreaterThan(15);
       expect(atomicResult.atomicNotes.every(note => note.atomicityScore > 0.8)).toBe(true);
       
       // Step 4: Quality Assessment
       const qualityResult = await qualityAssessmentStep.execute({
-        atomicNotes: atomicResult.atomicNotes,
+        input: {
+          atomicNotes: atomicResult.atomicNotes,
+        },
+        context: {},
       });
       expect(qualityResult.qualityResults.every(q => q.qualityScore > 0.7)).toBe(true);
       expect(qualityResult.qualityResults.every(q => q.complianceCheck.atomicity)).toBe(true);
