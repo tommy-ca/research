@@ -83,14 +83,16 @@ export interface ProviderMetrics {
   };
 }
 
-// Service dependencies (Dependency Injection)
+// Service dependencies (Dependency Injection) - ISP-compliant
 export interface ServiceDependencies {
-  metricsService: MetricsService;
+  metricsRecorder: MetricsRecorder;
+  metricsReporter: MetricsReporter;
   logger: Logger;
   providerFactory: ProviderFactory;
 }
 
-export interface MetricsService {
+// ISP-compliant metrics interfaces
+export interface MetricsRecorder {
   recordSelection(data: {
     provider: string;
     model: string;
@@ -110,9 +112,14 @@ export interface MetricsService {
     error: string;
     fallbackUsed?: string;
   }): void;
-  
+}
+
+export interface MetricsReporter {
   getMetrics(): ProviderMetrics;
 }
+
+// Backward compatibility - combines focused interfaces
+export interface MetricsService extends MetricsRecorder, MetricsReporter {}
 
 export interface Logger {
   info(message: string, meta?: any): void;
@@ -132,13 +139,30 @@ export interface ProviderSelectionStrategy {
   select(context: ProviderContext): ProviderSelection;
 }
 
-// Main service interface
-export interface ProviderServiceInterface {
+// ISP-compliant focused interfaces
+export interface ProviderSelector {
   selectOptimalProvider(context: ProviderContext): Promise<ProviderSelection>;
+  getAvailableProviders(): string[];
+}
+
+export interface ProviderFactory {
   createProvider(selection: ProviderSelection): Promise<LLMProvider>;
   validateProvider(provider: LLMProvider): Promise<ProviderValidation>;
+}
+
+export interface ProviderConfigurable {
   updateConfig(config: Partial<ProviderConfig>): void;
   getConfig(): ProviderConfig;
+}
+
+export interface ProviderMetricsProvider {
   getMetrics(): ProviderMetrics;
-  getAvailableProviders(): string[];
+}
+
+// Main service interface - backward compatibility (composes focused interfaces)
+export interface ProviderServiceInterface extends 
+  ProviderSelector, 
+  ProviderFactory, 
+  ProviderConfigurable, 
+  ProviderMetricsProvider {
 }

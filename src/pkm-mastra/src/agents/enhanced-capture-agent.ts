@@ -18,16 +18,13 @@ const gtdComplianceMemory = {
   retrievalMethod: 'recent',
 };
 
-// Provider factory for intelligent model selection
-const providerFactory = new ProviderFactory(defaultProviderConfig);
-
-// Enhanced Capture Agent Factory Function
-export async function createEnhancedCaptureAgent(providerConfig?: Partial<ProviderConfig>) {
-  // Create or update provider factory with custom config
-  const factory = providerConfig ? new ProviderFactory(providerConfig) : providerFactory;
-  
-  // Get the optimal model based on provider strategy
-  const model = await factory.createModel();
+// Enhanced Capture Agent Factory Function - DIP compliant
+export async function createEnhancedCaptureAgent(
+  providerFactory: ProviderFactory,
+  providerConfig?: Partial<ProviderConfig>
+) {
+  // Use injected provider factory
+  const model = await providerFactory.createModel();
   
   return new Agent({
     name: 'Enhanced Multi-Source Capture Agent',
@@ -97,17 +94,20 @@ Remember: Your role is CAPTURE, not processing. Defer processing decisions to sp
   });
 }
 
-// Create default agent instance promise for backward compatibility
-export const enhancedCaptureAgent = createEnhancedCaptureAgent();
+// Factory function for creating agent with default configuration
+export async function createDefaultEnhancedCaptureAgent() {
+  const defaultFactory = new ProviderFactory(defaultProviderConfig);
+  return createEnhancedCaptureAgent(defaultFactory);
+}
 
 // Enhanced capture agent with structured output capability
 export class EnhancedCaptureAgentService {
   private agentPromise: Promise<Agent>;
   private providerFactory: ProviderFactory;
 
-  constructor(providerConfig?: Partial<ProviderConfig>) {
-    this.providerFactory = new ProviderFactory(providerConfig || defaultProviderConfig);
-    this.agentPromise = createEnhancedCaptureAgent(providerConfig);
+  constructor(providerFactory: ProviderFactory) {
+    this.providerFactory = providerFactory;
+    this.agentPromise = createEnhancedCaptureAgent(providerFactory);
   }
 
   /**
@@ -338,6 +338,17 @@ export class EnhancedCaptureAgentService {
   }
 }
 
-// Export both the agent and service for different use cases
-export { enhancedCaptureAgent as default };
-export const captureAgentService = new EnhancedCaptureAgentService();
+// Factory functions for creating instances with dependency injection
+export function createCaptureAgentService(providerFactory?: ProviderFactory) {
+  const factory = providerFactory || new ProviderFactory(defaultProviderConfig);
+  return new EnhancedCaptureAgentService(factory);
+}
+
+// Backward compatibility - lazy initialization
+let _defaultService: EnhancedCaptureAgentService | null = null;
+export function getCaptureAgentService(): EnhancedCaptureAgentService {
+  if (!_defaultService) {
+    _defaultService = createCaptureAgentService();
+  }
+  return _defaultService;
+}

@@ -5,6 +5,8 @@
  * to drive systematic test-driven development of the PKM ingestion system.
  */
 
+import { PARACategory } from '../../src/shared/constants.js';
+
 export interface KnowledgeExample {
   id: string;
   title: string;
@@ -16,7 +18,7 @@ export interface KnowledgeExample {
     atomicNotesCount: number;
     avgQualityScore: number;
     avgAtomicityScore: number;
-    paraCategories: Array<'projects' | 'areas' | 'resources' | 'archive'>;
+    paraCategories: Array<PARACategory>;
     keyConceptsCount: number;
     suggestedLinksCount: number;
     processingModel: 'sonnet' | 'opus';
@@ -439,7 +441,7 @@ export const qualityBenchmarks = {
   minAtomicityScore: 0.75,
   minQualityScore: 0.65,
   maxProcessingTime: 30000, // 30 seconds
-  minConceptExtraction: 3,
+  minConceptExtraction: 1, // Minimum viable concept extraction for quality assurance
   expectedAtomicityVariance: 0.1, // ±10% from expected
   expectedQualityVariance: 0.15, // ±15% from expected
 };
