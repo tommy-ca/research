@@ -136,7 +136,7 @@ export function createMockWorkflow<Input = any, Output = any>(config: {
   return new MockMastraWorkflow(config);
 }
 
-// Enhanced Capture Workflow using mock implementation
+// Capture Workflow using mock implementation
 const triggerSchema = z.object({
   content: z.string().min(1, 'Content cannot be empty'),
   source: z.string().min(1, 'Source must be provided'),
@@ -157,8 +157,8 @@ const outputSchema = z.object({
 });
 
 // Create mock workflow that satisfies the test requirements
-export const mockEnhancedCaptureWorkflow = createMockWorkflow({
-  name: 'enhanced-capture-pipeline-2025',
+export const mockCaptureWorkflow = createMockWorkflow({
+  name: 'capture-pipeline-2025',
   triggerSchema,
   outputSchema,
 })

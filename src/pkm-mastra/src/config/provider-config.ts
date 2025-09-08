@@ -21,7 +21,7 @@ export const defaultProviderEnvironmentConfig: ProviderEnvironmentConfig = {
     primary: 'claude-code',
     fallbacks: ['openai'],
     models: {
-      'claude-code': 'claude-3-5-sonnet-20241022',
+      'claude-code': 'sonnet',
       'openai': 'gpt-4o-mini',
       'anthropic': 'claude-3-haiku-20240307',
     },
@@ -33,7 +33,7 @@ export const defaultProviderEnvironmentConfig: ProviderEnvironmentConfig = {
     primary: 'openai', // Use faster/cheaper model for tests
     fallbacks: ['anthropic'],
     models: {
-      'claude-code': 'claude-3-5-sonnet-20241022',
+      'claude-code': 'sonnet',
       'openai': 'gpt-4o-mini',
       'anthropic': 'claude-3-haiku-20240307',
     },
@@ -45,7 +45,7 @@ export const defaultProviderEnvironmentConfig: ProviderEnvironmentConfig = {
     primary: 'claude-code',
     fallbacks: ['openai', 'anthropic'],
     models: {
-      'claude-code': 'claude-3-5-sonnet-20241022',
+      'claude-code': 'sonnet',
       'openai': 'gpt-4o-mini',
       'anthropic': 'claude-3-haiku-20240307',
     },

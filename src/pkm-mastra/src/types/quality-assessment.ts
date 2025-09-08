@@ -124,7 +124,7 @@ export const DuplicateDetectionToolSchema = z.object({
 });
 
 // Integration with existing capture types
-export interface EnhancedCaptureOutput {
+export interface CaptureOutput {
   id: string;
   content: string;
   source: string;

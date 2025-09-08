@@ -2,19 +2,61 @@
 
 ## Document Information
 - **Document Type**: Mastra.ai-Based PKM Pipeline System Specification
-- **Version**: 5.0.0 - Specs-Driven TDD with Claude Sonnet/Opus Integration
+- **Version**: 6.0.0 - Claude Code SDK Ingestion Pipeline Integration
 - **Created**: 2024-09-05
-- **Updated**: 2025-09-06 (Specs-Driven TDD + Claude Sonnet/Opus + Consistent Naming)
+- **Updated**: 2025-09-06 (Claude Code SDK + PKM Ingestion Pipelines + TDD Implementation)
 - **Framework**: Mastra.ai 2025 TypeScript AI Agent Framework (v0.16.0+)
 - **API Compatibility**: AI SDK v5 Support, Claude Code Provider, Workflow Orchestration
 - **LLM Integration**: Claude Code with Sonnet/Opus Model Selection + Multi-Provider Fallbacks
 - **Engineering Standards**: SOLID, KISS, DRY, Specs-Driven TDD Methodology
 - **Naming Convention**: Consistent naming without Enhanced/Advanced prefixes
-- **Focus**: Production-ready PKM automation with intelligent Claude model selection
+- **Focus**: Production-ready PKM ingestion automation with intelligent Claude model selection
+- **Ingestion Spec**: PKM_CLAUDE_CODE_SDK_INGESTION_SPEC.md
 
 ## Executive Summary
 
 This specification defines a PKM (Personal Knowledge Management) system built on mastra.ai framework, leveraging its agent orchestration, workflow management, memory systems, and evaluation capabilities to create intelligent PKM pipeline automation. **Built with systematic engineering principles integration**, this system maintains strict compliance with established methodologies (PARA, Zettelkasten, GTD) while enforcing SOLID architecture, KISS simplicity, DRY maintainability, and comprehensive specs-driven TDD methodology.
+
+**v6.0.0 Updates**: This version integrates comprehensive PKM ingestion pipeline architecture with Claude Code SDK-first implementation. See `specs/PKM_CLAUDE_CODE_SDK_INGESTION_SPEC.md` for detailed ingestion pipeline requirements, TDD specifications, and implementation architecture.
+
+## PKM Ingestion Pipeline Integration (v6.0.0)
+
+### Claude Code SDK-First Ingestion Architecture
+
+**Comprehensive Ingestion System**:
+- **Multi-Format Processing**: Text, PDF, web content, documents with intelligent model selection
+- **Atomic Note Generation**: One-concept-per-note with quality validation
+- **Intelligent Metadata**: Automatic PARA classification, entity extraction, link suggestions
+- **Quality Assessment**: Multi-dimensional scoring with improvement recommendations
+
+**Model Selection for Ingestion**:
+```typescript
+interface PKMIngestionModelSelection {
+  // Fast processing for standard content
+  sonnet: {
+    tasks: ['text-extraction', 'basic-metadata', 'format-conversion', 'quick-categorization'];
+    criteria: 'content <5000 chars, processing <2s, accuracy >90%';
+  };
+  
+  // Quality processing for complex content
+  opus: {
+    tasks: ['concept-extraction', 'semantic-analysis', 'quality-assessment', 'research-synthesis'];
+    criteria: 'content >5000 chars OR complex, quality >95%, deep analysis';
+  };
+}
+```
+
+**Implementation Requirements**:
+- **FR-PKM-INGEST-001**: Content Ingestion Engine with multi-format support
+- **FR-PKM-INGEST-002**: Atomic Note Generation with atomicity validation
+- **FR-PKM-INGEST-003**: Intelligent Metadata Extraction with PARA classification
+- **FR-PKM-INGEST-004**: Quality Assessment Pipeline with improvement suggestions
+
+**Success Metrics**:
+- Processing Speed: <3s simple, <10s complex content
+- Quality: >95% extraction fidelity, >90% atomicity compliance
+- Model Selection: >85% optimal cost/quality balance
+- User Acceptance: >85% satisfaction with processing results
 
 ## Engineering Principles Foundation
 

@@ -175,6 +175,14 @@ links: ["[[note1]]", "[[note2]]"]
 
 ## Development Standards
 
+### Container-Use Policy - MANDATORY
+**NEVER use container-use (MCP) tools unless explicitly requested by the user:**
+
+- **Default Behavior**: Use standard Claude Code tools (Bash, Read, Write, Edit, etc.)
+- **Container-Use Only When**: User explicitly requests "use container-use" or "create environment"  
+- **Rationale**: Container-use tools add complexity and are unnecessary for most development tasks
+- **Exception**: Only when user specifically asks for containerized environments
+
 ### Core Development Principles
 
 #### 1. Test-Driven Development (TDD) - MANDATORY

@@ -5,7 +5,7 @@ import { QualityAssessmentTool } from '@/tools/quality-assessment-tool';
 import { 
   QualityScoreBreakdown, 
   DuplicationResult, 
-  EnhancedCaptureOutput,
+  CaptureOutput,
   SimilarityCalculatorInterface 
 } from '@/types/quality-assessment';
 import { 
@@ -30,7 +30,7 @@ export interface WorkflowMetrics {
 }
 
 /**
- * Enhanced Capture Workflow with Automated Quality Gates
+ * Capture Workflow with Automated Quality Gates
  * TDD Cycle 1.4 - Integration of Quality Assessment Tools with Capture Pipeline
  * 
  * SOLID Principles:
@@ -38,7 +38,7 @@ export interface WorkflowMetrics {
  * - DIP: Depends on abstractions (interfaces) for tools
  * - OCP: Open for extension through configuration
  */
-export class EnhancedCaptureWorkflow {
+export class CaptureWorkflow {
   private duplicateDetectionTool: DuplicateDetectionTool;
   private qualityAssessmentTool: QualityAssessmentTool;
   private config: CaptureWorkflowConfig;
@@ -66,12 +66,12 @@ export class EnhancedCaptureWorkflow {
   }
 
   async processCapture(content: string, metadata: any = {}): Promise<{
-    output: EnhancedCaptureOutput;
+    output: CaptureOutput;
     metrics: WorkflowMetrics;
   }> {
     // Validate content early
     if (!content || content === null) {
-      throw new Error('Enhanced capture workflow failed: Invalid content provided');
+      throw new Error('Capture workflow failed: Invalid content provided');
     }
     
     const startTime = performance.now();
@@ -90,8 +90,8 @@ export class EnhancedCaptureWorkflow {
       // Phase 3: Workflow Orchestration (Routing Based on Quality)
       const routingDecision = this.determineRoutingDecision(qualityResult, duplicateResult);
 
-      // Phase 4: Enhanced Metadata Generation
-      const enhancedMetadata = this.generateEnhancedMetadata(
+      // Phase 4: Metadata Generation
+      const processedMetadata = this.generateMetadata(
         metadata, 
         qualityResult, 
         duplicateResult
@@ -101,12 +101,12 @@ export class EnhancedCaptureWorkflow {
       const processingTime = performance.now() - startTime;
       const performanceWithinThreshold = processingTime < 100; // <100ms requirement
 
-      const output: EnhancedCaptureOutput = {
+      const output: CaptureOutput = {
         id: `capture-${Date.now()}`,
         content,
         source: metadata.source || 'unknown',
         type: metadata.type || 'text',
-        extractedMetadata: enhancedMetadata,
+        extractedMetadata: processedMetadata,
         qualityScore: qualityResult.overallScore,
         timestamp: new Date().toISOString(),
         processed: true
@@ -132,11 +132,11 @@ export class EnhancedCaptureWorkflow {
       
       // Handle null/invalid content errors
       if (!content || content === null) {
-        throw new Error('Enhanced capture workflow failed: Invalid content provided');
+        throw new Error('Capture workflow failed: Invalid content provided');
       }
       
       throw new Error(
-        `Enhanced capture workflow failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+        `Capture workflow failed: ${error instanceof Error ? error.message : 'Unknown error'}`
       );
     }
   }
@@ -166,7 +166,7 @@ export class EnhancedCaptureWorkflow {
   /**
    * DRY: Extracted metadata generation logic
    */
-  private generateEnhancedMetadata(
+  private generateMetadata(
     originalMetadata: any,
     qualityResult: QualityScoreBreakdown,
     duplicateResult: DuplicationResult
@@ -207,17 +207,17 @@ export class EnhancedCaptureWorkflow {
 }
 
 // Import mock workflow for GREEN phase compatibility
-import { mockEnhancedCaptureWorkflow } from './mock-enhanced-workflow';
+import { mockCaptureWorkflow } from './mock-workflow';
 
 // Modern Mastra 2025 Workflow Implementation (Green Phase: Mock First)
-export const enhancedCaptureWorkflow = mockEnhancedCaptureWorkflow;
+export const captureWorkflow = mockCaptureWorkflow;
 
-// Workflow execution service with enhanced error handling
-export class EnhancedCaptureWorkflowService {
-  private workflow: typeof enhancedCaptureWorkflow;
+// Workflow execution service
+export class CaptureWorkflowService {
+  private workflow: typeof captureWorkflow;
 
   constructor() {
-    this.workflow = enhancedCaptureWorkflow;
+    this.workflow = captureWorkflow;
   }
 
   async execute(input: {
@@ -409,4 +409,4 @@ export class EnhancedCaptureWorkflowService {
 }
 
 // Export service instance
-export const captureWorkflowService = new EnhancedCaptureWorkflowService();
+export const captureWorkflowService = new CaptureWorkflowService();

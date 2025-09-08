@@ -7,11 +7,11 @@ export const ProviderConfigSchema = z.object({
   primary: z.enum(['claude-code', 'openai', 'anthropic']).default('claude-code'),
   fallbacks: z.array(z.enum(['claude-code', 'openai', 'anthropic'])).default(['openai', 'anthropic']),
   models: z.object({
-    'claude-code': z.string().default('claude-3-5-sonnet-20241022'),
+    'claude-code': z.string().default('sonnet'),
     'openai': z.string().default('gpt-4o-mini'),
     'anthropic': z.string().default('claude-3-haiku-20240307'),
   }).default({
-    'claude-code': 'claude-3-5-sonnet-20241022',
+    'claude-code': 'sonnet',
     'openai': 'gpt-4o-mini',
     'anthropic': 'claude-3-haiku-20240307',
   }),
@@ -259,7 +259,7 @@ export const defaultProviderConfig: ProviderConfig = {
   primary: 'claude-code',
   fallbacks: ['openai', 'anthropic'],
   models: {
-    'claude-code': 'claude-3-5-sonnet-20241022',
+    'claude-code': 'sonnet',
     'openai': 'gpt-4o-mini',
     'anthropic': 'claude-3-haiku-20240307',
   },

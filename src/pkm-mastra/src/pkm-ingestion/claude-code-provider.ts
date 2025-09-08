@@ -131,12 +131,12 @@ async function createProviderWithRetry(
   config: ClaudeCodeProviderConfig
 ): Promise<ClaudeCodeProvider> {
   try {
-    // Claude Code provider only accepts model ID - no additional config options
-    const claudeProvider = claudeCode(MODEL_MAP[model]);
+    // Claude Code provider only accepts simple model names: 'sonnet' or 'opus'
+    const claudeProvider = claudeCode(model);
     
     // Return our wrapper with config tracking
     return {
-      model: MODEL_MAP[model],
+      model: model,
       provider: 'claude-code',
       config: {
         useSubscription: config.useSubscription!,
@@ -154,7 +154,7 @@ async function createProviderWithRetry(
     if ((error as Error).message.includes('Subscription not available') ||
         (error as Error).message.includes('Claude Code not available')) {
       return {
-        model: MODEL_MAP[model],
+        model: model,
         provider: 'claude-code',
         config: {
           useSubscription: false,

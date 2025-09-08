@@ -1,408 +1,334 @@
-import { 
-  CaptureConfig, 
-  CaptureConfigSchema, 
-  CaptureInput,
-  CaptureOutput,
-  LLMProvider, 
-  MemoryConfig, 
-  CaptureTool,
-  ExtractedMetadata,
-  BatchProcessingOptions
-} from '@/types/capture';
+import { Agent } from '@mastra/core';
+import { openai } from '@ai-sdk/openai';
+import { z } from 'zod';
+import { ProviderFactory, defaultProviderConfig, type ProviderConfig } from '../providers/provider-factory.js';
 
-/**
- * Multi-Source Capture Agent for PKM system
- * 
- * Handles content ingestion from various sources with quality assessment
- * and supports multiple LLM providers (OpenAI, Anthropic, Google).
- */
-export class MultiSourceCaptureAgent {
-  public readonly name: string;
-  public readonly model: string;
-  public readonly provider: LLMProvider;
-  public readonly memory: MemoryConfig;
-  private readonly tools: CaptureTool[];
+// Memory configurations for the capture agent (simplified for GREEN phase)
+const captureContextMemory = {
+  name: 'captureContext',
+  type: 'contextual',
+  maxTokens: 2000,
+  retrievalMethod: 'semantic',
+};
 
-  /** Supported LLM providers */
-  private static readonly SUPPORTED_PROVIDERS: readonly LLMProvider[] = [
-    'openai', 
-    'anthropic', 
-    'google'
-  ] as const;
+const gtdComplianceMemory = {
+  name: 'gtdCompliance', 
+  type: 'methodological',
+  maxTokens: 1000,
+  retrievalMethod: 'recent',
+};
 
-  /** Default tools for capture operations */
-  private static readonly DEFAULT_TOOLS: readonly CaptureTool[] = [
-    'webContentExtractor',
-    'documentProcessor',
-    'qualityAssessment'
-  ] as const;
+// Capture Agent Factory Function - DIP compliant
+export async function createCaptureAgent(
+  providerFactory: ProviderFactory,
+  providerConfig?: Partial<ProviderConfig>
+) {
+  // Use injected provider factory
+  const model = await providerFactory.createModel();
+  
+  return new Agent({
+    name: 'Multi-Source Capture Agent',
+    instructions: `
+You are a comprehensive content capture specialist following GTD (Getting Things Done) principles and PKM best practices.
 
-  /** Default memory configuration */
-  private static readonly DEFAULT_MEMORY: MemoryConfig = {
-    type: 'context',
-    maxTokens: 4000
-  } as const;
+Your primary responsibility is complete, accurate content capture with:
 
-  constructor(config: CaptureConfig | Partial<CaptureConfig>) {
-    // Early validation for better error messages
-    this.validateProviderSupport(config);
+**CORE PRINCIPLES:**
 
-    // Validate and parse full configuration
-    const validatedConfig = CaptureConfigSchema.parse(config);
+1. **100% FIDELITY**: Capture all information exactly as provided, preserving context, nuance, and detail
+2. **COMPREHENSIVE METADATA**: Extract and enrich all available metadata including source, timestamp, content type, concepts
+3. **QUALITY ASSESSMENT**: Evaluate content quality using multiple dimensions (readability, structure, concept density)
+4. **DUPLICATE DETECTION**: Identify semantic duplicates and provide consolidation recommendations
+5. **SOURCE ATTRIBUTION**: Maintain complete provenance and attribution for all captured content
 
-    // Initialize properties
-    this.name = validatedConfig.name;
-    this.model = validatedConfig.model;
-    this.provider = validatedConfig.provider;
-    this.memory = validatedConfig.memory ?? MultiSourceCaptureAgent.DEFAULT_MEMORY;
-    this.tools = validatedConfig.tools ?? [...MultiSourceCaptureAgent.DEFAULT_TOOLS];
+**GTD COMPLIANCE REQUIREMENTS:**
+
+- Complete capture means NOTHING is lost in translation
+- If source content is incomplete, note what's missing rather than guessing
+- Provide clear quality indicators to help with later processing decisions
+- Maintain context necessary for future retrieval and organization
+
+**PKM METHODOLOGY INTEGRATION:**
+
+- Prepare content for atomic note creation (Zettelkasten principles)
+- Suggest PARA categorization hints without making final decisions
+- Identify potential connections and linking opportunities
+- Support both immediate and delayed processing workflows
+
+**RESPONSE PATTERNS:**
+
+- Always acknowledge the source and type of content being captured
+- Provide quality assessment scores with explanations
+- Flag any potential issues or concerns about the capture
+- Suggest improvements when content appears incomplete or low-quality
+
+Remember: Your role is CAPTURE, not processing. Defer processing decisions to specialized processing agents while ensuring nothing valuable is lost.
+    `,
+    model, // Dynamic model selection via provider factory (Claude Code preferred, OpenAI fallback)
+    memory: [captureContextMemory, gtdComplianceMemory],
+    tools: [
+      // Tools will be properly integrated in the next phase
+      // For now, define placeholder tool references
+      {
+        id: 'webContentExtractor',
+        description: 'Extracts content and metadata from web URLs',
+        execute: async (params: any) => {
+          return { extracted: true, content: `Extracted from ${params.url}` };
+        },
+      },
+      {
+        id: 'qualityAssessment',
+        description: 'Assesses content quality using multiple dimensions',
+        execute: async (params: any) => {
+          return { qualityScore: 0.8, assessment: 'Good quality content' };
+        },
+      },
+      {
+        id: 'duplicateDetection',
+        description: 'Detects duplicate content using semantic similarity',
+        execute: async (params: any) => {
+          return { isDuplicate: false, similarityScore: 0.1 };
+        },
+      },
+    ],
+  });
+}
+
+// Factory function for creating agent with default configuration
+export async function createDefaultCaptureAgent() {
+  const defaultFactory = new ProviderFactory(defaultProviderConfig);
+  return createCaptureAgent(defaultFactory);
+}
+
+// Capture agent service with structured output capability
+export class CaptureAgentService {
+  private agentPromise: Promise<Agent>;
+  private providerFactory: ProviderFactory;
+
+  constructor(providerFactory: ProviderFactory) {
+    this.providerFactory = providerFactory;
+    this.agentPromise = createCaptureAgent(providerFactory);
   }
 
   /**
-   * Get a copy of available tools
+   * Generate standard text responses for content capture (AI SDK v5 compatible)
    */
-  public getTools(): CaptureTool[] {
-    return [...this.tools];
-  }
-
-  /**
-   * Check if a specific tool is available
-   */
-  public hasToolAvailable(tool: string): boolean {
-    return this.tools.includes(tool as CaptureTool);
-  }
-
-  /**
-   * Check if a provider is supported
-   */
-  public isProviderSupported(provider: string): boolean {
-    return MultiSourceCaptureAgent.SUPPORTED_PROVIDERS.includes(provider as LLMProvider);
-  }
-
-  /**
-   * Process content from various sources
-   */
-  public async processContent(input: CaptureInput): Promise<CaptureOutput> {
-    // Generate unique ID
-    const id = `capture_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const timestamp = new Date().toISOString();
-    
-    let processedContent = input.content;
-    let extractedMetadata: ExtractedMetadata = {};
-    let qualityScore = 0.5; // Default score
-
+  async generateResponse(messages: Array<{ role: string; content: string | any[] }>) {
+    const agent = await this.agentPromise;
     try {
-      // Process based on input type
-      switch (input.type) {
-        case 'text':
-          ({ content: processedContent, metadata: extractedMetadata, qualityScore } = 
-            await this.processTextContent(input));
-          break;
-        case 'url':
-          ({ content: processedContent, metadata: extractedMetadata, qualityScore } = 
-            await this.processUrlContent(input));
-          break;
-        case 'file':
-          ({ content: processedContent, metadata: extractedMetadata, qualityScore } = 
-            await this.processFileContent(input));
-          break;
-        case 'clipboard':
-          ({ content: processedContent, metadata: extractedMetadata, qualityScore } = 
-            await this.processTextContent(input));
-          break;
-        default:
-          throw new Error(`Unsupported content type: ${input.type}`);
-      }
-
-      return {
-        id,
-        content: processedContent,
-        source: input.source,
-        type: input.type,
-        extractedMetadata,
-        qualityScore,
-        timestamp,
-        processed: true
-      };
-
+      // Use generateVNext for V2 model compatibility
+      const result = await agent.generateVNext({ messages });
+      return result;
     } catch (error) {
-      // Re-throw validation errors (like invalid URLs)
-      if (error instanceof Error && error.message.includes('Invalid URL format')) {
-        throw error;
+      throw new Error(`Capture agent failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }
+
+  /**
+   * Generate structured output for consistent data extraction (AI SDK v5 compatible)
+   */
+  async generateStructuredOutput(
+    messages: Array<{ role: string; content: string | any[] }>,
+    schema: Record<string, string>
+  ) {
+    const agent = await this.agentPromise;
+    try {
+      // Convert simple schema to Zod for structured output
+      const zodSchema = this.convertToZodSchema(schema);
+      
+      // Try generateVNext first for AI SDK v5
+      const result = await agent.generateVNext({
+        messages,
+        schema: zodSchema,
+      });
+      return result;
+    } catch (error) {
+      throw new Error(`Structured capture failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }
+
+  /**
+   * Stream responses for long content processing (AI SDK v5 compatible)
+   */
+  async streamResponse(messages: Array<{ role: string; content: string | any[] }>) {
+    const agent = await this.agentPromise;
+    try {
+      // Use streamVNext for AI SDK v5 compatibility
+      return await agent.streamVNext({ messages });
+    } catch (error) {
+      throw new Error(`Streaming capture failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }
+
+  /**
+   * Process multimodal content including images
+   */
+  async processMultimodalContent(
+    messages: Array<{ role: string; content: string | any[] }>
+  ) {
+    const agent = await this.agentPromise;
+    try {
+      // Handle multimodal content
+      const processedMessages = messages.map(msg => {
+        if (Array.isArray(msg.content)) {
+          // Handle multimodal content
+          return {
+            ...msg,
+            content: msg.content.map(item => {
+              if (typeof item === 'object' && item.type === 'image') {
+                return {
+                  ...item,
+                  text: item.text || 'Analyze this image for content capture',
+                };
+              }
+              return item;
+            }),
+          };
+        }
+        return msg;
+      });
+
+      // Use generateVNext for V2 model compatibility
+      return await agent.generateVNext({ messages: processedMessages });
+    } catch (error) {
+      throw new Error(`Multimodal capture failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }
+
+  /**
+   * Execute specific tools for specialized capture operations
+   */
+  async executeTool(toolId: string, params: any) {
+    const agent = await this.agentPromise;
+    try {
+      // Check if tools array exists and is iterable
+      const tools = agent.tools || [];
+      
+      if (!Array.isArray(tools)) {
+        throw new Error(`Tools not properly configured`);
       }
       
-      // Return failed result for other errors
-      return {
-        id,
-        content: input.content,
-        source: input.source,
-        type: input.type,
-        extractedMetadata: { originalMetadata: input.metadata },
-        qualityScore: 0,
-        timestamp,
-        processed: false
-      };
-    }
-  }
-
-  /**
-   * Process multiple items in batch
-   */
-  public async processBatch(
-    inputs: CaptureInput[], 
-    options?: BatchProcessingOptions
-  ): Promise<CaptureOutput[]> {
-    const { continueOnError = false } = options || {};
-    const results: CaptureOutput[] = [];
-
-    for (const input of inputs) {
-      try {
-        const result = await this.processContent(input);
-        results.push(result);
-      } catch (error) {
-        if (continueOnError) {
-          // Create failed result
-          const failedResult: CaptureOutput = {
-            id: `failed_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-            content: input.content,
-            source: input.source,
-            type: input.type,
-            extractedMetadata: { originalMetadata: input.metadata },
-            qualityScore: 0,
-            timestamp: new Date().toISOString(),
-            processed: false
-          };
-          results.push(failedResult);
-        } else {
-          throw error;
-        }
+      const tool = tools.find((t: any) => t.id === toolId);
+      if (!tool) {
+        throw new Error(`Tool ${toolId} not found`);
       }
-    }
 
-    return results;
+      if (typeof tool.execute === 'function') {
+        return await tool.execute(params);
+      } else {
+        throw new Error(`Tool ${toolId} is not executable`);
+      }
+    } catch (error) {
+      throw new Error(`Tool execution failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
   }
 
   /**
-   * Process text content and extract metadata
+   * Handle concurrent processing requests
    */
-  private async processTextContent(input: CaptureInput): Promise<{
-    content: string;
-    metadata: ExtractedMetadata;
-    qualityScore: number;
-  }> {
-    const content = input.content;
-    const words = content.trim().split(/\s+/);
-    const wordCount = words.length;
+  async processConcurrentRequests(
+    requests: Array<{ messages: Array<{ role: string; content: string | any[] }> }>
+  ) {
+    const agent = await this.agentPromise;
+    try {
+      const results = await Promise.all(
+        requests.map(async (request) => {
+          return await agent.generateVNext(request);
+        })
+      );
+      return results;
+    } catch (error) {
+      throw new Error(`Concurrent processing failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }
+
+  /**
+   * Convert simple schema to Zod schema for structured output
+   */
+  private convertToZodSchema(schema: Record<string, string>) {
+    const zodFields: Record<string, any> = {};
     
-    // Extract concepts (simple keyword extraction)
-    const concepts = this.extractConcepts(content);
-    
-    // Assess structure
-    const hasStructure = /^#|\*\s|-\s|\d+\.\s/m.test(content);
-    
-    // Calculate readability (simplified)
-    const readabilityScore = this.calculateReadabilityScore(content);
-    
-    // Calculate quality score
-    const qualityScore = this.calculateQualityScore({
-      wordCount,
-      hasStructure,
-      readabilityScore,
-      concepts: concepts.length
+    Object.entries(schema).forEach(([key, type]) => {
+      switch (type) {
+        case 'string':
+          zodFields[key] = z.string();
+          break;
+        case 'number':
+          zodFields[key] = z.number();
+          break;
+        case 'boolean':
+          zodFields[key] = z.boolean();
+          break;
+        case 'object':
+          zodFields[key] = z.record(z.any());
+          break;
+        case 'array':
+          zodFields[key] = z.array(z.string());
+          break;
+        default:
+          zodFields[key] = z.any();
+      }
     });
 
-    return {
-      content,
-      metadata: {
-        concepts,
-        wordCount,
-        hasStructure,
-        readabilityScore,
-        originalMetadata: input.metadata
-      },
-      qualityScore
-    };
+    return z.object(zodFields);
   }
 
   /**
-   * Process URL content with web extraction
+   * Get provider factory metrics for monitoring
    */
-  private async processUrlContent(input: CaptureInput): Promise<{
-    content: string;
-    metadata: ExtractedMetadata;
-    qualityScore: number;
-  }> {
-    const url = input.content;
-    
-    // Validate URL format
-    if (!this.isValidUrl(url)) {
-      throw new Error('Invalid URL format');
-    }
-
-    // Mock web extraction (in real implementation, would use web scraping)
-    const extractedContent = `Extracted content from ${url}`;
-    const title = `Article from ${new URL(url).hostname}`;
-    
-    const qualityScore = 0.8; // Mock good quality for valid URLs
-
-    return {
-      content: extractedContent,
-      metadata: {
-        originalUrl: url,
-        title,
-        originalMetadata: input.metadata
-      },
-      qualityScore
-    };
+  getProviderMetrics() {
+    return this.providerFactory.getMetrics();
   }
 
   /**
-   * Process file content
+   * Update provider configuration
    */
-  private async processFileContent(input: CaptureInput): Promise<{
-    content: string;
-    metadata: ExtractedMetadata;
-    qualityScore: number;
-  }> {
-    const filePath = input.content;
-    const fileName = filePath.split('/').pop() || '';
-    const fileExtension = fileName.includes('.') ? fileName.split('.').pop() || '' : '';
-    
-    // Mock file reading (in real implementation, would read actual file)
-    const content = `Content from file: ${fileName}`;
-    const qualityScore = 0.7; // Mock quality for files
-
-    return {
-      content,
-      metadata: {
-        filePath,
-        fileName,
-        fileExtension,
-        originalMetadata: input.metadata
-      },
-      qualityScore
-    };
+  updateProviderConfig(newConfig: Partial<ProviderConfig>) {
+    this.providerFactory.updateConfig(newConfig);
+    // Recreate agent with new configuration
+    this.agentPromise = createCaptureAgent(this.providerFactory, newConfig);
   }
 
   /**
-   * Extract concepts from text (simplified keyword extraction)
+   * Get current provider configuration
    */
-  private extractConcepts(text: string): string[] {
-    const concepts: string[] = [];
-    
-    // First, extract proper nouns and capitalized phrases
-    const capitalizedPhrases = text.match(/[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*/g) || [];
-    concepts.push(...capitalizedPhrases);
-    
-    // Then extract individual keywords
-    const commonWords = new Set(['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'may', 'might', 'can', 'must', 'this', 'that', 'these', 'those']);
-    
-    const words = text.toLowerCase()
-      .replace(/[^\w\s]/g, ' ')
-      .split(/\s+/)
-      .filter(word => word.length > 3 && !commonWords.has(word));
-    
-    concepts.push(...words);
-    
-    // Return unique concepts, prioritizing capitalized phrases
-    return [...new Set(concepts)].slice(0, 10);
+  getProviderConfig() {
+    return this.providerFactory.getConfig();
   }
 
   /**
-   * Calculate readability score (simplified)
+   * Test provider availability
    */
-  private calculateReadabilityScore(text: string): number {
-    const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
-    const words = text.trim().split(/\s+/);
-    const avgWordsPerSentence = words.length / Math.max(sentences.length, 1);
-    
-    // Readability factors
-    let score = 0.5; // Base score
-    
-    // Optimal sentence length (10-20 words)
-    if (avgWordsPerSentence >= 8 && avgWordsPerSentence <= 25) {
-      score += 0.3;
-    }
-    
-    // Structure indicators improve readability
-    const hasStructuralElements = /^#|\*\s|-\s|\d+\.\s/m.test(text);
-    if (hasStructuralElements) {
-      score += 0.2;
-    }
-    
-    // Proper punctuation
-    if (/[.!?]/.test(text)) {
-      score += 0.1;
-    }
-    
-    return Math.max(0, Math.min(1, score));
+  async testProvider(provider: string): Promise<boolean> {
+    return this.providerFactory.testProvider(provider);
   }
 
   /**
-   * Calculate overall quality score
+   * Get available providers in priority order
    */
-  private calculateQualityScore(factors: {
-    wordCount: number;
-    hasStructure: boolean;
-    readabilityScore: number;
-    concepts: number;
-  }): number {
-    let score = 0;
-    
-    // Word count factor (sweet spot around 50-200 words)
-    if (factors.wordCount >= 10) {
-      score += 0.2;
-    }
-    if (factors.wordCount >= 50) {
-      score += 0.2;
-    }
-    if (factors.wordCount >= 100) {
-      score += 0.1;
-    }
-    
-    // Structure bonus (major factor for well-structured content)
-    if (factors.hasStructure) {
-      score += 0.3; // Increased from 0.2
-    }
-    
-    // Readability factor
-    score += factors.readabilityScore * 0.2;
-    
-    // Concepts factor (good concepts indicate quality)
-    if (factors.concepts > 2) {
-      score += 0.1;
-    }
-    if (factors.concepts > 5) {
-      score += 0.1; // Additional bonus for rich content
-    }
-    
-    // Check for low-quality indicators only for very short content
-    if (factors.wordCount < 10 && factors.concepts < 2) {
-      score = Math.min(score, 0.4);
-    }
-    
-    return Math.max(0, Math.min(1, score));
+  getAvailableProviders(): string[] {
+    return this.providerFactory.getAvailableProviders();
   }
 
   /**
-   * Validate URL format
+   * Get agent instance for direct access (await the promise)
    */
-  private isValidUrl(string: string): boolean {
-    try {
-      new URL(string);
-      return true;
-    } catch (_) {
-      return false;
-    }
+  async getAgent(): Promise<Agent> {
+    return this.agentPromise;
   }
+}
 
-  /**
-   * Validate provider support before schema validation
-   */
-  private validateProviderSupport(config: CaptureConfig | Partial<CaptureConfig>): void {
-    const rawProvider = (config as any).provider;
-    if (rawProvider && !this.isProviderSupported(rawProvider)) {
-      throw new Error(`Unsupported provider: ${rawProvider}`);
-    }
+// Factory functions for creating instances with dependency injection
+export function createCaptureAgentService(providerFactory?: ProviderFactory) {
+  const factory = providerFactory || new ProviderFactory(defaultProviderConfig);
+  return new CaptureAgentService(factory);
+}
+
+// Backward compatibility - lazy initialization
+let _defaultService: CaptureAgentService | null = null;
+export function getCaptureAgentService(): CaptureAgentService {
+  if (!_defaultService) {
+    _defaultService = createCaptureAgentService();
   }
+  return _defaultService;
 }
