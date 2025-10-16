@@ -22,14 +22,8 @@ This repository includes a complete `.claude/` folder structure following [Claud
 ### Configuration (`.claude/settings.json`)
 Project-level settings following [Claude Code Settings](https://docs.anthropic.com/en/docs/claude-code/settings) specification with:
 - Agent configurations and quality standards
-- Hook automation for research commands
 - Permission management and security controls
 - Environment variables and model selection
-
-### Hook System (`.claude/hooks/`)
-Automation scripts following [Claude Code Hooks](https://docs.anthropic.com/en/docs/claude-code/hooks) patterns:
-- `research_command_handler.sh`: Routes research commands to appropriate agents
-- `quality_check.sh`: Automatic quality validation after content creation
 
 ## Research Commands
 
@@ -115,15 +109,6 @@ vault/                    # PKM Vault Root (PARA Method)
 5. **Link Maintenance**: Check for broken links weekly
 
 ## PKM Workflow Automation
-
-### On File Save
-```bash
-# Automatically triggered by .claude/hooks/pkm-auto-process.sh
-- If in inbox → suggest categorization
-- If daily note → extract tasks
-- If zettel → update index and links
-- Always → git commit
-```
 
 ### Scheduled Tasks
 - **9:00 AM Daily**: Create daily note
@@ -472,7 +457,6 @@ This repository leverages Claude Code's official capabilities:
 
 - **[Settings Management](https://docs.anthropic.com/en/docs/claude-code/settings)**: Hierarchical configuration
 - **[Agent Framework](https://docs.anthropic.com/en/docs/claude-code/mcp)**: Specialized research agents
-- **[Hook System](https://docs.anthropic.com/en/docs/claude-code/hooks)**: Automated workflows
 - **[CLI Integration](https://docs.anthropic.com/en/docs/claude-code/cli-reference)**: Custom commands
 
 For detailed information about the agent system, see `.claude/README.md`.
